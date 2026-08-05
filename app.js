@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize AI Bot Assistant
   initBrioBot();
-  
-  // Initialize Portal Simulator
-  initPortalSimulator();
 
   // Initialize Document Viewer System
   initDocumentViewerSystem();
@@ -391,33 +388,8 @@ function initBrioBot() {
   });
 }
 
-/* ==========================================================================
-   6. Parent & Student Portal
-   ========================================================================== */
-function initPortalSimulator() {
-  const payFeeBtn = document.getElementById('portal-pay-btn');
-  
-  if (payFeeBtn) {
-    payFeeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const amount = document.getElementById('portal-pay-amount').value || '₹42,500';
-      const term = document.getElementById('portal-pay-term').value || 'Term 2 Tuition';
-
-      const txnId = 'TXN-' + Math.floor(10000000 + Math.random() * 90000000);
-      
-      // Update Receipt Modal
-      document.getElementById('receipt-txn-id').innerText = txnId;
-      document.getElementById('receipt-amount').innerText = amount;
-      document.getElementById('receipt-term').innerText = term;
-      document.getElementById('receipt-date').innerText = new Date().toLocaleDateString('en-IN', {
-        year: 'numeric', month: 'short', day: 'numeric'
-      });
-
-      document.getElementById('portal-receipt-modal').classList.add('active');
-    });
-  }
-
-  // Modal Close Listeners
+// Modal Close Listeners
+function initModalCloseListeners() {
   document.querySelectorAll('.modal-close-trigger').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
