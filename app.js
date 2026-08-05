@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Remote Control Panel
   initAdmissionRemoteControl();
 
+  // Initialize Document Viewer System
+  initDocumentViewerSystem();
+
   // Setup Mobile Nav Toggle
   setupMobileNav();
 });
@@ -528,3 +531,145 @@ function initAdmissionRemoteControl() {
     });
   }
 }
+
+/* ==========================================================================
+   8. Document Viewer & PDF Generator
+   ========================================================================== */
+function initDocumentViewerSystem() {
+  const docTriggers = document.querySelectorAll('.doc-view-trigger');
+  const docModal = document.getElementById('doc-viewer-modal');
+  const docTitle = document.getElementById('doc-modal-title');
+  const docSubtitle = document.getElementById('doc-modal-subtitle');
+  const docBody = document.getElementById('doc-modal-body');
+  const downloadBtn = document.getElementById('doc-download-btn');
+
+  if (!docModal) return;
+
+  let currentDocType = 'prospectus';
+
+  const documentData = {
+    'prospectus': {
+      title: 'BRIO World School Prospectus 2026-27',
+      subtitle: 'Official Academic Information & Code of Conduct',
+      fileName: 'BRIO_World_School_Prospectus_2026-27.pdf',
+      html: `
+        <div style="text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+          <h2 style="color: var(--primary-navy); margin-bottom: 0.2rem;">BRIO WORLD SCHOOL</h2>
+          <p style="color: var(--accent-gold-hover); font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Inspiring Excellence • Global Campus</p>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Affiliated to CBSE (Affln No. 2130890) & IB Diploma Pathway</p>
+        </div>
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">1. Director's Welcome Note</h4>
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">Welcome to BRIO World School. Our 20-acre eco-green campus provides a transformative blend of academic rigor, STEM innovation, and moral values. We nurture inquisitive minds into global leaders.</p>
+        
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">2. Academic Streams & Pedagogy</h4>
+        <ul style="margin-left: 1.2rem; margin-bottom: 1rem; color: var(--text-muted);">
+          <li><strong>Pre-Primary (Pre-K to KG2):</strong> Play-based motor skill development & language immersion.</li>
+          <li><strong>Primary & Middle Wing (Grades 1-8):</strong> Experiential STEM labs, coding, robotics, & ethics.</li>
+          <li><strong>Senior Secondary (Grades 9-12):</strong> CBSE & IB Diploma in Science, Commerce, and Humanities.</li>
+        </ul>
+
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">3. Key Facilities & Infrastructure</h4>
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">Olympic 50m Swimming Pool, FIFA Standard Football Turf, 35,000+ Book Digital Library, 1,200-seater Auditorium, and 24/7 Air-Conditioned Residential Hostels.</p>
+        
+        <div style="margin-top: 1.5rem; background: white; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); text-align: center;">
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Verified Official Publication • Academic Session 2026-27</p>
+        </div>
+      `
+    },
+    'calendar': {
+      title: 'Academic Calendar 2026-27 & Holiday Schedule',
+      subtitle: 'Session Key Dates, Exam Schedules & Vacations',
+      fileName: 'BRIO_Academic_Calendar_2026-27.pdf',
+      html: `
+        <div style="text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+          <h2 style="color: var(--primary-navy); margin-bottom: 0.2rem;">BRIO WORLD SCHOOL</h2>
+          <p style="color: var(--accent-gold-hover); font-weight: 700; font-size: 0.85rem;">Official Academic Schedule 2026-27</p>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 0.85rem;">
+          <thead>
+            <tr style="background: var(--primary-navy); color: white;">
+              <th style="padding: 0.6rem; text-align: left;">Date / Month</th>
+              <th style="padding: 0.6rem; text-align: left;">Event / Activity</th>
+              <th style="padding: 0.6rem; text-align: left;">Applicability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">August 12, 2026</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">National Science & Robotics Expo</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">Grades 6 to 12</td></tr>
+            <tr><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">September 01, 2026</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">B-SAT Entrance Scholarship Test</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">New Applicants</td></tr>
+            <tr><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">October 15-24, 2026</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">Term 1 Examinations</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">All Wings</td></tr>
+            <tr><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">November 10-15, 2026</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">Diwali Break & Autumn Vacation</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">All Students</td></tr>
+            <tr><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">December 20, 2026</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">Annual Sports & Cultural Day</td><td style="padding: 0.5rem; border-bottom: 1px solid #ddd;">Whole Campus</td></tr>
+          </tbody>
+        </table>
+      `
+    },
+    'policy': {
+      title: 'Fee Policy & Transport Safety Rulebook',
+      subtitle: 'Guidelines on Installments, Bus Routes & Boarding Rules',
+      fileName: 'BRIO_Fee_and_Transport_Policy_2026.pdf',
+      html: `
+        <div style="text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+          <h2 style="color: var(--primary-navy); margin-bottom: 0.2rem;">BRIO WORLD SCHOOL</h2>
+          <p style="color: var(--accent-gold-hover); font-weight: 700; font-size: 0.85rem;">Policy Handbook & Parent Regulations</p>
+        </div>
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.4rem;">1. Fee Installment Schedules</h4>
+        <p style="margin-bottom: 0.85rem; color: var(--text-muted);">Annual tuition is split into 3 equal term installments payable on April 10, August 10, and December 10.</p>
+        
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.4rem;">2. Merit Scholarship Rules</h4>
+        <p style="margin-bottom: 0.85rem; color: var(--text-muted);">Scholarships up to 50% are awarded to top rankers in the B-SAT assessment and national sports champions.</p>
+        
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.4rem;">3. Transport Safety Protocols</h4>
+        <p style="margin-bottom: 0.85rem; color: var(--text-muted);">All school buses feature live GPS tracking, speed governors, CCTV cameras, and female attendants.</p>
+      `
+    }
+  };
+
+  // Open Document Modal
+  docTriggers.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const docKey = btn.getAttribute('data-doc') || 'prospectus';
+      currentDocType = docKey;
+
+      const doc = documentData[docKey] || documentData['prospectus'];
+      docTitle.innerText = doc.title;
+      docSubtitle.innerText = doc.subtitle;
+      docBody.innerHTML = doc.html;
+
+      docModal.classList.add('active');
+    });
+  });
+
+  // Generate PDF Download
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', () => {
+      const doc = documentData[currentDocType] || documentData['prospectus'];
+      
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${doc.title}</title>
+          <style>
+            body { font-family: sans-serif; padding: 2rem; color: #1E293B; line-height: 1.6; }
+            h2 { color: #0F172A; }
+            table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+            th, td { border: 1px solid #CBD5E1; padding: 8px; text-align: left; }
+            th { background: #0F172A; color: white; }
+          </style>
+        </head>
+        <body>
+          ${doc.html}
+          <script>
+            window.onload = function() {
+              window.print();
+            }
+          </script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    });
+  }
+}
+
