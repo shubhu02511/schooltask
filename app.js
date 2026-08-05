@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Document Viewer System
   initDocumentViewerSystem();
 
+  // Initialize Academic Wing Modal System
+  initAcademicWingModalSystem();
+
   // Setup Mobile Nav Toggle
   setupMobileNav();
 });
@@ -562,4 +565,184 @@ function initDocumentViewerSystem() {
     });
   }
 }
+
+/* ==========================================================================
+   9. Grade-Wise Academic Wing Modal
+   ========================================================================== */
+function initAcademicWingModalSystem() {
+  const triggers = document.querySelectorAll('.wing-modal-trigger');
+  const modal = document.getElementById('academic-wing-modal');
+  const badge = document.getElementById('wing-modal-badge');
+  const title = document.getElementById('wing-modal-title');
+  const body = document.getElementById('wing-modal-body');
+
+  if (!modal) return;
+
+  // Grade-wise dataset
+  const wingDetails = {
+    'early-years': {
+      badge: 'Pre-K to KG2 (Ages 3-5)',
+      badgeClass: 'badge-gold',
+      title: 'Early Years Foundation Wing',
+      html: `
+        <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; border-left: 4px solid var(--accent-gold);">
+          <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0.25rem;">Nurturing Curiosity & Foundation Growth</p>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Our play-based methodology blends Montessori motor skill stations, phonics immersion, and sensory exploration in a caring environment.</p>
+        </div>
+
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;"><i class="fa-solid fa-book-open text-gold"></i> Grade-Wise Core Curriculum</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);">Pre-Nursery & Nursery</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Scribbling, color identification, nursery rhymes, motor agility, and social play.</p>
+          </div>
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);">KG1 (Lower KG)</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Phonics sounds, number counting (1-50), story comprehension, and clay modeling.</p>
+          </div>
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);">KG2 (Upper KG)</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Sentence reading, basic addition/subtraction, environmental awareness, and music.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-clock text-gold"></i> Wing Timings & Ratio</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem;"><strong>Timings:</strong> 08:30 AM - 12:30 PM (Mon-Fri)</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><strong>Teacher Ratio:</strong> 1:12 (with Nanny Support)</p>
+          </div>
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-award text-emerald"></i> Evaluation Pattern</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Zero formal exams. 100% continuous observational milestone tracking and portfolio sharing.</p>
+          </div>
+        </div>
+      `
+    },
+    'primary': {
+      badge: 'Grades 1 to 5 (Ages 6-10)',
+      badgeClass: 'badge-navy',
+      title: 'Primary School Wing',
+      html: `
+        <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; border-left: 4px solid var(--primary-navy);">
+          <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0.25rem;">Building Analytical & STEM Foundations</p>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Fostering literacy, speed arithmetic, environmental science, and early Scratch coding in interactive smart classrooms.</p>
+        </div>
+
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;"><i class="fa-solid fa-layer-group text-gold"></i> Grade-Wise Subject Matrix</h4>
+        <ul style="margin-left: 1.2rem; color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">
+          <li><strong>Grades 1 & 2:</strong> English Grammar & Story Writing, Mathematics, EVS, Second Language (Hindi), Art & Crafts.</li>
+          <li><strong>Grades 3 to 5:</strong> Advanced Science, Speed Vedic Maths, Social Studies, ICT & Block Coding, General Knowledge, Physical Education.</li>
+        </ul>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-clock text-gold"></i> Timings & Class Size</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem;"><strong>Timings:</strong> 08:00 AM - 02:00 PM</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><strong>Teacher Ratio:</strong> 1:20 per section</p>
+          </div>
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-microchip text-emerald"></i> STEM & Olympiad Focus</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Weekly Scratch coding labs, National Cyber Olympiad prep, and swimming academy.</p>
+          </div>
+        </div>
+      `
+    },
+    'middle': {
+      badge: 'Grades 6 to 8 (Ages 11-13)',
+      badgeClass: 'badge-navy',
+      title: 'Middle School Wing',
+      html: `
+        <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; border-left: 4px solid var(--accent-gold);">
+          <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0.25rem;">Inquiry-Driven Scientific & Global Pedagogy</p>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Transitioning students to specialized science disciplines, advanced robotics projects, and multi-lingual fluency.</p>
+        </div>
+
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;"><i class="fa-solid fa-flask text-gold"></i> Specialized Subjects & Languages</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);">Core Sciences</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Physics, Chemistry, Biology with dedicated laboratory practicals.</p>
+          </div>
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);">Mathematics & AI</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Algebra, Geometry, Python AI programming & Atal Tinkering lab.</p>
+          </div>
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);">Languages & Humanities</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">English, Hindi, Sanskrit / French / German, History & Civics.</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-clock text-gold"></i> Timings & Ratio</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem;"><strong>Timings:</strong> 07:30 AM - 02:30 PM</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><strong>Teacher Ratio:</strong> 1:25 per section</p>
+          </div>
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-trophy text-emerald"></i> Co-Curricular & Sports</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Inter-house football leagues, Model UN prep, and musical conservatories.</p>
+          </div>
+        </div>
+      `
+    },
+    'senior': {
+      badge: 'Grades 9 to 12 (Ages 14-18)',
+      badgeClass: 'badge-emerald',
+      title: 'Senior Secondary Wing',
+      html: `
+        <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; border-left: 4px solid var(--accent-emerald);">
+          <p style="color: var(--text-main); font-weight: 600; margin-bottom: 0.25rem;">Competitive Mastery & Global University Pathways</p>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Specialized CBSE & IB Diploma streams integrated with JEE, NEET, CUET, and SAT coaching modules.</p>
+        </div>
+
+        <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;"><i class="fa-solid fa-graduation-cap text-gold"></i> Specialized Academic Streams</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);"><i class="fa-solid fa-atom text-gold"></i> Science Stream (PCM / PCB)</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Physics, Chemistry, Maths / Biology, CS Python, and JEE/NEET prep.</p>
+          </div>
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);"><i class="fa-solid fa-chart-line text-emerald"></i> Commerce Stream</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Accountancy, Business Studies, Economics, Applied Maths, and Stock Trading Simulator.</p>
+          </div>
+          <div style="background: white; padding: 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <strong style="color: var(--primary-navy);"><i class="fa-solid fa-palette text-navy"></i> Humanities & IB Pathway</strong>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Psychology, Political Science, History, IB Diploma Theory of Knowledge (TOK).</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-clock text-gold"></i> Timings & Guidance</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem;"><strong>Timings:</strong> 07:30 AM - 03:00 PM</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><strong>Teacher Ratio:</strong> 1:25 per section</p>
+          </div>
+          <div style="background: #F8FAFC; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+            <h5 style="color: var(--primary-navy); margin-bottom: 0.4rem;"><i class="fa-solid fa-compass text-emerald"></i> Career & University Cell</h5>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">1-on-1 counseling, Ivy League & IIT/NIT portfolio prep, and Mock Board tests.</p>
+          </div>
+        </div>
+      `
+    }
+  };
+
+  // Open Wing Modal
+  triggers.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wingKey = card.getAttribute('data-wing') || 'early-years';
+      const info = wingDetails[wingKey] || wingDetails['early-years'];
+
+      badge.innerText = info.badge;
+      badge.className = `badge ${info.badgeClass}`;
+      title.innerText = info.title;
+      body.innerHTML = info.html;
+
+      modal.classList.add('active');
+    });
+  });
+}
+
 
