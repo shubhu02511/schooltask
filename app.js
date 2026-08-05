@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Academic Wing Modal System
   initAcademicWingModalSystem();
 
+  // Initialize Global Modal Close Listeners
+  initModalCloseListeners();
+
   // Setup Mobile Nav Toggle
   setupMobileNav();
 });
@@ -390,10 +393,29 @@ function initBrioBot() {
 
 // Modal Close Listeners
 function initModalCloseListeners() {
+  // Close on cross button click
   document.querySelectorAll('.modal-close-trigger').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
     });
+  });
+
+  // Close on backdrop click
+  document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) {
+        backdrop.classList.remove('active');
+      }
+    });
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
+    }
   });
 }
 
