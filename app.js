@@ -444,6 +444,11 @@ function initAdmissionRemoteControl() {
   const headerApplyBtn = document.getElementById('header-apply-btn');
   const headerApplyText = document.getElementById('header-apply-btn-text');
   const headerApplyIcon = document.getElementById('header-apply-icon');
+
+  const sidebarApplyBtn = document.getElementById('sidebar-apply-btn');
+  const sidebarApplyText = document.getElementById('sidebar-apply-btn-text');
+  const sidebarApplyIcon = document.getElementById('sidebar-apply-icon');
+
   const tickerStatusText = document.getElementById('ticker-status-text');
   const tickerMsgText = document.getElementById('ticker-message-text');
 
@@ -484,41 +489,69 @@ function initAdmissionRemoteControl() {
     const customText = inputBtnText.value.trim() || 'Apply 2026-27';
     const customTicker = inputTickerMsg.value.trim() || 'Entrance Assessment Registration is live!';
 
-    headerApplyText.innerText = customText;
+    if (headerApplyText) headerApplyText.innerText = customText;
+    if (sidebarApplyText) sidebarApplyText.innerText = customText;
     if (tickerMsgText) tickerMsgText.innerText = customTicker;
 
     if (currentMode === 'open') {
       tickerStatusText.innerText = 'ADMISSIONS OPEN 2026-27';
-      headerApplyBtn.style.background = 'linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover))';
-      headerApplyBtn.style.color = '#0F172A';
-      headerApplyIcon.className = 'fa-solid fa-file-pen';
-      headerApplyBtn.setAttribute('href', '#admissions');
+      if (headerApplyBtn) {
+        headerApplyBtn.style.background = 'linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover))';
+        headerApplyBtn.style.color = '#0F172A';
+        headerApplyBtn.setAttribute('href', '#admissions');
+      }
+      if (sidebarApplyBtn) {
+        sidebarApplyBtn.style.background = 'linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover))';
+        sidebarApplyBtn.style.color = '#0F172A';
+        sidebarApplyBtn.setAttribute('href', '#admissions');
+      }
+      if (headerApplyIcon) headerApplyIcon.className = 'fa-solid fa-file-pen';
+      if (sidebarApplyIcon) sidebarApplyIcon.className = 'fa-solid fa-file-pen';
+
     } else if (currentMode === 'waitlist') {
       tickerStatusText.innerText = 'ADMISSIONS WAITLIST ONLY';
-      headerApplyBtn.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
-      headerApplyBtn.style.color = '#0F172A';
-      headerApplyIcon.className = 'fa-solid fa-clock';
-      headerApplyBtn.setAttribute('href', '#admissions');
+      if (headerApplyBtn) {
+        headerApplyBtn.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+        headerApplyBtn.style.color = '#0F172A';
+        headerApplyBtn.setAttribute('href', '#admissions');
+      }
+      if (sidebarApplyBtn) {
+        sidebarApplyBtn.style.background = 'linear-gradient(135deg, #F59E0B, #D97706)';
+        sidebarApplyBtn.style.color = '#0F172A';
+        sidebarApplyBtn.setAttribute('href', '#admissions');
+      }
+      if (headerApplyIcon) headerApplyIcon.className = 'fa-solid fa-clock';
+      if (sidebarApplyIcon) sidebarApplyIcon.className = 'fa-solid fa-clock';
+
     } else if (currentMode === 'closed') {
       tickerStatusText.innerText = 'ADMISSIONS CLOSED';
-      headerApplyBtn.style.background = '#DC2626';
-      headerApplyBtn.style.color = 'white';
-      headerApplyIcon.className = 'fa-solid fa-lock';
-      headerApplyBtn.setAttribute('href', '#');
+      if (headerApplyBtn) {
+        headerApplyBtn.style.background = '#DC2626';
+        headerApplyBtn.style.color = 'white';
+        headerApplyBtn.setAttribute('href', '#');
+      }
+      if (sidebarApplyBtn) {
+        sidebarApplyBtn.style.background = '#DC2626';
+        sidebarApplyBtn.style.color = 'white';
+        sidebarApplyBtn.setAttribute('href', '#');
+      }
+      if (headerApplyIcon) headerApplyIcon.className = 'fa-solid fa-lock';
+      if (sidebarApplyIcon) sidebarApplyIcon.className = 'fa-solid fa-lock';
     }
 
     remoteModal.classList.remove('active');
   }
 
   // Closed button alert handler
-  if (headerApplyBtn) {
-    headerApplyBtn.addEventListener('click', (e) => {
-      if (currentMode === 'closed') {
-        e.preventDefault();
-        alert('📢 NOTICE: Admissions for Academic Session 2026-27 are currently CLOSED. Please check back later or contact Admissions Desk at +91 (0542) 2890-400.');
-      }
-    });
+  function handleClosedAlert(e) {
+    if (currentMode === 'closed') {
+      e.preventDefault();
+      alert('📢 NOTICE: Admissions for Academic Session 2026-27 are currently CLOSED. Please check back later or contact Admissions Desk at +91 (0542) 2890-400.');
+    }
   }
+
+  if (headerApplyBtn) headerApplyBtn.addEventListener('click', handleClosedAlert);
+  if (sidebarApplyBtn) sidebarApplyBtn.addEventListener('click', handleClosedAlert);
 
   if (applyLiveBtn) {
     applyLiveBtn.addEventListener('click', transmitLiveSettings);

@@ -1152,3 +1152,50 @@ img {
   color: white;
   box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
 }
+
+/* Floating Admission Sidebar Dock */
+.admission-sidebar-tab {
+  position: fixed;
+  right: 0;
+  top: 45%;
+  transform: translateY(-50%);
+  z-index: 1900;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
+  color: #0F172A;
+  padding: 0.85rem 1.1rem 0.85rem 0.85rem;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  box-shadow: -6px 12px 30px rgba(15, 23, 42, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2.5px solid #FFFFFF;
+  border-right: none;
+  text-decoration: none;
+}
+.admission-sidebar-tab:hover {
+  transform: translateY(-50%) translateX(-6px);
+  box-shadow: -10px 18px 40px rgba(245, 158, 11, 0.45);
+}
+
+@media (max-width: 768px) {
+  .admission-sidebar-tab {
+    top: auto;
+    bottom: 5rem;
+    transform: none;
+    padding: 0.6rem 0.85rem 0.6rem 0.7rem;
+    font-size: 0.8rem;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+  .admission-sidebar-tab:hover {
+    transform: translateX(-4px);
+  }
+}
+
