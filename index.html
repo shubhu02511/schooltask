@@ -1206,69 +1206,6 @@
     <span id="sidebar-apply-btn-text">Apply 2026-27</span>
   </a>
 
-  <!-- Admin Remote Floating Trigger -->
-  <div class="admin-remote-trigger" id="admin-remote-trigger-btn" title="Admission Remote Control Panel">
-    <i class="fa-solid fa-gamepad"></i> Admission Remote Control
-  </div>
-
-  <!-- Remote Control Modal -->
-  <div id="admin-remote-modal" class="modal-backdrop remote-control-panel">
-    <div class="modal-card" style="max-width: 550px;">
-      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
-
-      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.15);">
-        <div style="width: 46px; height: 46px; border-radius: 12px; background: var(--accent-gold); color: #0F172A; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800;">
-          <i class="fa-solid fa-tower-broadcast"></i>
-        </div>
-        <div>
-          <h3 style="color: white; font-size: 1.3rem;">Admission Remote Control Panel</h3>
-          <p style="color: var(--text-light); font-size: 0.82rem;">Live Remote Management for Header Admission Button & Ticker</p>
-        </div>
-      </div>
-
-      <!-- Switch 1: Status -->
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; font-weight: 600; color: var(--accent-gold); font-size: 0.9rem; margin-bottom: 0.5rem;">
-          <i class="fa-solid fa-toggle-on"></i> 1. Live Admission Status Switch
-        </label>
-        <div class="remote-status-btn-group">
-          <button type="button" class="remote-status-btn active-status-open" id="remote-btn-open">
-            <i class="fa-solid fa-circle-check"></i> OPEN
-          </button>
-          <button type="button" class="remote-status-btn" id="remote-btn-waitlist">
-            <i class="fa-solid fa-clock"></i> WAITLIST
-          </button>
-          <button type="button" class="remote-status-btn" id="remote-btn-closed">
-            <i class="fa-solid fa-ban"></i> CLOSED
-          </button>
-        </div>
-      </div>
-
-      <!-- Switch 2: Button -->
-      <div class="form-group" style="margin-bottom: 1.25rem;">
-        <label style="color: white; font-size: 0.88rem;"><i class="fa-solid fa-pen-to-square text-gold"></i> 2. Header Apply Button Text Override</label>
-        <input type="text" id="remote-input-btn-text" class="form-control" value="Apply 2026-27" style="background: rgba(255,255,255,0.08); color: white; border-color: rgba(255,255,255,0.2);">
-      </div>
-
-      <!-- Switch 3: Ticker -->
-      <div class="form-group" style="margin-bottom: 1.5rem;">
-        <label style="color: white; font-size: 0.88rem;"><i class="fa-solid fa-bullhorn text-gold"></i> 3. Announcement Ticker Banner Message</label>
-        <input type="text" id="remote-input-ticker-msg" class="form-control" value="Entrance Assessment Registration for Pre-K to Grade 11 is now live!" style="background: rgba(255,255,255,0.08); color: white; border-color: rgba(255,255,255,0.2);">
-      </div>
-
-      <!-- Remote Control Actions -->
-      <div style="display: flex; gap: 0.75rem;">
-        <button type="button" id="remote-apply-live-btn" class="btn btn-gold" style="flex: 1;">
-          <i class="fa-solid fa-bolt"></i> Transmit & Apply Live
-        </button>
-        <button type="button" id="remote-reset-default-btn" class="btn btn-outline-white">
-          <i class="fa-solid fa-rotate-left"></i> Reset
-        </button>
-      </div>
-
-    </div>
-  </div>
-
   <!-- Interactive Document Viewer Modal -->
   <div id="doc-viewer-modal" class="modal-backdrop">
     <div class="modal-card" style="max-width: 750px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
