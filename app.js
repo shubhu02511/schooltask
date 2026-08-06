@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Global Modal Close Listeners
   initModalCloseListeners();
 
+  // Initialize Career Application System
+  initCareerSystem();
+
   // Setup Mobile Nav Toggle
   setupMobileNav();
 });
@@ -738,5 +741,29 @@ function initAcademicWingModalSystem() {
     });
   });
 }
+
+/* ==========================================================================
+   10. Faculty Recruitment Career System
+   ========================================================================== */
+function initCareerSystem() {
+  const careerTriggers = document.querySelectorAll('.career-apply-trigger');
+  const careerModal = document.getElementById('career-modal');
+  const careerJobTitle = document.getElementById('career-job-title');
+
+  if (!careerModal) return;
+
+  // Open Career Modal
+  careerTriggers.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const jobName = btn.getAttribute('data-job') || 'Faculty Position';
+      if (careerJobTitle) {
+        careerJobTitle.innerText = `Apply for: ${jobName}`;
+      }
+      careerModal.classList.add('active');
+    });
+  });
+}
+
 
 
