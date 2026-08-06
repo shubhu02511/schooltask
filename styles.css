@@ -329,8 +329,9 @@ img {
   display: none;
   animation: fadeIn 0.4s ease-in-out;
 }
-.page-view.active-page {
-  display: block;
+.page-view.active-page,
+.page-view:target {
+  display: block !important;
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
