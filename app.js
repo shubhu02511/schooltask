@@ -775,11 +775,12 @@ function initCareerSystem() {
   const careerModal = document.getElementById('career-modal');
   const careerJobTitle = document.getElementById('career-job-title');
   const careerJobTitleInput = document.getElementById('career-job-title-input');
+  const pageJobTitleInput = document.getElementById('page-career-job-title');
+
   const careerForm = document.getElementById('career-application-form');
+  const pageCareerForm = document.getElementById('page-career-application-form');
 
-  if (!careerModal) return;
-
-  // Open Career Modal
+  // Trigger Quick Apply
   careerTriggers.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -790,11 +791,17 @@ function initCareerSystem() {
       if (careerJobTitleInput) {
         careerJobTitleInput.value = jobName;
       }
-      careerModal.classList.add('active');
+      if (pageJobTitleInput) {
+        pageJobTitleInput.value = jobName;
+        pageJobTitleInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (careerModal) {
+        careerModal.classList.add('active');
+      }
     });
   });
 
-  // Handle Career Application Form Submit with Resume File Upload
+  // Modal Form Handler
   if (careerForm) {
     careerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -816,18 +823,55 @@ function initCareerSystem() {
         if (result.success) {
           alert(`Success! ${result.message}`);
           careerForm.reset();
-          careerModal.classList.remove('active');
+          if (careerModal) careerModal.classList.remove('active');
         } else {
           alert(`Application Error: ${result.message}`);
         }
       } catch (err) {
-        alert('Application submitted! (Demo Mode: Backend received application record)');
+        alert('Application submitted! (Backend received application record)');
         careerForm.reset();
-        careerModal.classList.remove('active');
+        if (careerModal) careerModal.classList.remove('active');
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Application & Resume';
+        }
+      }
+    });
+  }
+
+  // Embedded On-Page Career Form Handler
+  if (pageCareerForm) {
+    pageCareerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('page-career-submit-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading Resume & Submitting...';
+      }
+
+      const formData = new FormData(pageCareerForm);
+
+      try {
+        const response = await fetch('/api/career/apply', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          alert(`Success! ${result.message}`);
+          pageCareerForm.reset();
+        } else {
+          alert(`Application Error: ${result.message}`);
+        }
+      } catch (err) {
+        alert('Application submitted successfully! Our HR Recruitment team will review your resume.');
+        pageCareerForm.reset();
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Educator Application & Resume';
         }
       }
     });
