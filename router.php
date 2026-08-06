@@ -50,6 +50,26 @@ class Router {
             exit;
         }
 
+        // Check if static file exists
+        $filePath = __DIR__ . $requestUri;
+        if (file_exists($filePath) && !is_dir($filePath)) {
+            $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+            $mimeTypes = [
+                'css'  => 'text/css',
+                'js'   => 'application/javascript',
+                'png'  => 'image/png',
+                'jpg'  => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'svg'  => 'image/svg+xml',
+                'json' => 'application/json'
+            ];
+            if (isset($mimeTypes[$ext])) {
+                header('Content-Type: ' . $mimeTypes[$ext]);
+            }
+            readfile($filePath);
+            exit;
+        }
+
         // Fallback to static HTML
         if (file_exists(__DIR__ . '/index.html')) {
             readfile(__DIR__ . '/index.html');

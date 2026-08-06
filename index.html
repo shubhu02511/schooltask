@@ -16,10 +16,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=30.0">
+  <link rel="stylesheet" href="styles.css?v=31.0">
 
   <!-- Immediate Inline Router Engine -->
   <script>
+    // Core navigation function
     window.navigateTo = function(targetId) {
       if (!targetId || targetId === '' || targetId === '#') targetId = 'home';
       if (targetId.startsWith('#')) targetId = targetId.substring(1);
@@ -61,12 +62,31 @@
         }
       }
 
-      if (elem && !elem.classList.contains('page-view')) {
-        elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
+    // Global click event delegation - catches ALL router-link and nav-link clicks
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      // Walk up DOM tree to find an anchor with a hash href
+      while (target && target !== document) {
+        if (target.tagName === 'A') {
+          var href = target.getAttribute('href');
+          if (href && href.startsWith('#') && href.length > 1) {
+            // Check if this is a router link or nav link
+            if (target.classList.contains('router-link') ||
+                target.classList.contains('nav-link') ||
+                target.classList.contains('admission-sidebar-tab')) {
+              e.preventDefault();
+              window.navigateTo(href.substring(1));
+              return;
+            }
+          }
+          break;
+        }
+        target = target.parentElement;
+      }
+    }, true); // Use capture phase for maximum reliability
   </script>
 </head>
 <body>
@@ -1997,7 +2017,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=30.0"></script>
+  <script src="app.js?v=31.0"></script>
 </body>
 </html>
 

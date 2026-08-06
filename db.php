@@ -35,7 +35,6 @@ function getDB() {
                 resume_path TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )");
-            @$pdo->exec("ALTER TABLE career_applications ADD COLUMN message TEXT");
 
         } catch (PDOException $e) {
             header('Content-Type: application/json');

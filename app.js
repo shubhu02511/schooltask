@@ -30,13 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
    1. SPA Navigation & Router
    ========================================================================== */
 function initRouter() {
-  const pageViews = document.querySelectorAll('.page-view');
-
+  // Define navigateTo with full DOMContentLoaded context
   window.navigateTo = function(targetId) {
     if (!targetId || targetId === '' || targetId === '#') {
       targetId = 'home';
     }
-
     if (targetId.startsWith('#')) {
       targetId = targetId.substring(1);
     }
@@ -60,11 +58,12 @@ function initRouter() {
       pageToActivate = document.getElementById('home');
     }
 
-    // Hide all page views and activate target page view
-    pageViews.forEach(page => {
+    // Hide all page views
+    document.querySelectorAll('.page-view').forEach(page => {
       page.classList.remove('active-page');
     });
 
+    // Show target page
     if (pageToActivate) {
       pageToActivate.classList.add('active-page');
     }
@@ -79,52 +78,32 @@ function initRouter() {
       }
     });
 
-    // Scroll to section or top of page
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        if (targetElement && !targetElement.classList.contains('page-view')) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }, 50);
-    });
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Global Document Level Click Listener for All Links & Buttons with Hash
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href^="#"], [data-nav]');
-    if (link) {
-      const href = link.getAttribute('href') || link.getAttribute('data-nav');
+  // Attach direct click handlers to ALL .router-link and .nav-link elements
+  document.querySelectorAll('.router-link, .nav-link, .admission-sidebar-tab').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
       if (href && href.startsWith('#') && href.length > 1) {
         e.preventDefault();
-        const targetId = href.substring(1);
-        window.navigateTo(targetId);
-        if (history.pushState) {
-          history.pushState(null, null, '#' + targetId);
-        } else {
-          window.location.hash = targetId;
-        }
-
-        // Close mobile nav menu
-        const navMenu = document.querySelector('.nav-menu');
-        if (navMenu && window.innerWidth <= 768) {
-          navMenu.style.display = 'none';
-        }
+        window.navigateTo(href.substring(1));
       }
-    }
+    });
   });
 
   // Handle Initial Route Load
   const initialHash = window.location.hash.substring(1);
   window.navigateTo(initialHash || 'home');
 
-  // Handle Hash Changes
+  // Handle browser back/forward
   window.addEventListener('hashchange', () => {
     const currentHash = window.location.hash.substring(1);
     window.navigateTo(currentHash || 'home');
   });
 }
+
 
 function setupMobileNav() {
   const toggleBtn = document.querySelector('.mobile-nav-toggle');
@@ -1262,11 +1241,6 @@ function initAuthSystem() {
         handleSuccessfulLoginRedirect({ name: 'Portal User', email: formData.get('email') });
         loginModal.classList.remove('active');
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login to Account';
-      }
-    });
-  }
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login to Account';
       }
