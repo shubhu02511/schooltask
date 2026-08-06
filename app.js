@@ -884,7 +884,7 @@ function initLeadershipSlider() {
       name: "MRS. KAVITA SINGHANIA",
       badge: "DIRECTOR | ACADEMIC AFFAIRS",
       quote: '"Experiential digital learning combined with moral values builds confident scholars ready to conquer global challenges."',
-      img: "https://images.unsplash.com/photo-1580894732413-a70d2a840e69?auto=format&fit=crop&w=500&q=80"
+      img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80"
     },
     {
       name: "MRS. MEENAKSHI IYER",
