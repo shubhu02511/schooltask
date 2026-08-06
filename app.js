@@ -42,24 +42,40 @@ function initRouter() {
   const pageViews = document.querySelectorAll('.page-view');
 
   function navigateTo(targetId) {
-    // Reset page active state
-    pageViews.forEach(page => page.classList.remove('active-page'));
-    
-    // Find target page
-    const targetPage = document.getElementById(targetId) || document.getElementById('home');
-    targetPage.classList.add('active-page');
+    const targetElement = document.getElementById(targetId);
 
-    // Update Nav Active State
-    navLinks.forEach(link => {
-      if (link.getAttribute('href') === `#${targetId}`) {
-        link.classList.add('active');
+    if (targetElement) {
+      const parentPageView = targetElement.closest('.page-view');
+
+      // Reset page active state
+      pageViews.forEach(page => page.classList.remove('active-page'));
+
+      if (parentPageView) {
+        parentPageView.classList.add('active-page');
+      } else if (targetElement.classList.contains('page-view')) {
+        targetElement.classList.add('active-page');
       } else {
-        link.classList.remove('active');
+        document.getElementById('home').classList.add('active-page');
       }
-    });
 
-    // Scroll to top smooth
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Update Nav Active State
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === `#${targetId}`) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // Scroll smoothly to target
+      setTimeout(() => {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    } else {
+      pageViews.forEach(page => page.classList.remove('active-page'));
+      document.getElementById('home').classList.add('active-page');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   // Event Listeners for Clicks

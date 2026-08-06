@@ -333,7 +333,7 @@ img {
 /* Hero Section */
 .hero-section {
   position: relative;
-  background: linear-gradient(135deg, #091224 0%, #0F172A 60%, #1E3A8A 100%);
+  background: linear-gradient(to right, rgba(9, 18, 36, 0.92), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
   color: var(--text-white);
   padding: 5rem 0 6rem;
   overflow: hidden;
@@ -344,7 +344,7 @@ img {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.15) 0%, transparent 50%);
+  background: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.2) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -1077,35 +1077,43 @@ img {
   .fee-breakdown-table th, .fee-breakdown-table td { padding: 0.6rem 0.5rem; font-size: 0.82rem; }
 }
 
-/* Floating Admission Sidebar Dock */
+/* Floating Vertical Admission Sidebar Dock */
 .admission-sidebar-tab {
   position: fixed;
   right: 0;
-  top: 45%;
+  top: 40%;
   transform: translateY(-50%);
   z-index: 1900;
   background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
   color: #0F172A;
-  padding: 0.85rem 1.1rem 0.85rem 0.85rem;
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
-  box-shadow: -6px 12px 30px rgba(15, 23, 42, 0.3);
+  padding: 1.1rem 0.6rem;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  box-shadow: -6px 12px 30px rgba(15, 23, 42, 0.35);
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.65rem;
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
-  font-size: 0.9rem;
-  letter-spacing: 0.3px;
+  font-size: 0.85rem;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 1px;
   cursor: pointer;
   transition: var(--transition);
-  border: 2.5px solid #FFFFFF;
+  border: 2px solid #FFFFFF;
   border-right: none;
   text-decoration: none;
+  text-transform: uppercase;
+}
+.admission-sidebar-tab i {
+  writing-mode: horizontal-tb;
+  font-size: 1.1rem;
 }
 .admission-sidebar-tab:hover {
-  transform: translateY(-50%) translateX(-6px);
-  box-shadow: -10px 18px 40px rgba(245, 158, 11, 0.45);
+  transform: translateY(-50%) translateX(-4px);
+  box-shadow: -10px 18px 40px rgba(245, 158, 11, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -1113,10 +1121,10 @@ img {
     top: auto;
     bottom: 5rem;
     transform: none;
-    padding: 0.6rem 0.85rem 0.6rem 0.7rem;
-    font-size: 0.8rem;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
+    padding: 0.85rem 0.5rem;
+    font-size: 0.75rem;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
   }
   .admission-sidebar-tab:hover {
     transform: translateX(-4px);
