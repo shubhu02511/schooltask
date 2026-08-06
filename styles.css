@@ -1201,50 +1201,59 @@ img {
 .admission-sidebar-tab {
   position: fixed;
   right: 0;
-  top: 40%;
+  top: 48%;
   transform: translateY(-50%);
-  z-index: 1900;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover));
+  z-index: 9999;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
   color: #0F172A;
-  padding: 1.1rem 0.6rem;
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-  box-shadow: -6px 12px 30px rgba(15, 23, 42, 0.35);
+  padding: 1.15rem 0.65rem;
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  box-shadow: -6px 14px 32px rgba(15, 23, 42, 0.4), 0 0 15px rgba(245, 158, 11, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
   font-family: 'Outfit', sans-serif;
   font-weight: 800;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   cursor: pointer;
-  transition: var(--transition);
-  border: 2px solid #FFFFFF;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2.5 solid #FFFFFF;
   border-right: none;
   text-decoration: none;
   text-transform: uppercase;
+  animation: floatVerticalTab 3.2s ease-in-out infinite;
 }
 .admission-sidebar-tab i {
   writing-mode: horizontal-tb;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 .admission-sidebar-tab:hover {
-  transform: translateY(-50%) translateX(-4px);
-  box-shadow: -10px 18px 40px rgba(245, 158, 11, 0.5);
+  animation-play-state: paused;
+  transform: translateY(-50%) translateX(-6px);
+  background: linear-gradient(135deg, #FDE047, #F59E0B);
+  box-shadow: -10px 20px 45px rgba(245, 158, 11, 0.65);
+}
+
+@keyframes floatVerticalTab {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(-58%); }
 }
 
 @media (max-width: 768px) {
   .admission-sidebar-tab {
     top: auto;
-    bottom: 5rem;
+    bottom: 4.5rem;
     transform: none;
     padding: 0.85rem 0.5rem;
     font-size: 0.75rem;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    animation: none;
   }
   .admission-sidebar-tab:hover {
     transform: translateX(-4px);
