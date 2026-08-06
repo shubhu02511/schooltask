@@ -54,82 +54,92 @@ function initRouter() {
       targetId = 'home';
     }
 
-    const targetElement = document.getElementById(targetId);
+    let targetElement = document.getElementById(targetId);
+    if (!targetElement) {
+      targetId = 'home';
+      targetElement = document.getElementById('home');
+    }
 
+    let pageToActivate = null;
     if (targetElement) {
-      let pageToActivate = targetElement.classList.contains('page-view') 
-        ? targetElement 
-        : targetElement.closest('.page-view');
-
-      if (!pageToActivate) {
-        pageToActivate = document.getElementById('home');
+      if (targetElement.classList.contains('page-view')) {
+        pageToActivate = targetElement;
+      } else {
+        pageToActivate = targetElement.closest('.page-view');
       }
-
-      // Hide all page views and activate target page view
-      pageViews.forEach(page => page.classList.remove('active-page'));
-      if (pageToActivate) {
-        pageToActivate.classList.add('active-page');
-      }
-
-      // Update Nav Active State
-      document.querySelectorAll('.nav-link').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === `#${targetId}` || href === `#${pageToActivate.id}`) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-
-      // Scroll smoothly to target
-      setTimeout(() => {
-        if (targetElement.classList.contains('page-view')) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 80);
-    } else {
-      pageViews.forEach(page => page.classList.remove('active-page'));
-      const homePage = document.getElementById('home');
-      if (homePage) homePage.classList.add('active-page');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
 
-  // Global Event Delegation for Links
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href^="#"]');
-    if (link) {
+    if (!pageToActivate) {
+      pageToActivate = document.getElementById('home');
+    }
+
+    // Hide all page views and activate target page view
+    pageViews.forEach(page => {
+      page.classList.remove('active-page');
+    });
+
+    if (pageToActivate) {
+      pageToActivate.classList.add('active-page');
+    }
+
+    // Update Nav Active State
+    document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href');
-      if (href && href.startsWith('#') && href.length > 1) {
-        e.preventDefault();
-        const targetId = href.substring(1);
-        navigateTo(targetId);
-        window.location.hash = targetId;
-
-        // Auto close mobile navigation menu
-        const navMenu = document.querySelector('.nav-menu');
-        if (navMenu && window.innerWidth <= 768) {
-          navMenu.style.display = 'none';
-        }
+      if (href === `#${targetId}`) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
-    }
-  });
+    });
 
-  // Handle Initial Hash Load
-  const initialHash = window.location.hash.substring(1);
-  if (initialHash) {
-    navigateTo(initialHash);
-  } else {
-    navigateTo('home');
+    // Scroll to section or top of page
+    setTimeout(() => {
+      if (targetElement && !targetElement.classList.contains('page-view')) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 60);
   }
 
-  // Handle Browser Back Forward
+  function handleLinkClick(e) {
+    const href = this.getAttribute('href');
+    if (href && href.startsWith('#') && href.length > 1) {
+      e.preventDefault();
+      const targetId = href.substring(1);
+      navigateTo(targetId);
+      window.location.hash = targetId;
+
+      // Close mobile menu if open
+      const navMenu = document.querySelector('.nav-menu');
+      if (navMenu && window.innerWidth <= 768) {
+        navMenu.style.display = 'none';
+      }
+    }
+  }
+
+  // Direct Event Listeners on Links
+  function bindLinkListeners() {
+    const allLinks = document.querySelectorAll('a[href^="#"]');
+    allLinks.forEach(link => {
+      link.removeEventListener('click', handleLinkClick);
+      link.addEventListener('click', handleLinkClick);
+    });
+  }
+
+  bindLinkListeners();
+
+  // Initial Route Load
+  const initialHash = window.location.hash.substring(1);
+  navigateTo(initialHash || 'home');
+
+  // Handle Browser Back Forward Hash Change
   window.addEventListener('hashchange', () => {
     const currentHash = window.location.hash.substring(1);
     navigateTo(currentHash || 'home');
   });
+
+  window.rebindRouterLinks = bindLinkListeners;
 }
 
 function setupMobileNav() {
