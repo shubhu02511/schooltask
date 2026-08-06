@@ -464,6 +464,41 @@ img {
   60% { transform: translateY(3px); }
 }
 
+/* Leadership Carousel Navigation Buttons */
+.leadership-nav-btn {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  z-index: 15;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: #1E3A8A;
+  border: 2px solid #CBD5E1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.leadership-nav-btn:hover {
+  background: #1E3A8A;
+  color: #FFFFFF;
+  border-color: #1E3A8A;
+  box-shadow: 0 6px 18px rgba(30, 58, 138, 0.3);
+}
+.leadership-nav-btn.lead-prev-btn { left: -1.2rem; }
+.leadership-nav-btn.lead-next-btn { right: -1.2rem; }
+
+.lead-thumb-card.active {
+  outline: 3px solid #2563EB;
+  outline-offset: -3px;
+  transform: translateY(-4px);
+}
+
 .hero-ctas {
   display: flex;
   gap: 1rem;

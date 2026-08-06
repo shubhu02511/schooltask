@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Hero Carousel System
   initHeroCarousel();
 
+  // Initialize Leadership Slider System
+  initLeadershipSlider();
+
   // Setup Mobile Nav Toggle
   setupMobileNav();
 });
@@ -849,6 +852,101 @@ function initHeroCarousel() {
   // Start auto slide
   startAutoSlide();
 }
+
+/* ==========================================================================
+   12. Leadership Carousel Slider
+   ========================================================================== */
+function initLeadershipSlider() {
+  const spotlightImg = document.getElementById('spotlight-img');
+  const spotlightBadge = document.getElementById('spotlight-badge');
+  const spotlightQuote = document.getElementById('spotlight-quote');
+  const spotlightName = document.getElementById('spotlight-name');
+  const prevBtn = document.getElementById('lead-prev-btn');
+  const nextBtn = document.getElementById('lead-next-btn');
+
+  if (!spotlightImg) return;
+
+  // Leaders dataset
+  const leaders = [
+    {
+      name: "DR. RAJESHWAR ROY",
+      badge: "CHAIRPERSON | BRIO GROUP",
+      quote: '"Every remarkable journey begins with a vision—bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."',
+      img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80"
+    },
+    {
+      name: "DR. ANANYA DESHMUKH",
+      badge: "VICE-CHAIRPERSON | BRIO GROUP",
+      quote: '"We don\'t just teach curriculum; we nurture curiosity, emotional resilience, and scientific inquiry to prepare global leaders for tomorrow."',
+      img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80"
+    },
+    {
+      name: "MRS. KAVITA SINGHANIA",
+      badge: "DIRECTOR | ACADEMIC AFFAIRS",
+      quote: '"Experiential digital learning combined with moral values builds confident scholars ready to conquer global challenges."',
+      img: "https://images.unsplash.com/photo-1580894732413-a70d2a840e69?auto=format&fit=crop&w=500&q=80"
+    },
+    {
+      name: "MRS. MEENAKSHI IYER",
+      badge: "ASSISTANT DIRECTOR | STEM WING",
+      quote: '"Every child who walks through our gates carries a story of dreams waiting to be nurtured and questions seeking meaningful answers."',
+      img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=500&q=80"
+    },
+    {
+      name: "MR. ARJUN VARDHAN",
+      badge: "HONORARY DIRECTOR | GLOBAL SPORTS",
+      quote: '"Sports education teaches integrity, teamwork, and mental stamina—qualities that shape true champions in life."',
+      img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80"
+    }
+  ];
+
+  let currentIndex = 0;
+
+  // Render spotlight card
+  function updateSpotlight(index) {
+    currentIndex = (index + leaders.length) % leaders.length;
+    const leader = leaders[currentIndex];
+
+    spotlightImg.src = leader.img;
+    spotlightImg.alt = leader.name;
+    spotlightBadge.innerText = leader.badge;
+    spotlightQuote.innerText = leader.quote;
+    spotlightName.innerText = leader.name;
+
+    // Highlight active thumbnail
+    const thumbCards = document.querySelectorAll('.lead-thumb-card');
+    thumbCards.forEach((card, idx) => {
+      if (idx === (currentIndex === 0 ? 0 : currentIndex - 1)) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  }
+
+  // Event Listeners
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      updateSpotlight(currentIndex - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      updateSpotlight(currentIndex + 1);
+    });
+  }
+
+  // Thumbnail Card Clicks
+  const thumbCards = document.querySelectorAll('.lead-thumb-card');
+  thumbCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.getAttribute('data-index'), 10) || 1;
+      updateSpotlight(idx);
+    });
+  });
+}
+
 
 
 
