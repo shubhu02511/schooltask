@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=14.0">
+  <link rel="stylesheet" href="styles.css?v=15.0">
 </head>
 <body>
 
@@ -258,25 +258,31 @@
 
         <div class="grid-2" style="gap: 2.5rem;">
           
-          <!-- Gujarat Campus -->
-          <div class="wing-card" style="background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+          <!-- Gujarat Campus Card Link -->
+          <a href="#gujarat-campus" class="wing-card router-link" style="display: block; text-decoration: none; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease;">
             <div class="wing-img" style="height: 320px; position: relative;">
               <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus">
+              <span class="badge badge-gold" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                Click to Explore Details <i class="fa-solid fa-arrow-right"></i>
+              </span>
             </div>
             <div style="padding: 1.5rem; text-align: center; background: var(--primary-navy); color: white;">
               <h3 style="font-size: 1.6rem; color: var(--accent-gold); margin: 0;">Gujarat Campus</h3>
             </div>
-          </div>
+          </a>
 
-          <!-- Delhi NCR Campus -->
-          <div class="wing-card" style="background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+          <!-- Delhi NCR Campus Card Link -->
+          <a href="#delhi-campus" class="wing-card router-link" style="display: block; text-decoration: none; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease;">
             <div class="wing-img" style="height: 320px; position: relative;">
               <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus">
+              <span class="badge badge-gold" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                Click to Explore Details <i class="fa-solid fa-arrow-right"></i>
+              </span>
             </div>
             <div style="padding: 1.5rem; text-align: center; background: var(--primary-navy); color: white;">
               <h3 style="font-size: 1.6rem; color: var(--accent-gold); margin: 0;">Delhi NCR Campus</h3>
             </div>
-          </div>
+          </a>
 
         </div>
       </div>
@@ -1101,7 +1107,135 @@
     </section>
   </main>
 
-  <!-- PAGE 9: CONTACT -->
+  <!-- PAGE 9: GUJARAT CAMPUS -->
+  <main id="gujarat-campus" class="page-view">
+    <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center">
+        <span class="badge badge-gold"><i class="fa-solid fa-building-columns"></i> Premier Eco-Green Campus</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School — Gujarat</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
+          Sprawling 25-acre smart eco-campus located in the Vadodara Tech Corridor, designed for academic excellence, sports development, and residential care.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Gujarat Campus 2026-27</a>
+          <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-arrow-left"></i> Back to All Campuses</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-navy">Campus Infrastructure</span>
+          <h2>World-Class Gujarat Facilities</h2>
+          <p>Equipped with state-of-the-art academic wings, residential hostels, and international sports arenas.</p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 3rem; gap: 1.5rem;">
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-person-swimming"></i></div>
+            <h4>50m Olympic Pool</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Temperature-controlled aquatics center with NIS-certified swimming coaches.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-microchip"></i></div>
+            <h4>AI & Robotics Incubator</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">3D printers, IoT kits, and Python coding labs from primary wing onwards.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #D1FAE5; color: #059669;"><i class="fa-solid fa-planet-ringed"></i></div>
+            <h4>3D Digital Planetarium</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Interactive astronomy observatory for space science and astrophysics research.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FCE7F3; color: #DB2777;"><i class="fa-solid fa-bed"></i></div>
+            <h4>Eco Boarding Suites</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Air-conditioned residential suites with 24/7 security, organic dining, and medical care.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap: 2.5rem; align-items: center; background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Gujarat Campus Contact</span>
+            <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Gujarat Campus</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat — 390001</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (0265) 2980-100 / +91 98795 11000</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> gujarat@brioworldschool.edu.in</p>
+            <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
+          </div>
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 260px;">
+            <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 10: DELHI NCR CAMPUS -->
+  <main id="delhi-campus" class="page-view">
+    <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center">
+        <span class="badge badge-navy"><i class="fa-solid fa-building-columns"></i> Institutional Hub Campus</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School — Delhi NCR</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
+          18-acre ultra-modern green campus located in South Delhi / Gurgaon Hub, equipped with IB & CBSE accreditation and Apple Mac innovation suites.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Delhi Campus 2026-27</a>
+          <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-arrow-left"></i> Back to All Campuses</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-gold">Campus Infrastructure</span>
+          <h2>World-Class Delhi NCR Facilities</h2>
+          <p>Designed for academic rigor, performing arts, high-speed coding, and Ivy League university placement.</p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 3rem; gap: 1.5rem;">
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-laptop-code"></i></div>
+            <h4>Apple Mac Coding Lab</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">High-speed Mac workstations for iOS app development and AI machine learning.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-masks-theater"></i></div>
+            <h4>1,200-Seat Auditorium</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Acoustic grand stage for national theater productions, choir galas, and debates.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #D1FAE5; color: #059669;"><i class="fa-solid fa-futbol"></i></div>
+            <h4>FIFA Football Turf</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Floodlit professional football turf, synthetic athletics tracks, and tennis courts.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #EDE9FE; color: #7C3AED;"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h4>Ivy League Global Cell</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">1-on-1 career counseling guiding 100% placement into top worldwide universities.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap: 2.5rem; align-items: center; background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          <div>
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Delhi NCR Campus Contact</span>
+            <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Delhi NCR Campus</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Institutional Area, South Delhi / Gurgaon Hub, New Delhi — 110070</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (011) 4980-200 / +91 98112 44000</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> delhi@brioworldschool.edu.in</p>
+            <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
+          </div>
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 260px;">
+            <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi Campus" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 11: CONTACT -->
   <main id="contact" class="page-view">
     <div class="hero-section" style="padding: 4rem 0;">
       <div class="container text-center">
@@ -1461,7 +1595,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=14.0"></script>
+  <script src="app.js?v=15.0"></script>
 </body>
 </html>
 
