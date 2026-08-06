@@ -1176,6 +1176,13 @@ function initAuthSystem() {
     });
   }
 
+  function handleSuccessfulLoginRedirect(user) {
+    currentUser = user;
+    updateHeaderUserUI();
+    window.location.hash = '#home';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   // 2. OTP Verification Form Submit
   if (otpForm) {
     otpForm.addEventListener('submit', async (e) => {
@@ -1192,16 +1199,14 @@ function initAuthSystem() {
 
         if (data.success) {
           alert(data.message);
-          currentUser = data.user || { name: 'Portal User', email: formData.get('email') };
-          updateHeaderUserUI();
+          handleSuccessfulLoginRedirect(data.user || { name: 'Portal User', email: formData.get('email') });
           otpModal.classList.remove('active');
         } else {
           alert(data.message);
         }
       } catch (err) {
         alert('Email verified successfully! Welcome to BRIO Portal.');
-        currentUser = { name: 'Verified User', email: document.getElementById('otp-hidden-email').value };
-        updateHeaderUserUI();
+        handleSuccessfulLoginRedirect({ name: 'Verified User', email: document.getElementById('otp-hidden-email').value });
         otpModal.classList.remove('active');
       } finally {
         submitBtn.disabled = false;
@@ -1226,8 +1231,7 @@ function initAuthSystem() {
 
         if (data.success) {
           alert(data.message);
-          currentUser = data.user;
-          updateHeaderUserUI();
+          handleSuccessfulLoginRedirect(data.user);
           loginModal.classList.remove('active');
         } else if (data.require_otp) {
           alert(data.message);
@@ -1243,11 +1247,15 @@ function initAuthSystem() {
           alert(data.message);
         }
       } catch (err) {
-        alert('Login successful! Redirecting to Portal...');
-        currentUser = { name: 'Portal User', email: formData.get('email') };
-        updateHeaderUserUI();
+        alert('Login successful! Redirecting to Portal Home...');
+        handleSuccessfulLoginRedirect({ name: 'Portal User', email: formData.get('email') });
         loginModal.classList.remove('active');
       } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login to Account';
+      }
+    });
+  }
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login to Account';
       }
