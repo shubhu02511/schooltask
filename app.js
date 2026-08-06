@@ -3,44 +3,27 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Router
-  initRouter();
-  
-  // Initialize Fee Calculator
-  initFeeCalculator();
-  
-  // Initialize Admission Wizard Form
-  initAdmissionWizard();
-  
-  // Initialize Gallery Filter Modal
-  initGallerySystem();
-  
-  // Initialize AI Bot Assistant
-  initBrioBot();
+  const safeRun = (fn, name) => {
+    try {
+      if (typeof fn === 'function') fn();
+    } catch (err) {
+      console.warn(`[BRIO System] Warning in ${name}:`, err);
+    }
+  };
 
-  // Initialize Document Viewer System
-  initDocumentViewerSystem();
-
-  // Initialize Academic Wing Modal System
-  initAcademicWingModalSystem();
-
-  // Initialize Global Modal Close Listeners
-  initModalCloseListeners();
-
-  // Initialize Career Application System
-  initCareerSystem();
-
-  // Initialize Hero Carousel System
-  initHeroCarousel();
-
-  // Initialize Leadership Slider System
-  initLeadershipSlider();
-
-  // Initialize Auth & OTP System
-  initAuthSystem();
-
-  // Setup Mobile Nav Toggle
-  setupMobileNav();
+  safeRun(initRouter, 'Router');
+  safeRun(initFeeCalculator, 'FeeCalculator');
+  safeRun(initAdmissionWizard, 'AdmissionWizard');
+  safeRun(initGallerySystem, 'GallerySystem');
+  safeRun(initBrioBot, 'BrioBot');
+  safeRun(initDocumentViewerSystem, 'DocumentViewerSystem');
+  safeRun(initAcademicWingModalSystem, 'AcademicWingModalSystem');
+  safeRun(initModalCloseListeners, 'ModalCloseListeners');
+  safeRun(initCareerSystem, 'CareerSystem');
+  safeRun(initHeroCarousel, 'HeroCarousel');
+  safeRun(initLeadershipSlider, 'LeadershipSlider');
+  safeRun(initAuthSystem, 'AuthSystem');
+  safeRun(setupMobileNav, 'MobileNav');
 });
 
 /* ==========================================================================
@@ -49,9 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function initRouter() {
   const pageViews = document.querySelectorAll('.page-view');
 
-  function navigateTo(targetId) {
-    if (!targetId || targetId === '') {
+  window.navigateTo = function(targetId) {
+    if (!targetId || targetId === '' || targetId === '#') {
       targetId = 'home';
+    }
+
+    if (targetId.startsWith('#')) {
+      targetId = targetId.substring(1);
     }
 
     let targetElement = document.getElementById(targetId);
@@ -85,7 +72,7 @@ function initRouter() {
     // Update Nav Active State
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href');
-      if (href === `#${targetId}`) {
+      if (href === `#${targetId}` || (href === '#home' && targetId === 'home')) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -93,53 +80,50 @@ function initRouter() {
     });
 
     // Scroll to section or top of page
-    setTimeout(() => {
-      if (targetElement && !targetElement.classList.contains('page-view')) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }, 60);
-  }
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (targetElement && !targetElement.classList.contains('page-view')) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 50);
+    });
+  };
 
-  function handleLinkClick(e) {
-    const href = this.getAttribute('href');
-    if (href && href.startsWith('#') && href.length > 1) {
-      e.preventDefault();
-      const targetId = href.substring(1);
-      navigateTo(targetId);
-      window.location.hash = targetId;
+  // Global Document Level Click Listener for All Links & Buttons with Hash
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"], [data-nav]');
+    if (link) {
+      const href = link.getAttribute('href') || link.getAttribute('data-nav');
+      if (href && href.startsWith('#') && href.length > 1) {
+        e.preventDefault();
+        const targetId = href.substring(1);
+        window.navigateTo(targetId);
+        if (history.pushState) {
+          history.pushState(null, null, '#' + targetId);
+        } else {
+          window.location.hash = targetId;
+        }
 
-      // Close mobile menu if open
-      const navMenu = document.querySelector('.nav-menu');
-      if (navMenu && window.innerWidth <= 768) {
-        navMenu.style.display = 'none';
+        // Close mobile nav menu
+        const navMenu = document.querySelector('.nav-menu');
+        if (navMenu && window.innerWidth <= 768) {
+          navMenu.style.display = 'none';
+        }
       }
     }
-  }
-
-  // Direct Event Listeners on Links
-  function bindLinkListeners() {
-    const allLinks = document.querySelectorAll('a[href^="#"]');
-    allLinks.forEach(link => {
-      link.removeEventListener('click', handleLinkClick);
-      link.addEventListener('click', handleLinkClick);
-    });
-  }
-
-  bindLinkListeners();
-
-  // Initial Route Load
-  const initialHash = window.location.hash.substring(1);
-  navigateTo(initialHash || 'home');
-
-  // Handle Browser Back Forward Hash Change
-  window.addEventListener('hashchange', () => {
-    const currentHash = window.location.hash.substring(1);
-    navigateTo(currentHash || 'home');
   });
 
-  window.rebindRouterLinks = bindLinkListeners;
+  // Handle Initial Route Load
+  const initialHash = window.location.hash.substring(1);
+  window.navigateTo(initialHash || 'home');
+
+  // Handle Hash Changes
+  window.addEventListener('hashchange', () => {
+    const currentHash = window.location.hash.substring(1);
+    window.navigateTo(currentHash || 'home');
+  });
 }
 
 function setupMobileNav() {
