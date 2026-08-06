@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Career Application System
   initCareerSystem();
 
+  // Initialize Hero Carousel System
+  initHeroCarousel();
+
   // Setup Mobile Nav Toggle
   setupMobileNav();
 });
@@ -780,6 +783,73 @@ function initCareerSystem() {
     });
   });
 }
+
+/* ==========================================================================
+   11. Hero 5-Slide Carousel
+   ========================================================================== */
+function initHeroCarousel() {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('#hero-carousel-dots .dot');
+  const prevBtn = document.getElementById('hero-prev-btn');
+  const nextBtn = document.getElementById('hero-next-btn');
+
+  if (slides.length === 0) return;
+
+  let currentSlide = 0;
+  let carouselTimer = null;
+
+  // Switch slide function
+  function goToSlide(index) {
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+
+    currentSlide = (index + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    if (dots[currentSlide]) {
+      dots[currentSlide].classList.add('active');
+    }
+  }
+
+  // Auto-slide timer
+  function startAutoSlide() {
+    stopAutoSlide();
+    carouselTimer = setInterval(() => {
+      goToSlide(currentSlide + 1);
+    }, 4500);
+  }
+
+  function stopAutoSlide() {
+    if (carouselTimer) {
+      clearInterval(carouselTimer);
+    }
+  }
+
+  // Event Listeners
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      goToSlide(currentSlide - 1);
+      startAutoSlide();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      goToSlide(currentSlide + 1);
+      startAutoSlide();
+    });
+  }
+
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      goToSlide(idx);
+      startAutoSlide();
+    });
+  });
+
+  // Start auto slide
+  startAutoSlide();
+}
+
 
 
 

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=10.0">
+  <link rel="stylesheet" href="styles.css?v=11.0">
 </head>
 <body>
 
@@ -72,165 +72,118 @@
   <!-- PAGE 1: HOME -->
   <main id="home" class="page-view active-page">
     
-    <!-- 1. School Banner Carousel -->
-    <section class="hero-section">
-      <div class="hero-bg-overlay"></div>
-      <div class="container hero-grid">
-        <div class="hero-left">
-          <div class="hero-tag">
-            <span class="badge badge-gold"><i class="fa-solid fa-award"></i> CBSE & IB WORLD SCHOOL ACCREDITED</span>
-          </div>
-          <h1 class="hero-title">Nurturing Global Leaders with <span>Ethics, Innovation & Vision</span></h1>
-          <p class="hero-subtitle">
-            BRIO World School combines rigorous academic excellence, AI & STEM innovation, world-class sports facilities, and holistic values across our Gujarat and Delhi NCR campuses.
-          </p>
-          <div class="hero-ctas">
-            <a href="#admissions" class="btn btn-gold router-link">
-              <i class="fa-solid fa-file-pen"></i> Enquire Now 2026-27
-            </a>
-            <a href="#branches" class="btn btn-outline-white router-link">
-              <i class="fa-solid fa-building-columns"></i> Explore Campuses
-            </a>
-          </div>
-
-          <!-- Hero Quick Stats -->
-          <div class="hero-stats-row">
-            <div class="stat-card">
-              <div class="stat-num">25+</div>
-              <div class="stat-label">Years of Legacy</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">2</div>
-              <div class="stat-label">Premier Campuses</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">100%</div>
-              <div class="stat-label">CBSE / IB Board Pass Rate</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">1:12</div>
-              <div class="stat-label">Teacher to Student Ratio</div>
+    <!-- 1. 5-Slide Hero Banner Carousel -->
+    <section class="hero-carousel-section">
+      <div class="hero-carousel-container">
+        
+        <!-- Slide 1: School Eco Campus -->
+        <div class="hero-slide active" style="background-image: linear-gradient(to right, rgba(9, 18, 36, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content">
+            <span class="badge badge-gold"><i class="fa-solid fa-award"></i> CBSE & IB WORLD ACCREDITED</span>
+            <h1 class="hero-title">Nurturing Global Leaders with <span>Ethics & Innovation</span></h1>
+            <p class="hero-subtitle">Combining academic excellence, AI innovation, and holistic values across Gujarat & Delhi NCR campuses.</p>
+            <div class="hero-ctas">
+              <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Admissions 2026-27</a>
+              <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-building-columns"></i> Explore Campuses</a>
             </div>
           </div>
         </div>
 
-        <!-- Hero Notice Box -->
-        <div class="hero-right">
-          <div class="hero-widget-card">
-            <div class="widget-header">
-              <i class="fa-solid fa-calendar-check"></i>
-              <div>
-                <h3>Latest Announcements</h3>
-                <p style="color: #94A3B8; font-size: 0.8rem;">Live Updates from Principal's Desk</p>
-              </div>
-            </div>
-
-            <div class="quick-notice-item">
-              <div class="notice-date">12 <span>AUG</span></div>
-              <div class="notice-text">
-                <h4>National Science & Robotics Expo 2026</h4>
-                <p>Grade 6-12 students presenting 40+ AI & IoT innovations.</p>
-              </div>
-            </div>
-
-            <div class="quick-notice-item">
-              <div class="notice-date">20 <span>AUG</span></div>
-              <div class="notice-text">
-                <h4>Inter-School Swimming Championship</h4>
-                <p>Olympic-size pool hosting 15 top regional academies.</p>
-              </div>
-            </div>
-
-            <div class="quick-notice-item">
-              <div class="notice-date">01 <span>SEP</span></div>
-              <div class="notice-text">
-                <h4>Entrance Scholarship Assessment (B-SAT)</h4>
-                <p>Up to 50% merit scholarship for top performers in STEM.</p>
-              </div>
-            </div>
-
-            <div style="margin-top: 1.5rem; text-align: center;">
-              <a href="#events" class="router-link" style="color: var(--accent-gold); font-weight: 600; font-size: 0.9rem;">
-                View All Circulars & Events <i class="fa-solid fa-arrow-right"></i>
-              </a>
+        <!-- Slide 2: STEM & AI Lab -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9, 18, 36, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content">
+            <span class="badge badge-emerald"><i class="fa-solid fa-microchip"></i> FUTURISTIC STEM LABS</span>
+            <h1 class="hero-title">Robotics, Coding & <span>AI Innovation Incubator</span></h1>
+            <p class="hero-subtitle">Empowering students with hands-on 3D printing, IoT prototyping, and Python coding from primary wing onwards.</p>
+            <div class="hero-ctas">
+              <a href="#academics" class="btn btn-gold router-link"><i class="fa-solid fa-graduation-cap"></i> View Academic Wings</a>
+              <a href="#facilities" class="btn btn-outline-white router-link"><i class="fa-solid fa-compass"></i> STEM Campus Tour</a>
             </div>
           </div>
         </div>
+
+        <!-- Slide 3: Olympic Sports Arena -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9, 18, 36, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content">
+            <span class="badge badge-gold"><i class="fa-solid fa-trophy"></i> OLYMPIC SPORTS COMPLEX</span>
+            <h1 class="hero-title">Building Champions in <span>Sports & Life</span></h1>
+            <p class="hero-subtitle">50-meter temperature-controlled swimming pool, FIFA turf, and professional academy coaches.</p>
+            <div class="hero-ctas">
+              <a href="#facilities" class="btn btn-gold router-link"><i class="fa-solid fa-person-swimming"></i> Sports Academies</a>
+              <a href="#admissions" class="btn btn-outline-white router-link"><i class="fa-solid fa-file-pen"></i> Apply 2026-27</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Smart Classrooms -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9, 18, 36, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content">
+            <span class="badge badge-navy"><i class="fa-solid fa-book-open-reader"></i> SMART PEDAGOGY</span>
+            <h1 class="hero-title">Interactive Digital <span>Experiential Classrooms</span></h1>
+            <p class="hero-subtitle">1:12 teacher-student ratio fostering personalized care, speed arithmetic, and critical thinking.</p>
+            <div class="hero-ctas">
+              <a href="#academics" class="btn btn-gold router-link"><i class="fa-solid fa-chalkboard-user"></i> Curriculum Details</a>
+              <a href="#about" class="btn btn-outline-white router-link"><i class="fa-solid fa-circle-info"></i> About BRIO</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Ivy League Cell -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9, 18, 36, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content">
+            <span class="badge badge-gold"><i class="fa-solid fa-user-graduate"></i> GLOBAL PLACEMENTS</span>
+            <h1 class="hero-title">Guiding Scholars to <span>Ivy League & Top Universities</span></h1>
+            <p class="hero-subtitle">100% board pass results with specialized JEE, NEET, SAT & IB Diploma foundation programs.</p>
+            <div class="hero-ctas">
+              <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-paper-plane"></i> Scholarship Test (B-SAT)</a>
+              <a href="#contact" class="btn btn-outline-white router-link"><i class="fa-solid fa-headset"></i> Contact Helpline</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Carousel Navigation Controls -->
+      <button class="carousel-control prev-slide" id="hero-prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="carousel-control next-slide" id="hero-next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+
+      <!-- Carousel Indicators Dots -->
+      <div class="carousel-indicators" id="hero-carousel-dots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+        <span class="dot" data-slide="3"></span>
+        <span class="dot" data-slide="4"></span>
       </div>
     </section>
 
-
-
-    <!-- 2. School Branches Section (Gujarat & Delhi NCR) -->
+    <!-- 2. School Branches Section (Photo & Name Only) -->
     <section id="branches" class="section-padding bg-light">
       <div class="container">
         <div class="section-header text-center">
-          <span class="badge badge-gold">Premier Network</span>
-          <h2>Our School Campuses & Branches</h2>
-          <p>World-class eco-green campuses designed to empower scholars across India.</p>
+          <span class="badge badge-gold">Our Campuses</span>
+          <h2>School Branches</h2>
         </div>
 
         <div class="grid-2" style="gap: 2.5rem;">
           
-          <!-- Gujarat Campus Card -->
-          <div class="wing-card" style="border: 2px solid rgba(245, 158, 11, 0.4); background: white;">
-            <div class="wing-img" style="height: 240px; position: relative;">
+          <!-- Gujarat Campus -->
+          <div class="wing-card" style="background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+            <div class="wing-img" style="height: 320px; position: relative;">
               <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus">
-              <span class="badge badge-gold" style="position: absolute; top: 1rem; left: 1rem; z-index: 2; font-size: 0.85rem; font-weight: 800;">
-                <i class="fa-solid fa-location-dot"></i> GUJARAT CAMPUS
-              </span>
             </div>
-            <div class="wing-content" style="padding: 1.75rem;">
-              <h3 style="color: var(--primary-navy); font-size: 1.5rem; margin-bottom: 0.5rem;">BRIO World School — Gujarat</h3>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6;">
-                A sprawling 25-acre smart eco-campus featuring an Olympic Swimming Complex, AI Robotics Incubator, 3D Planetarium, and Air-Conditioned Boarding Suites.
-              </p>
-              
-              <div style="margin-bottom: 1.25rem; font-size: 0.85rem; color: var(--text-main); background: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm);">
-                <p style="margin-bottom: 0.4rem;"><i class="fa-solid fa-map-pin text-gold" style="margin-right: 6px;"></i> Tech Corridor, Near InfoCity, Vadodara, Gujarat — 390001</p>
-                <p style="margin-bottom: 0.4rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 6px;"></i> Campus Desk: +91 (0265) 2980-100 / +91 98795 11000</p>
-                <p><i class="fa-solid fa-envelope text-gold" style="margin-right: 6px;"></i> Admissions: gujarat@brioworldschool.edu.in</p>
-              </div>
-
-              <div style="display: flex; gap: 0.75rem;">
-                <a href="#admissions" class="btn btn-gold router-link" style="flex: 1; padding: 0.6rem 1rem; font-size: 0.85rem;">
-                  <i class="fa-solid fa-file-pen"></i> Enquire Gujarat Admissions
-                </a>
-                <a href="#facilities" class="btn btn-outline router-link" style="padding: 0.6rem 1rem; font-size: 0.85rem;">
-                  <i class="fa-solid fa-image"></i> Campus Tour
-                </a>
-              </div>
+            <div style="padding: 1.5rem; text-align: center; background: var(--primary-navy); color: white;">
+              <h3 style="font-size: 1.6rem; color: var(--accent-gold); margin: 0;">Gujarat Campus</h3>
             </div>
           </div>
 
-          <!-- Delhi NCR Campus Card -->
-          <div class="wing-card" style="border: 2px solid rgba(15, 23, 42, 0.3); background: white;">
-            <div class="wing-img" style="height: 240px; position: relative;">
-              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi Campus">
-              <span class="badge badge-navy" style="position: absolute; top: 1rem; left: 1rem; z-index: 2; font-size: 0.85rem; font-weight: 800;">
-                <i class="fa-solid fa-location-dot"></i> DELHI NCR CAMPUS
-              </span>
+          <!-- Delhi NCR Campus -->
+          <div class="wing-card" style="background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md);">
+            <div class="wing-img" style="height: 320px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus">
             </div>
-            <div class="wing-content" style="padding: 1.75rem;">
-              <h3 style="color: var(--primary-navy); font-size: 1.5rem; margin-bottom: 0.5rem;">BRIO World School — Delhi NCR</h3>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6;">
-                An 18-acre green campus equipped with IB & CBSE accreditation, High-Speed Apple Mac Coding Labs, 1,200-seater Auditorium, and FIFA Standard Football Turf.
-              </p>
-
-              <div style="margin-bottom: 1.25rem; font-size: 0.85rem; color: var(--text-main); background: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm);">
-                <p style="margin-bottom: 0.4rem;"><i class="fa-solid fa-map-pin text-gold" style="margin-right: 6px;"></i> Institutional Area, South Delhi / Gurgaon Hub, New Delhi — 110070</p>
-                <p style="margin-bottom: 0.4rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 6px;"></i> Campus Desk: +91 (011) 4980-200 / +91 98112 44000</p>
-                <p><i class="fa-solid fa-envelope text-gold" style="margin-right: 6px;"></i> Admissions: delhi@brioworldschool.edu.in</p>
-              </div>
-
-              <div style="display: flex; gap: 0.75rem;">
-                <a href="#admissions" class="btn btn-gold router-link" style="flex: 1; padding: 0.6rem 1rem; font-size: 0.85rem;">
-                  <i class="fa-solid fa-file-pen"></i> Enquire Delhi Admissions
-                </a>
-                <a href="#facilities" class="btn btn-outline router-link" style="padding: 0.6rem 1rem; font-size: 0.85rem;">
-                  <i class="fa-solid fa-image"></i> Campus Tour
-                </a>
-              </div>
+            <div style="padding: 1.5rem; text-align: center; background: var(--primary-navy); color: white;">
+              <h3 style="font-size: 1.6rem; color: var(--accent-gold); margin: 0;">Delhi NCR Campus</h3>
             </div>
           </div>
 
@@ -282,99 +235,76 @@
       </div>
     </section>
 
-    <!-- 4. School Leaders & Management -->
+    <!-- 4. Exemplary Leadership Team (Matching Screenshot) -->
     <section id="leadership" class="section-padding bg-light">
       <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-gold">Visionary Governance</span>
-          <h2>School Leadership & Directors</h2>
-          <p>Eminent educationists guiding BRIO World School towards global academic benchmark.</p>
+        
+        <!-- Header with Vertical Divider -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 2.5rem;">
+          <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--primary-navy); text-transform: uppercase; margin: 0;">
+            <span style="color: #1E40AF;">EXEMPLARY</span> <span style="display: inline-block; width: 4px; height: 32px; background: var(--accent-gold); vertical-align: middle; margin: 0 0.5rem;"></span> LEADERSHIP TEAM
+          </h2>
         </div>
 
-        <div class="grid-3">
+        <div style="display: grid; grid-template-columns: 1.3fr 2.7fr; gap: 1.5rem; align-items: stretch;">
           
-          <!-- Chairman Card -->
-          <div class="feature-card text-center" style="background: white;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background: #0F172A; color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 1.25rem; border: 3px solid var(--accent-gold);">
-              VB
+          <!-- Left Featured Chairman Spotlight Card -->
+          <div style="background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; background: #FFFFFF; padding: 1rem;">
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" alt="Dr. Deepak Madhok" style="width: 100%; height: 260px; object-fit: cover; border-radius: 6px;">
+              <div style="padding: 1rem;">
+                <span style="background: #2563EB; color: white; padding: 0.35rem 0.65rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; border-radius: 3px;">
+                  CHAIRPERSON | BRIO GROUP
+                </span>
+                <p style="font-size: 0.88rem; color: #1E293B; line-height: 1.6; font-style: italic;">
+                  "Every remarkable journey begins with a vision—bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
+                </p>
+              </div>
             </div>
-            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Founder & Chairman</span>
-            <h3 style="color: var(--primary-navy); margin-bottom: 0.3rem;">Dr. Vikramaditya Birla</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Ph.D. in Educational Leadership (Oxford)</p>
-            <p style="font-size: 0.88rem; color: var(--text-main); font-style: italic; line-height: 1.6;">
-              "Our vision is to empower young scholars with ethical courage, scientific inquiry, and global purpose."
-            </p>
-          </div>
-
-          <!-- Principal Card -->
-          <div class="feature-card text-center" style="background: white;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background: #0F172A; color: var(--accent-emerald); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 1.25rem; border: 3px solid var(--accent-emerald);">
-              SS
+            <div style="background: #F59E0B; color: #0F172A; padding: 0.75rem 1rem; font-weight: 800; font-size: 1rem; text-transform: uppercase;">
+              DR. VIKRAMADITYA BIRLA
             </div>
-            <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Academic Director & Principal</span>
-            <h3 style="color: var(--primary-navy); margin-bottom: 0.3rem;">Dr. Sunita Sharma</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">M.Sc., M.Ed., National Awardee Principal</p>
-            <p style="font-size: 0.88rem; color: var(--text-main); font-style: italic; line-height: 1.6;">
-              "Every child possesses unique potential. We nurture inquiring minds through personalized academic care."
-            </p>
           </div>
 
-          <!-- Dean STEM Card -->
-          <div class="feature-card text-center" style="background: white;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background: #0F172A; color: #3B82F6; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 1.25rem; border: 3px solid #3B82F6;">
-              RV
+          <!-- Right 4 Executive Members Grid -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+            
+            <!-- Member 1 -->
+            <div style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Mrs. Bharti Madhok" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MRS. SUNITA SHARMA</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">VICE-CHAIRPERSON</span>
+              </div>
             </div>
-            <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Dean of STEM & Innovation</span>
-            <h3 style="color: var(--primary-navy); margin-bottom: 0.3rem;">Mr. Rajesh Vardhan</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">M.Tech (IIT Bombay), AI Research Fellow</p>
-            <p style="font-size: 0.88rem; color: var(--text-main); font-style: italic; line-height: 1.6;">
-              "Integrating AI, robotics, and hands-on coding equips our students for tomorrow's technology careers."
-            </p>
-          </div>
 
-        </div>
-      </div>
-    </section>
+            <!-- Member 2 -->
+            <div style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
+              <img src="https://images.unsplash.com/photo-1580894732413-a70d2a840e69?auto=format&fit=crop&w=300&q=80" alt="Mrs. Amrita Burman" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MRS. AMRITA BURMAN</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">DIRECTOR</span>
+              </div>
+            </div>
 
-    <!-- 5. Careers at BRIO World School -->
-    <section id="careers" class="section-padding">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-emerald">Faculty Recruitment</span>
-          <h2>Careers at BRIO World School</h2>
-          <p>Join an inspiring educator community. We offer competitive remuneration, research grants, and global training.</p>
-        </div>
+            <!-- Member 3 -->
+            <div style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
+              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=300&q=80" alt="Mrs. Pratima Gupta" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MRS. PRATIMA GUPTA</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">ASSISTANT DIRECTOR</span>
+              </div>
+            </div>
 
-        <div class="grid-3" style="margin-bottom: 2rem;">
-          
-          <!-- Job 1 -->
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
-            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time • Senior Wing</span>
-            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">PGT Physics & JEE Foundation Mentor</h4>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat & Delhi Campuses | M.Sc. Physics required</p>
-            <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics & JEE Mentor" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
-              <i class="fa-solid fa-paper-plane"></i> Apply for Position
-            </button>
-          </div>
+            <!-- Member 4 -->
+            <div style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=300&q=80" alt="Mr. Harsh Madhok" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MR. HARSH MADHOK</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">HONORARY DIRECTOR</span>
+              </div>
+            </div>
 
-          <!-- Job 2 -->
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
-            <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time • STEM Lab</span>
-            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">AI & Robotics STEM Coach</h4>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | B.Tech / M.Tech in CS/Robotics</p>
-            <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI & Robotics STEM Coach" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
-              <i class="fa-solid fa-paper-plane"></i> Apply for Position
-            </button>
-          </div>
-
-          <!-- Job 3 -->
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
-            <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Full-Time • Middle Wing</span>
-            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">TGT English & Drama Facilitator</h4>
-            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Delhi NCR Campus | M.A. English & B.Ed. required</p>
-            <button type="button" class="btn btn-emerald career-apply-trigger" data-job="TGT English & Drama Facilitator" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
-              <i class="fa-solid fa-paper-plane"></i> Apply for Position
-            </button>
           </div>
 
         </div>
@@ -1133,6 +1063,73 @@
 
 
 
+  <!-- PAGE 8: CAREERS -->
+  <main id="careers" class="page-view">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-emerald">Faculty Recruitment</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Careers at BRIO World School</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
+          Join an inspiring educator community. We offer competitive remuneration, research grants, and global training across our Gujarat and Delhi NCR campuses.
+        </p>
+      </div>
+    </div>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-gold">Current Openings</span>
+          <h2>Faculty & Leadership Positions</h2>
+          <p>Explore full-time educator opportunities across Senior, Middle, and STEM innovation wings.</p>
+        </div>
+
+        <div class="grid-3" style="margin-bottom: 2rem;">
+          
+          <!-- Job 1 -->
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time • Senior Wing</span>
+            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">PGT Physics & JEE Foundation Mentor</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat & Delhi Campuses | M.Sc. Physics required</p>
+            <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics & JEE Mentor" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+              <i class="fa-solid fa-paper-plane"></i> Apply for Position
+            </button>
+          </div>
+
+          <!-- Job 2 -->
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time • STEM Lab</span>
+            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">AI & Robotics STEM Coach</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | B.Tech / M.Tech in CS/Robotics</p>
+            <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI & Robotics STEM Coach" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+              <i class="fa-solid fa-paper-plane"></i> Apply for Position
+            </button>
+          </div>
+
+          <!-- Job 3 -->
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
+            <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Full-Time • Middle Wing</span>
+            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">TGT English & Drama Facilitator</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Delhi NCR Campus | M.A. English & B.Ed. required</p>
+            <button type="button" class="btn btn-emerald career-apply-trigger" data-job="TGT English & Drama Facilitator" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+              <i class="fa-solid fa-paper-plane"></i> Apply for Position
+            </button>
+          </div>
+
+          <!-- Job 4 -->
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time • Sports Wing</span>
+            <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">Head Aquatics & Swimming Coach</h4>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | Certified NIS Coach</p>
+            <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">
+              <i class="fa-solid fa-paper-plane"></i> Apply for Position
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
   <!-- PAGE 9: CONTACT -->
   <main id="contact" class="page-view">
     <div class="hero-section" style="padding: 4rem 0;">
@@ -1334,75 +1331,52 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="main-footer">
+  <footer class="main-footer" style="background: #091224; color: white; padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.08);">
     <div class="container">
-      <div class="footer-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2.5rem;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem;">
         
         <!-- Col 1: Brand Info -->
         <div>
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
-            <div class="logo-icon">B</div>
-            <h3 style="color: white; font-size: 1.3rem; margin: 0;">BRIO WORLD SCHOOL</h3>
-          </div>
-          <p style="font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.25rem; color: var(--text-light);">
-            BRIO World School is dedicated to nurturing world-class scholars equipped with critical thinking, ethical integrity, and technological prowess across our Gujarat & Delhi campuses.
+          <h3 style="color: var(--accent-gold); font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">BRIO World School</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #94A3B8; max-width: 320px; margin-bottom: 2rem;">
+            Empowering minds, shaping futures. A community dedicated to academic excellence across our Gujarat & Delhi NCR campuses.
           </p>
-          <span class="badge badge-gold" style="font-size: 0.78rem;">CBSE & IB DIPLOMA ACCREDITED</span>
+          <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
+            © 2026 BRIO World School. All rights reserved.
+          </p>
         </div>
 
-        <!-- Col 2: Campus Branches -->
-        <div class="footer-col">
-          <h3>Our Campus Branches</h3>
-          <div style="font-size: 0.85rem; color: var(--text-light);">
-            <p style="margin-bottom: 0.75rem;">
-              <strong style="color: var(--accent-gold);"><i class="fa-solid fa-location-dot"></i> Gujarat Campus:</strong><br>
-              Tech Corridor, Vadodara, Gujarat 390001<br>
-              <i class="fa-solid fa-phone" style="font-size: 0.75rem;"></i> +91 (0265) 2980-100
-            </p>
-            <p style="margin-bottom: 0.5rem;">
-              <strong style="color: var(--accent-gold);"><i class="fa-solid fa-location-dot"></i> Delhi NCR Campus:</strong><br>
-              South Delhi Hub, New Delhi 110070<br>
-              <i class="fa-solid fa-phone" style="font-size: 0.75rem;"></i> +91 (011) 4980-200
-            </p>
-          </div>
-        </div>
-
-        <!-- Col 3: Quick Navigation -->
-        <div class="footer-col">
-          <h3>Quick Navigation</h3>
-          <ul class="footer-links">
-            <li><a href="#branches" class="router-link">Our Campuses</a></li>
-            <li><a href="#about" class="router-link">About BRIO Group</a></li>
-            <li><a href="#leadership" class="router-link">School Leadership</a></li>
-            <li><a href="#academics" class="router-link">Academic Curriculum</a></li>
-            <li><a href="#admissions" class="router-link">Admissions 2026-27</a></li>
-            <li><a href="#careers" class="router-link">Careers at BRIO</a></li>
+        <!-- Col 2: Admissions -->
+        <div>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Admissions</h4>
+          <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Quick Inquiry</a></li>
+            <li><a href="#facilities" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Campus Tour</a></li>
+            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Fee Calculator</a></li>
           </ul>
         </div>
 
-        <!-- Col 4: School Wings -->
-        <div class="footer-col">
-          <h3>Academic Wings</h3>
-          <ul class="footer-links">
-            <li><a href="#academics" class="router-link">Pre-Primary (Pre-K to KG2)</a></li>
-            <li><a href="#academics" class="router-link">Primary Wing (Grades 1-5)</a></li>
-            <li><a href="#academics" class="router-link">Middle Wing (Grades 6-8)</a></li>
-            <li><a href="#academics" class="router-link">Senior Secondary (Grades 9-12)</a></li>
-            <li><a href="#academics" class="router-link">IB Diploma Pathway</a></li>
+        <!-- Col 3: School -->
+        <div>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">School</h4>
+          <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="#careers" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Faculty Directory</a></li>
+            <li><a href="#academics" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Academic Wings</a></li>
+            <li><a href="#leadership" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Leadership Team</a></li>
           </ul>
         </div>
 
-      </div>
-
-      <!-- Small Bottom Footer -->
-      <div class="footer-bottom">
-        <p>© 2026 BRIO WORLD SCHOOL. All Rights Reserved. CBSE Affiliation No. 2130890.</p>
-        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-          <a href="#" style="color: var(--text-light);">Privacy Policy</a>
-          <a href="#" style="color: var(--text-light);">Mandatory Public Disclosure</a>
-          <a href="#" style="color: var(--text-light);">Terms of Use</a>
-          <a href="#" style="color: var(--text-light);">Sitemap</a>
+        <!-- Col 4: Legal -->
+        <div>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Legal</h4>
+          <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">T&C</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Refund Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Mandatory Public Disclosure</a></li>
+          </ul>
         </div>
+
       </div>
     </div>
   </footer>
@@ -1516,7 +1490,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=10.0"></script>
+  <script src="app.js?v=11.0"></script>
 </body>
 </html>
 
