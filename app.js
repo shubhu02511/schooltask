@@ -47,29 +47,34 @@ document.addEventListener('DOMContentLoaded', () => {
    1. SPA Navigation & Router
    ========================================================================== */
 function initRouter() {
-  const navLinks = document.querySelectorAll('.nav-link, .router-link');
   const pageViews = document.querySelectorAll('.page-view');
 
   function navigateTo(targetId) {
+    if (!targetId || targetId === '') {
+      targetId = 'home';
+    }
+
     const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
-      const parentPageView = targetElement.closest('.page-view');
+      let pageToActivate = targetElement.classList.contains('page-view') 
+        ? targetElement 
+        : targetElement.closest('.page-view');
 
-      // Reset page active state
+      if (!pageToActivate) {
+        pageToActivate = document.getElementById('home');
+      }
+
+      // Hide all page views and activate target page view
       pageViews.forEach(page => page.classList.remove('active-page'));
-
-      if (parentPageView) {
-        parentPageView.classList.add('active-page');
-      } else if (targetElement.classList.contains('page-view')) {
-        targetElement.classList.add('active-page');
-      } else {
-        document.getElementById('home').classList.add('active-page');
+      if (pageToActivate) {
+        pageToActivate.classList.add('active-page');
       }
 
       // Update Nav Active State
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === `#${targetId}`) {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === `#${targetId}` || href === `#${pageToActivate.id}`) {
           link.classList.add('active');
         } else {
           link.classList.remove('active');
@@ -78,26 +83,38 @@ function initRouter() {
 
       // Scroll smoothly to target
       setTimeout(() => {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }, 50);
+        if (targetElement.classList.contains('page-view')) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 80);
     } else {
       pageViews.forEach(page => page.classList.remove('active-page'));
-      document.getElementById('home').classList.add('active-page');
+      const homePage = document.getElementById('home');
+      if (homePage) homePage.classList.add('active-page');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
-  // Event Listeners for Clicks
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+  // Global Event Delegation for Links
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (link) {
       const href = link.getAttribute('href');
-      if (href && href.startsWith('#')) {
+      if (href && href.startsWith('#') && href.length > 1) {
         e.preventDefault();
         const targetId = href.substring(1);
         navigateTo(targetId);
         window.location.hash = targetId;
+
+        // Auto close mobile navigation menu
+        const navMenu = document.querySelector('.nav-menu');
+        if (navMenu && window.innerWidth <= 768) {
+          navMenu.style.display = 'none';
+        }
       }
-    });
+    }
   });
 
   // Handle Initial Hash Load
