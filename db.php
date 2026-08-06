@@ -31,9 +31,11 @@ function getDB() {
                 phone TEXT NOT NULL,
                 experience INTEGER NOT NULL,
                 job_title TEXT NOT NULL,
+                message TEXT,
                 resume_path TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )");
+            @$pdo->exec("ALTER TABLE career_applications ADD COLUMN message TEXT");
 
         } catch (PDOException $e) {
             header('Content-Type: application/json');

@@ -13,6 +13,7 @@ class CareerController {
         $phone = trim($_POST['phone'] ?? '');
         $experience = intval($_POST['experience'] ?? 0);
         $jobTitle = trim($_POST['job_title'] ?? 'Faculty Educator');
+        $message = trim($_POST['message'] ?? '');
 
         if (empty($fullName) || empty($email) || empty($phone)) {
             echo json_encode(['success' => false, 'message' => 'Full name, email, and phone number are required fields']);
@@ -64,8 +65,8 @@ class CareerController {
         $userId = $_SESSION['user']['id'] ?? 0;
 
         // Insert database record
-        $stmt = $db->prepare("INSERT INTO career_applications (user_id, full_name, email, phone, experience, job_title, resume_path) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$userId, $fullName, $email, $phone, $experience, $jobTitle, $relativePath]);
+        $stmt = $db->prepare("INSERT INTO career_applications (user_id, full_name, email, phone, experience, job_title, message, resume_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$userId, $fullName, $email, $phone, $experience, $jobTitle, $message, $relativePath]);
 
         echo json_encode([
             'success' => true,
