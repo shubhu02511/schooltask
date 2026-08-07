@@ -9,6 +9,8 @@ if (php_sapi_name() === 'cli-server') {
 }
 
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/mail_helper.php';
 require_once __DIR__ . '/router.php';
 require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/CareerController.php';
