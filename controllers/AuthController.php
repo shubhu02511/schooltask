@@ -47,6 +47,8 @@ class AuthController {
                 $insert->execute([$name, $email, $hashedPassword, $otp, $expires]);
             }
 
+            echo json_encode(['success' => true, 'message' => 'DB EXECUTION PASSED!']);
+            exit;
             sendOTPEmail($email, $otp);
 
             echo json_encode([
