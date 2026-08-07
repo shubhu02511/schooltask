@@ -5,16 +5,9 @@
 header('Content-Type: application/json');
 error_reporting(0);
 
-$GLOBALS['RAW_INPUT'] = @file_get_contents('php://input');
-
-// ---- Parse input ----
+// ---- Parse input - $_POST only, no php://input ----
 function parseInput() {
-    $raw = $GLOBALS['RAW_INPUT'] ?? '';
-    $json = @json_decode($raw, true);
-    if (is_array($json)) return $json;
-    parse_str($raw, $form);
-    if (!empty($form)) return $form;
-    return [];
+    return $_POST ?: [];
 }
 
 // ---- Flat-file database (no sessions, no PDO) ----
