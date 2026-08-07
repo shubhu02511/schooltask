@@ -1136,7 +1136,7 @@ function initAuthSystem() {
         // Hex-encode to bypass LiteSpeed WAF keyword detection
         const hexData = Array.from(new TextEncoder().encode(JSON.stringify(payload)))
           .map(b => b.toString(16).padStart(2, '0')).join('');
-        const res = await fetch('/api_register.php', {
+        const res = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ d: hexData })
