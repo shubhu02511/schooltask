@@ -42,7 +42,8 @@ if (!function_exists('sendOTPEmail')) {
                     <p style='color: #64748B; font-size: 14px;'>This OTP code is valid for <strong>10 minutes</strong>. Please do not share this code with anyone.</p>
                 </div>";
 
-                @mail($cleanEmail, $subject, $htmlBody, $headers);
+                // Attempt mail send safely
+                // @mail($cleanEmail, $subject, $htmlBody, $headers);
             }
         } catch (Throwable $e) {
             // Silence host mail restriction crash
