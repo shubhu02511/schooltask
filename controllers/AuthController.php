@@ -15,9 +15,9 @@ class AuthController {
                 $json = [];
             }
 
-            $name = trim(!empty($_POST['name']) ? $_POST['name'] : ($json['name'] ?? ''));
-            $email = strtolower(trim(!empty($_POST['email']) ? $_POST['email'] : ($json['email'] ?? '')));
-            $password = !empty($_POST['password']) ? $_POST['password'] : ($json['password'] ?? '');
+            $name = trim(!empty($json['name']) ? $json['name'] : ($_POST['name'] ?? $_REQUEST['name'] ?? ''));
+            $email = strtolower(trim(!empty($json['email']) ? $json['email'] : ($_POST['email'] ?? $_REQUEST['email'] ?? '')));
+            $password = !empty($json['password']) ? $json['password'] : ($_POST['password'] ?? $_REQUEST['password'] ?? '');
 
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
