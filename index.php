@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 // Serve static assets directly only under CLI dev server
 if (php_sapi_name() === 'cli-server') {
     $filePath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
