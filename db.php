@@ -1,21 +1,20 @@
 <?php
-// Database connection helper with SQLite and JSON file fallback
+// Database connection helper with Session RAM database fallback for shared hosting
 require_once __DIR__ . '/config.php';
 
 if (!class_exists('JsonDBWrapper')) {
     class JsonDBWrapper {
-        private $storageFile;
-
         public function __construct() {
-            $tmpDir = sys_get_temp_dir();
-            $this->storageFile = (is_writable($tmpDir) ? $tmpDir : __DIR__) . '/json_db_store.json';
-            if (!file_exists($this->storageFile)) {
-                @file_put_contents($this->storageFile, json_encode(['users' => [], 'career' => []]));
+            if (session_status() === PHP_SESSION_NONE) {
+                @session_start();
+            }
+            if (!isset($_SESSION['schooltask_users_db'])) {
+                $_SESSION['schooltask_users_db'] = ['users' => [], 'career' => []];
             }
         }
 
         public function prepare($sql) {
-            return new JsonDBStatement($this->storageFile, $sql);
+            return new JsonDBStatement($sql);
         }
 
         public function exec($sql) {
@@ -26,26 +25,23 @@ if (!class_exists('JsonDBWrapper')) {
 
 if (!class_exists('JsonDBStatement')) {
     class JsonDBStatement {
-        private $storageFile;
         private $sql;
         private $data = [];
 
-        public function __construct($storageFile, $sql) {
-            $this->storageFile = $storageFile;
+        public function __construct($sql) {
             $this->sql = $sql;
         }
 
         public function execute($params = []) {
-            $rawContent = @file_get_contents($this->storageFile);
-            $store = @json_decode($rawContent, true);
-            if (!is_array($store)) {
-                $store = ['users' => [], 'career' => []];
+            if (session_status() === PHP_SESSION_NONE) {
+                @session_start();
             }
+            if (!isset($_SESSION['schooltask_users_db']) || !is_array($_SESSION['schooltask_users_db'])) {
+                $_SESSION['schooltask_users_db'] = ['users' => [], 'career' => []];
+            }
+            $store = &$_SESSION['schooltask_users_db'];
             if (!isset($store['users']) || !is_array($store['users'])) {
                 $store['users'] = [];
-            }
-            if (!isset($store['career']) || !is_array($store['career'])) {
-                $store['career'] = [];
             }
 
             if (stripos($this->sql, 'SELECT * FROM users WHERE email') !== false) {
@@ -69,7 +65,6 @@ if (!class_exists('JsonDBStatement')) {
                     'created_at' => date('Y-m-d H:i:s')
                 ];
                 $store['users'][] = $newUser;
-                @file_put_contents($this->storageFile, json_encode($store));
                 $this->data = [$newUser];
             } elseif (stripos($this->sql, 'UPDATE users SET name') !== false) {
                 $email = strtolower($params[4] ?? '');
@@ -82,7 +77,6 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
-                @file_put_contents($this->storageFile, json_encode($store));
             } elseif (stripos($this->sql, 'UPDATE users SET is_verified = 1') !== false) {
                 $id = $params[0] ?? 0;
                 foreach ($store['users'] as &$u) {
@@ -93,7 +87,6 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
-                @file_put_contents($this->storageFile, json_encode($store));
             } elseif (stripos($this->sql, 'UPDATE users SET otp_code =') !== false) {
                 $id = $params[2] ?? 0;
                 foreach ($store['users'] as &$u) {
@@ -103,7 +96,6 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
-                @file_put_contents($this->storageFile, json_encode($store));
             } elseif (stripos($this->sql, 'UPDATE users SET password =') !== false) {
                 $id = $params[1] ?? 0;
                 foreach ($store['users'] as &$u) {
@@ -115,7 +107,6 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
-                @file_put_contents($this->storageFile, json_encode($store));
             }
             return true;
         }
