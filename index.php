@@ -1,4 +1,7 @@
 <?php
+if (function_exists('opcache_reset')) {
+    @opcache_reset();
+}
 $GLOBALS['RAW_INPUT'] = @file_get_contents('php://input');
 header('Content-Type: application/json');
 try {
