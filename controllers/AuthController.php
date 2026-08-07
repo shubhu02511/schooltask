@@ -12,7 +12,7 @@ class AuthController {
         try {
             $db = getDB();
 
-            $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
+            $rawInput = @file_get_contents('php://input');
             $json = [];
 
             // 1. Try decoding raw JSON body
