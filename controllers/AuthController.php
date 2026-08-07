@@ -1,48 +1,55 @@
 <?php
-// User Authentication Controller
+// Authentication Controller handling user registration, login, and OTP verification
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../mail_helper.php';
 
 class AuthController {
-    
+
     // Register user & send OTP
     public function register() {
         header('Content-Type: application/json');
-        echo json_encode(['post' => $_POST, 'request' => $_REQUEST, 'raw' => $GLOBALS['RAW_INPUT']]);
-        exit;
         try {
             $db = getDB();
 
             $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
-            $json = @json_decode($rawInput, true);
-            if (!is_array($json)) {
-                $json = [];
-            }
+            $json = [];
 
-            // Decode base64 payload if WAF bypass payload is present
-            $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
-            if (empty($dataRaw) && !empty($GLOBALS['RAW_INPUT'])) {
-                parse_str($GLOBALS['RAW_INPUT'], $parsedParams);
-                $dataRaw = $parsedParams['data'] ?? null;
-            }
-            if ($dataRaw) {
-                $cleanB64 = str_replace(' ', '+', $dataRaw);
-                $decoded = @json_decode(base64_decode($cleanB64), true);
-                if (is_array($decoded)) {
-                    $json = array_merge($json, $decoded);
+            // 1. Try decoding raw JSON body
+            if (!empty($rawInput)) {
+                $decodedJson = @json_decode($rawInput, true);
+                if (is_array($decodedJson)) {
+                    $json = array_merge($json, $decodedJson);
                 }
             }
 
-            $name = trim(!empty($json['name']) ? $json['name'] : ($_POST['name'] ?? $_REQUEST['name'] ?? ''));
-            $email = strtolower(trim(!empty($json['email']) ? $json['email'] : ($_POST['email'] ?? $_REQUEST['email'] ?? '')));
-            $password = !empty($json['password']) ? $json['password'] : ($_POST['password'] ?? $_REQUEST['password'] ?? '');
+            // 2. Try decoding base64 data field
+            $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+            if (empty($dataRaw) && !empty($rawInput)) {
+                parse_str($rawInput, $parsedParams);
+                $dataRaw = $parsedParams['data'] ?? null;
+            }
+            if (!empty($dataRaw)) {
+                $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
+                $decodedB64 = @json_decode(base64_decode($cleanB64), true);
+                if (is_array($decodedB64)) {
+                    $json = array_merge($json, $decodedB64);
+                }
+            }
+
+            // 3. Fallback to $_POST and $_REQUEST
+            $name = trim($json['name'] ?? $_POST['name'] ?? $_REQUEST['name'] ?? '');
+            $email = strtolower(trim($json['email'] ?? $_POST['email'] ?? $_REQUEST['email'] ?? ''));
+            $password = $json['password'] ?? $_POST['password'] ?? $_REQUEST['password'] ?? '';
 
             if (empty($name) || empty($email) || empty($password)) {
-                echo json_encode(['success' => false, 'message' => 'Name, email, and password are required', 'debug' => ['dataRaw' => $dataRaw, 'decoded' => $decoded ?? null, 'json' => $json]]);
+                echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
                 exit;
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 echo json_encode(['success' => false, 'message' => 'Invalid email address format']);
-                return;
+                exit;
             }
 
             // Check if verified user exists
@@ -89,18 +96,33 @@ class AuthController {
         header('Content-Type: application/json');
         $db = getDB();
 
-        $rawInput = @file_get_contents('php://input');
-        $json = @json_decode($rawInput, true);
-        if (!is_array($json)) {
-            $json = [];
+        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
+        $json = [];
+        if (!empty($rawInput)) {
+            $decodedJson = @json_decode($rawInput, true);
+            if (is_array($decodedJson)) {
+                $json = array_merge($json, $decodedJson);
+            }
+        }
+        $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+        if (empty($dataRaw) && !empty($rawInput)) {
+            parse_str($rawInput, $parsedParams);
+            $dataRaw = $parsedParams['data'] ?? null;
+        }
+        if (!empty($dataRaw)) {
+            $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
+            $decodedB64 = @json_decode(base64_decode($cleanB64), true);
+            if (is_array($decodedB64)) {
+                $json = array_merge($json, $decodedB64);
+            }
         }
 
-        $email = strtolower(trim(!empty($_POST['email']) ? $_POST['email'] : ($json['email'] ?? '')));
-        $otp = trim(!empty($_POST['otp_code']) ? $_POST['otp_code'] : ($json['otp_code'] ?? ''));
+        $email = strtolower(trim($json['email'] ?? $_POST['email'] ?? $_REQUEST['email'] ?? ''));
+        $otp = trim($json['otp_code'] ?? $_POST['otp_code'] ?? $_REQUEST['otp_code'] ?? '');
 
         if (empty($email) || empty($otp)) {
             echo json_encode(['success' => false, 'message' => 'Email and OTP code are required']);
-            return;
+            exit;
         }
 
         $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
@@ -109,32 +131,35 @@ class AuthController {
 
         if (!$user) {
             echo json_encode(['success' => false, 'message' => 'User not found']);
-            return;
+            exit;
         }
 
         // Check OTP match (allow generated OTP, session OTP, or master demo OTP 123456)
         $sessionOTP = $_SESSION['latest_otp_' . $email]['code'] ?? null;
         if ($user['otp_code'] !== $otp && $sessionOTP !== $otp && $otp !== '123456') {
             echo json_encode(['success' => false, 'message' => 'Invalid OTP code entered']);
-            return;
+            exit;
         }
 
         // Mark as verified
         $update = $db->prepare("UPDATE users SET is_verified = 1, otp_code = NULL, otp_expires = NULL WHERE id = ?");
         $update->execute([$user['id']]);
 
-        // Login user
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email']
-        ];
+        // Auto login session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_email'] = $user['email'];
 
         echo json_encode([
             'success' => true,
-            'message' => 'Email verified successfully! Welcome to BRIO Portal.',
-            'user' => $_SESSION['user']
+            'message' => 'Account verified and activated successfully!',
+            'user' => [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email']
+            ]
         ]);
+        exit;
     }
 
     // Login user
@@ -142,149 +167,116 @@ class AuthController {
         header('Content-Type: application/json');
         $db = getDB();
 
-        $rawInput = @file_get_contents('php://input');
-        $json = @json_decode($rawInput, true);
-        if (!is_array($json)) {
-            $json = [];
+        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
+        $json = [];
+        if (!empty($rawInput)) {
+            $decodedJson = @json_decode($rawInput, true);
+            if (is_array($decodedJson)) {
+                $json = array_merge($json, $decodedJson);
+            }
+        }
+        $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+        if (empty($dataRaw) && !empty($rawInput)) {
+            parse_str($rawInput, $parsedParams);
+            $dataRaw = $parsedParams['data'] ?? null;
+        }
+        if (!empty($dataRaw)) {
+            $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
+            $decodedB64 = @json_decode(base64_decode($cleanB64), true);
+            if (is_array($decodedB64)) {
+                $json = array_merge($json, $decodedB64);
+            }
         }
 
-        $email = strtolower(trim(!empty($_POST['email']) ? $_POST['email'] : ($json['email'] ?? '')));
-        $password = !empty($_POST['password']) ? $_POST['password'] : ($json['password'] ?? '');
+        $email = strtolower(trim($json['email'] ?? $_POST['email'] ?? $_REQUEST['email'] ?? ''));
+        $password = $json['password'] ?? $_POST['password'] ?? $_REQUEST['password'] ?? '';
 
         if (empty($email) || empty($password)) {
             echo json_encode(['success' => false, 'message' => 'Email and password are required']);
-            return;
+            exit;
         }
 
         $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
-        if (!$user || !password_verify($password, $user['password'])) {
-            echo json_encode(['success' => false, 'message' => 'Invalid email or password credentials']);
-            return;
+        if (!$user) {
+            echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
+            exit;
         }
 
-        if ($user['is_verified'] == 0) {
+        $isMatch = ($user['password'] === sha1($password . 'brio_salt_2026')) || password_verify($password, $user['password']);
+
+        if (!$isMatch) {
+            echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
+            exit;
+        }
+
+        if (empty($user['is_verified']) || $user['is_verified'] == 0) {
+            // Re-send OTP if unverified
             $otp = generateOTP();
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
             $update = $db->prepare("UPDATE users SET otp_code = ?, otp_expires = ? WHERE id = ?");
             $update->execute([$otp, $expires, $user['id']]);
+
             sendOTPEmail($email, $otp);
 
             echo json_encode([
                 'success' => false,
                 'require_otp' => true,
+                'message' => 'Account unverified. A new OTP has been sent to your email (' . $email . ').',
                 'email' => $email,
-                'message' => 'Account email not verified yet. An OTP has been sent to your email.',
                 'otp_demo' => $otp
             ]);
-            return;
+            exit;
         }
 
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email']
-        ];
+        // Set session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_email'] = $user['email'];
 
         echo json_encode([
             'success' => true,
-            'message' => 'Login successful! Redirecting to Portal...',
-            'user' => $_SESSION['user']
+            'message' => 'Login successful!',
+            'user' => [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email']
+            ]
         ]);
+        exit;
     }
 
-    // Forgot Password Request
-    public function forgotPassword(): void {
+    // Get current logged-in user
+    public function me() {
         header('Content-Type: application/json');
-        $db = getDB();
-
-        $email = strtolower(trim($_POST['email'] ?? ''));
-
-        if (empty($email)) {
-            echo json_encode(['success' => false, 'message' => 'Email is required']);
-            return;
+        if (session_status() === PHP_SESSION_NONE) {
+            @session_start();
         }
-
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-
-        if (!$user) {
-            echo json_encode(['success' => false, 'message' => 'No account registered with this email']);
-            return;
+        if (isset($_SESSION['user_id'])) {
+            echo json_encode([
+                'logged_in' => true,
+                'user' => [
+                    'id' => $_SESSION['user_id'],
+                    'name' => $_SESSION['user_name'] ?? 'User',
+                    'email' => $_SESSION['user_email'] ?? ''
+                ]
+            ]);
+            exit;
         }
-
-        $otp = generateOTP();
-        $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-
-        $update = $db->prepare("UPDATE users SET otp_code = ?, otp_expires = ? WHERE id = ?");
-        $update->execute([$otp, $expires, $user['id']]);
-
-        sendOTPEmail($email, $otp, "Password Reset OTP - BRIO World School");
-
-        echo json_encode([
-            'success' => true,
-            'message' => 'Password reset OTP has been sent to your email (' . $email . ').',
-            'email' => $email,
-            'otp_demo' => $otp
-        ]);
-    }
-
-    // Reset Password with OTP
-    public function resetPassword(): void {
-        header('Content-Type: application/json');
-        $db = getDB();
-
-        $email = strtolower(trim($_POST['email'] ?? ''));
-        $otp = trim($_POST['otp_code'] ?? '');
-        $newPassword = $_POST['new_password'] ?? '';
-
-        if (empty($email) || empty($otp) || empty($newPassword)) {
-            echo json_encode(['success' => false, 'message' => 'Email, OTP, and new password are required']);
-            return;
-        }
-
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-
-        if (!$user) {
-            echo json_encode(['success' => false, 'message' => 'User account not found']);
-            return;
-        }
-
-        $sessionOTP = $_SESSION['latest_otp_' . $email]['code'] ?? null;
-        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp && $otp !== '123456') {
-            echo json_encode(['success' => false, 'message' => 'Invalid OTP code entered']);
-            return;
-        }
-
-        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-        $update = $db->prepare("UPDATE users SET password = ?, otp_code = NULL, otp_expires = NULL, is_verified = 1 WHERE id = ?");
-        $update->execute([$hashedPassword, $user['id']]);
-
-        echo json_encode([
-            'success' => true,
-            'message' => 'Password reset successfully! You can now login with your new password.'
-        ]);
-    }
-
-    // Get current session user
-    public function me(): void {
-        header('Content-Type: application/json');
-        if (isset($_SESSION['user'])) {
-            echo json_encode(['logged_in' => true, 'user' => $_SESSION['user']]);
-        } else {
-            echo json_encode(['logged_in' => false]);
-        }
+        echo json_encode(['logged_in' => false]);
+        exit;
     }
 
     // Logout
-    public function logout(): void {
+    public function logout() {
         header('Content-Type: application/json');
-        unset($_SESSION['user']);
+        if (session_status() === PHP_SESSION_NONE) {
+            @session_start();
+        }
+        session_destroy();
         echo json_encode(['success' => true, 'message' => 'Logged out successfully']);
+        exit;
     }
 }
