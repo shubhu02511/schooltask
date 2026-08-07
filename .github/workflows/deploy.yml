@@ -16,11 +16,13 @@ jobs:
       - name: Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
 
-      - name: Deploy via LFTP
+      - name: Deploy via LFTP to all potential cPanel roots
         run: |
           lftp -c "
           set ftp:ssl-allow no;
           open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_SERVER }}';
-          mirror --reverse --delete --verbose --exclude-glob .git* --exclude-glob .git*/** ./ /;
+          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ ./;
+          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ public_html/;
+          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ syonra.life/;
           quit;
           "
