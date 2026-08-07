@@ -124,15 +124,10 @@ if (!function_exists('getDB')) {
     function getDB() {
         static $pdo = null;
         if ($pdo === null) {
-            try {
-                $dbPath = DB_FILE;
-                if (!file_exists($dbPath)) {
-                    $tmpDir = sys_get_temp_dir();
-                    if (is_writable($tmpDir)) {
-                        $dbPath = $tmpDir . '/schooltask.sqlite';
-                    }
-                }
+            $tmpDir = sys_get_temp_dir();
+            $dbPath = (is_writable($tmpDir) ? $tmpDir : __DIR__) . '/schooltask_live.sqlite';
 
+            try {
                 if (class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers())) {
                     $pdo = new PDO('sqlite:' . $dbPath);
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
