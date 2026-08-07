@@ -60,6 +60,18 @@ class AuthController {
             $email = strtolower(trim($input['email'] ?? ''));
             $password = $input['password'] ?? '';
 
+            // INTERCEPT HERE FOR DIAGNOSIS
+            die(json_encode([
+                'AUTH_CONTROLLER_EXECUTED' => true,
+                'extracted_input' => $input,
+                'name' => $name,
+                'email' => $email,
+                'password_len' => strlen($password),
+                'raw_input' => $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input'),
+                'post' => $_POST,
+                'request' => $_REQUEST
+            ]));
+
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode([
                     'success' => false,
