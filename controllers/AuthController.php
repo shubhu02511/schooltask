@@ -55,8 +55,10 @@ class AuthController {
                 'email' => $email,
                 'otp_demo' => $otp
             ]);
+            exit;
         } catch (Throwable $t) {
             echo json_encode(['success' => false, 'message' => 'Server error: ' . $t->getMessage()]);
+            exit;
         }
     }
 
