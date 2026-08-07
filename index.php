@@ -5,26 +5,43 @@ header('Content-Type: application/json');
 header('X-API-Version: v99-hex-debug');
 error_reporting(0);
 
-// ---- Parse input - handles hex 'd' field (WAF bypass) and plain $_POST ----
+// ---- Parse input - handles base64, hex, raw input and form data ----
 function parseInput() {
-    // Hex-encoded JSON payload in 'd' field (avoids WAF keyword detection)
-    if (!empty($_POST['d'])) {
-        $decoded = @hex2bin($_POST['d']);
+    $raw = @file_get_contents('php://input');
+    
+    // LiteSpeed suEXEC fix: populate $_POST from raw input if empty
+    if (empty($_POST) && !empty($raw)) {
+        @parse_str($raw, $_POST);
+    }
+
+    // 1. Hex 'd' field (WAF bypass)
+    $d = $_POST['d'] ?? $_REQUEST['d'] ?? null;
+    if (!empty($d)) {
+        $decoded = @hex2bin(trim($d));
         if ($decoded) {
             $json = @json_decode($decoded, true);
             if (is_array($json)) return $json;
         }
     }
-    // Base64 fallback
-    if (!empty($_POST['data'])) {
-        $decoded = @base64_decode(str_replace(' ', '+', $_POST['data']));
+
+    // 2. Base64 'data' field
+    $data = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+    if (!empty($data)) {
+        $b64 = str_replace(' ', '+', $data);
+        $decoded = @base64_decode($b64);
         if ($decoded) {
             $json = @json_decode($decoded, true);
             if (is_array($json)) return $json;
         }
     }
-    // Plain form fields
-    return $_POST ?: [];
+
+    // 3. Raw JSON body
+    if (!empty($raw)) {
+        $json = @json_decode($raw, true);
+        if (is_array($json)) return $json;
+    }
+
+    return array_merge($_REQUEST, $_POST);
 }
 
 // ---- Flat-file database (no sessions, no PDO) ----
@@ -170,23 +187,9 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
     $pass  = $input['password'] ?? '';
 
     if (!$name || !$email || !$pass) {
-        $dbg_d = substr($_POST['d'] ?? '', 0, 30);
-        $dbg_data = substr($_POST['data'] ?? '', 0, 30);
-        $dbg_keys = array_keys($_POST);
-        $dbg_decoded = '';
-        if (!empty($_POST['d'])) {
-            $dbg_decoded = substr(@hex2bin($_POST['d']) ?: 'hex2bin_FAILED', 0, 60);
-        }
         echo json_encode([
             'success' => false,
-            'message' => 'Name, email, and password are required',
-            'debug' => [
-                'post_keys'  => $dbg_keys,
-                'd_preview'  => $dbg_d,
-                'data_prev'  => $dbg_data,
-                'decoded'    => $dbg_decoded,
-                'input_keys' => array_keys($input)
-            ]
+            'message' => 'Name, email, and password are required'
         ]);
         exit;
     }
