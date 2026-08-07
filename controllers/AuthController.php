@@ -35,7 +35,7 @@ class AuthController {
 
             $otp = generateOTP();
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = sha1($password . 'brio_salt_2026');
 
             if ($existing) {
                 // Update unverified user
