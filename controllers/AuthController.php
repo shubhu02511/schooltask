@@ -60,7 +60,11 @@ class AuthController {
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Name, email, and password are required'
+                    'message' => 'Name, email, and password are required',
+                    'dump' => $input,
+                    'post' => $_POST,
+                    'data_raw' => $_POST['data'] ?? null,
+                    'd_raw' => $_POST['d'] ?? null
                 ]);
                 exit;
             }
