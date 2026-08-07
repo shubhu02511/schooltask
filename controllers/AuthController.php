@@ -6,14 +6,15 @@ class AuthController {
     // Register user & send OTP
     public function register() {
         header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'step' => 1, 'post' => $_POST]);
-        exit;
         try {
             $db = getDB();
 
-            $name = trim($_POST['name'] ?? '');
-            $email = strtolower(trim($_POST['email'] ?? ''));
-            $password = $_POST['password'] ?? '';
+            $rawInput = @file_get_contents('php://input');
+            $json = @json_decode($rawInput, true) ?: [];
+
+            $name = trim($_POST['name'] ?? $json['name'] ?? '');
+            $email = strtolower(trim($_POST['email'] ?? $json['email'] ?? ''));
+            $password = $_POST['password'] ?? $json['password'] ?? '';
 
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
@@ -71,8 +72,11 @@ class AuthController {
         header('Content-Type: application/json');
         $db = getDB();
 
-        $email = strtolower(trim($_POST['email'] ?? ''));
-        $otp = trim($_POST['otp_code'] ?? '');
+        $rawInput = @file_get_contents('php://input');
+        $json = @json_decode($rawInput, true) ?: [];
+
+        $email = strtolower(trim($_POST['email'] ?? $json['email'] ?? ''));
+        $otp = trim($_POST['otp_code'] ?? $json['otp_code'] ?? '');
 
         if (empty($email) || empty($otp)) {
             echo json_encode(['success' => false, 'message' => 'Email and OTP code are required']);
@@ -118,8 +122,11 @@ class AuthController {
         header('Content-Type: application/json');
         $db = getDB();
 
-        $email = strtolower(trim($_POST['email'] ?? ''));
-        $password = $_POST['password'] ?? '';
+        $rawInput = @file_get_contents('php://input');
+        $json = @json_decode($rawInput, true) ?: [];
+
+        $email = strtolower(trim($_POST['email'] ?? $json['email'] ?? ''));
+        $password = $_POST['password'] ?? $json['password'] ?? '';
 
         if (empty($email) || empty($password)) {
             echo json_encode(['success' => false, 'message' => 'Email and password are required']);

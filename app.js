@@ -1132,7 +1132,12 @@ function initAuthSystem() {
       const formData = new FormData(registerForm);
 
       try {
-        const res = await fetch('/api/auth/register', { method: 'POST', body: formData });
+        const payload = Object.fromEntries(formData);
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
         const data = await res.json();
 
         if (data.success) {
@@ -1184,7 +1189,12 @@ function initAuthSystem() {
       const formData = new FormData(otpForm);
 
       try {
-        const res = await fetch('/api/auth/verify-otp', { method: 'POST', body: formData });
+        const payload = Object.fromEntries(formData);
+        const res = await fetch('/api/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
         const data = await res.json();
 
         if (data.success) {
@@ -1216,7 +1226,12 @@ function initAuthSystem() {
       const formData = new FormData(loginForm);
 
       try {
-        const res = await fetch('/api/auth/login', { method: 'POST', body: formData });
+        const payload = Object.fromEntries(formData);
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
         const data = await res.json();
 
         if (data.success) {
@@ -1258,7 +1273,12 @@ function initAuthSystem() {
       const formData = new FormData(forgotForm);
 
       try {
-        const res = await fetch('/api/auth/forgot-password', { method: 'POST', body: formData });
+        const payload = Object.fromEntries(formData);
+        const res = await fetch('/api/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
         const data = await res.json();
 
         if (data.success) {
