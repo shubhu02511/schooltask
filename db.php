@@ -3,10 +3,11 @@
 require_once __DIR__ . '/config.php';
 
 class JsonDBWrapper {
-    private string $storageFile;
+    private $storageFile;
 
     public function __construct() {
-        $this->storageFile = __DIR__ . '/json_db_store.json';
+        $tmpDir = sys_get_temp_dir();
+        $this->storageFile = (is_writable($tmpDir) ? $tmpDir : __DIR__) . '/json_db_store.json';
         if (!file_exists($this->storageFile)) {
             @file_put_contents($this->storageFile, json_encode(['users' => [], 'career' => []]));
         }
@@ -22,9 +23,9 @@ class JsonDBWrapper {
 }
 
 class JsonDBStatement {
-    private string $storageFile;
-    private string $sql;
-    private array $data = [];
+    private $storageFile;
+    private $sql;
+    private $data = [];
 
     public function __construct($storageFile, $sql) {
         $this->storageFile = $storageFile;
@@ -119,43 +120,51 @@ function getDB() {
     static $pdo = null;
     if ($pdo === null) {
         try {
-            if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
-                return new JsonDBWrapper();
+            $dbPath = DB_FILE;
+            if (!file_exists($dbPath)) {
+                $tmpDir = sys_get_temp_dir();
+                if (is_writable($tmpDir)) {
+                    $dbPath = $tmpDir . '/schooltask.sqlite';
+                }
             }
 
-            $pdo = new PDO('sqlite:' . DB_FILE);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            if (class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers())) {
+                $pdo = new PDO('sqlite:' . $dbPath);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-            // Create users table
-            $pdo->exec("CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL,
-                otp_code TEXT,
-                otp_expires DATETIME,
-                is_verified INTEGER DEFAULT 0,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )");
+                // Create users table
+                $pdo->exec("CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    otp_code TEXT,
+                    otp_expires DATETIME,
+                    is_verified INTEGER DEFAULT 0,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )");
 
-            // Create career applications table
-            $pdo->exec("CREATE TABLE IF NOT EXISTS career_applications (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER DEFAULT 0,
-                full_name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT NOT NULL,
-                experience INTEGER NOT NULL,
-                job_title TEXT NOT NULL,
-                message TEXT,
-                resume_path TEXT NOT NULL,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )");
+                // Create career applications table
+                $pdo->exec("CREATE TABLE IF NOT EXISTS career_applications (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER DEFAULT 0,
+                    full_name TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    phone TEXT NOT NULL,
+                    experience INTEGER NOT NULL,
+                    job_title TEXT NOT NULL,
+                    message TEXT,
+                    resume_path TEXT NOT NULL,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )");
 
+                return $pdo;
+            }
         } catch (Throwable $e) {
-            return new JsonDBWrapper();
+            // Fall back to JsonDBWrapper
         }
+        $pdo = new JsonDBWrapper();
     }
     return $pdo;
 }
