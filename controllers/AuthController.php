@@ -24,7 +24,7 @@ class AuthController {
                 $dataRaw = $parsedParams['data'] ?? null;
             }
             if ($dataRaw) {
-                $decoded = @json_decode(base64_decode($dataRaw), true);
+                $decoded = @json_decode(base64_decode(urldecode($dataRaw)), true);
                 if (is_array($decoded)) {
                     $json = array_merge($json, $decoded);
                 }
@@ -68,8 +68,6 @@ class AuthController {
                 $insert->execute([$name, $email, $hashedPassword, $otp, $expires]);
             }
 
-            echo json_encode(['success' => true, 'message' => 'DB EXECUTION PASSED!']);
-            exit;
             sendOTPEmail($email, $otp);
 
             echo json_encode([
