@@ -6,8 +6,6 @@ class AuthController {
     // Register user & send OTP
     public function register() {
         header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => 'STEP 1 OK']);
-        exit;
         try {
             $db = getDB();
 
@@ -15,6 +13,14 @@ class AuthController {
             $json = @json_decode($rawInput, true);
             if (!is_array($json)) {
                 $json = [];
+            }
+
+            // Decode base64 payload if WAF bypass payload is present
+            if (!empty($_POST['data'])) {
+                $decoded = @json_decode(base64_decode($_POST['data']), true);
+                if (is_array($decoded)) {
+                    $json = array_merge($json, $decoded);
+                }
             }
 
             $name = trim(!empty($json['name']) ? $json['name'] : ($_POST['name'] ?? $_REQUEST['name'] ?? ''));

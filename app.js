@@ -1133,10 +1133,11 @@ function initAuthSystem() {
 
       try {
         const payload = Object.fromEntries(formData);
+        const b64Data = btoa(JSON.stringify(payload));
         const res = await fetch('/api/auth/register', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ data: b64Data })
         });
         const data = await res.json();
 
