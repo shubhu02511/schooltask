@@ -55,9 +55,18 @@ class AuthController {
             $password = $input['password'] ?? '';
 
             if (empty($name) || empty($email) || empty($password)) {
+                $raw = @file_get_contents('php://input');
+                $dPost = $_POST['d'] ?? 'NOT_SET';
+                $dReq = $_REQUEST['d'] ?? 'NOT_SET';
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Name, email, and password are required'
+                    'message' => 'Name, email, and password are required',
+                    'debug_extracted' => $input,
+                    'debug_post_keys' => array_keys($_POST),
+                    'debug_req_keys' => array_keys($_REQUEST),
+                    'debug_d_post' => substr($dPost, 0, 40),
+                    'debug_raw_len' => strlen($raw),
+                    'debug_raw_preview' => substr($raw, 0, 60)
                 ]);
                 exit;
             }
