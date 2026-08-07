@@ -8,14 +8,16 @@ error_reporting(0);
 // ---- Parse input - handles base64, hex, raw input and form data ----
 function parseInput() {
     $raw = @file_get_contents('php://input');
-    
-    // LiteSpeed suEXEC fix: populate $_POST from raw input if empty
-    if (empty($_POST) && !empty($raw)) {
-        @parse_str($raw, $_POST);
+    $inputData = [];
+
+    if (!empty($raw)) {
+        @parse_str($raw, $inputData);
     }
 
+    $allPost = array_merge($_POST ?? [], $inputData);
+
     // 1. Hex 'd' field (WAF bypass)
-    $d = $_POST['d'] ?? $_REQUEST['d'] ?? null;
+    $d = $allPost['d'] ?? $_REQUEST['d'] ?? null;
     if (!empty($d)) {
         $decoded = @hex2bin(trim($d));
         if ($decoded) {
@@ -25,7 +27,7 @@ function parseInput() {
     }
 
     // 2. Base64 'data' field
-    $data = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+    $data = $allPost['data'] ?? $_REQUEST['data'] ?? null;
     if (!empty($data)) {
         $b64 = str_replace(' ', '+', $data);
         $decoded = @base64_decode($b64);
@@ -41,7 +43,7 @@ function parseInput() {
         if (is_array($json)) return $json;
     }
 
-    return array_merge($_REQUEST, $_POST);
+    return array_merge($_REQUEST, $allPost);
 }
 
 // ---- Flat-file database (no sessions, no PDO) ----
