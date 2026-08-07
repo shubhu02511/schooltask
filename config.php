@@ -1,14 +1,16 @@
 <?php
 // Configuration settings
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 define('DB_FILE', __DIR__ . '/schooltask.sqlite');
 
-// SMTP settings configuration
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_PORT', 587);
-define('SMTP_USER', 'admissions@brioworldschool.edu.in');
-define('SMTP_PASS', 'your_smtp_app_password');
+// SMTP settings configuration for cPanel noreply@syonra.life
+define('SMTP_HOST', 'mail.syonra.life');
+define('SMTP_PORT', 465);
+define('SMTP_USER', 'noreply@syonra.life');
+define('SMTP_PASS', '775299@Ss');
 define('SMTP_FROM_NAME', 'BRIO World School Admissions');
 
 // Enable error reporting
