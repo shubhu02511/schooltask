@@ -1,5 +1,18 @@
 DirectoryIndex index.html
 
+# Disable LiteSpeed LSCache for all requests
+<IfModule LiteSpeed>
+    CacheLookup off
+    CacheDisable public /
+    CacheDisable private /
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</IfModule>
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
