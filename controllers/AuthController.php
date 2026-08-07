@@ -28,16 +28,16 @@ class AuthController {
             $stmt->execute([$email]);
             $existing = $stmt->fetch();
 
-            if ($existing && isset($existing['is_verified']) && $existing['is_verified'] == 1) {
+            if (is_array($existing) && !empty($existing['is_verified']) && $existing['is_verified'] == 1) {
                 echo json_encode(['success' => false, 'message' => 'Account already exists. Please login.']);
-                return;
+                exit;
             }
 
             $otp = generateOTP();
             $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
             $hashedPassword = sha1($password . 'brio_salt_2026');
 
-            if ($existing) {
+            if (is_array($existing)) {
                 // Update unverified user
                 $update = $db->prepare("UPDATE users SET name = ?, password = ?, otp_code = ?, otp_expires = ? WHERE email = ?");
                 $update->execute([$name, $hashedPassword, $otp, $expires, $email]);
