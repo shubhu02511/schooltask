@@ -9,7 +9,6 @@ class JsonDBWrapper {
         $this->storageFile = __DIR__ . '/json_db_store.json';
         if (!file_exists($this->storageFile)) {
             @file_put_contents($this->storageFile, json_encode(['users' => [], 'career' => []]));
-            @chmod($this->storageFile, 0666);
         }
     }
 
@@ -119,20 +118,12 @@ class JsonDBStatement {
 function getDB() {
     static $pdo = null;
     if ($pdo === null) {
-        if (!extension_loaded('pdo') || !in_array('sqlite', PDO::getAvailableDrivers())) {
-            return new JsonDBWrapper();
-        }
-
         try {
-            $dbFile = DB_FILE;
-            if (file_exists($dbFile)) {
-                @chmod($dbFile, 0666);
-            } else {
-                @touch($dbFile);
-                @chmod($dbFile, 0666);
+            if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
+                return new JsonDBWrapper();
             }
-            
-            $pdo = new PDO('sqlite:' . $dbFile);
+
+            $pdo = new PDO('sqlite:' . DB_FILE);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
@@ -162,7 +153,7 @@ function getDB() {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )");
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return new JsonDBWrapper();
         }
     }
