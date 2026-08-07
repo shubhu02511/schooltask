@@ -1,25 +1,8 @@
 DirectoryIndex index.html
 
-# Disable LiteSpeed LSCache for dynamic requests
-<IfModule LiteSpeed>
-    CacheLookup off
-    CacheDisable public /
-    CacheDisable private /
-</IfModule>
-
-<IfModule mod_headers.c>
-    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
-    Header set Pragma "no-cache"
-    Header set Expires "0"
-</IfModule>
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-
-    # Force HTTPS Redirect
-    RewriteCond %{HTTPS} off
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # Never rewrite requests to actual PHP files
     RewriteCond %{REQUEST_FILENAME} -f
