@@ -28,4 +28,9 @@ $router->post('/api/career/apply', [CareerController::class, 'apply']);
 $router->get('/api/career/applications', [CareerController::class, 'listApplications']);
 
 // Dispatch Incoming Request
-$router->dispatch();
+try {
+    $router->dispatch();
+} catch (Throwable $t) {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Router exception: ' . $t->getMessage() . ' in ' . $t->getFile() . ':' . $t->getLine()]);
+}
