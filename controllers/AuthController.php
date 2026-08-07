@@ -15,7 +15,7 @@ if (file_exists(dirname(__DIR__) . '/mail_helper.php')) {
 class AuthController {
     
     // Register user & send OTP
-    public function register(): void {
+    public function register() {
         header('Content-Type: application/json');
         try {
             $db = getDB();
@@ -72,7 +72,7 @@ class AuthController {
     }
 
     // Verify Email OTP
-    public function verifyOTP(): void {
+    public function verifyOTP() {
         header('Content-Type: application/json');
         $db = getDB();
 
@@ -119,7 +119,7 @@ class AuthController {
     }
 
     // Login user
-    public function login(): void {
+    public function login() {
         header('Content-Type: application/json');
         $db = getDB();
 
