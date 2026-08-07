@@ -35,10 +35,8 @@ function sendOTPEmail($toEmail, $otpCode, $subject = "Your BRIO World School Ver
         </div>
         ";
 
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $headers .= "From: " . SMTP_FROM_NAME . " <" . SMTP_USER . ">\r\n";
-        $headers .= "Reply-To: " . SMTP_USER . "\r\n";
+        $fromEmail = defined('SMTP_USER') ? SMTP_USER : 'noreply@syonra.life';
+        $headers = "From: {$fromEmail}\r\nReply-To: {$fromEmail}\r\nContent-Type: text/html; charset=UTF-8";
 
         @mail($cleanEmail, $subject, $htmlBody, $headers);
     } catch (Throwable $e) {
