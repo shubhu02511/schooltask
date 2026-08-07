@@ -5,6 +5,28 @@ header('Content-Type: application/json');
 header('X-API-Version: v99-hex-debug');
 error_reporting(0);
 
+$rawInput = @file_get_contents('php://input');
+$rawParsed = [];
+if (!empty($rawInput)) { @parse_str($rawInput, $rawParsed); }
+$allIn = array_merge($_REQUEST, $_POST, $rawParsed);
+if (!empty($allIn['data'])) {
+    $b64Dec = @json_decode(base64_decode(str_replace(' ', '+', $allIn['data'])), true);
+    if (is_array($b64Dec)) { $allIn = array_merge($allIn, $b64Dec); }
+}
+if (!empty($allIn['d'])) {
+    $hexDec = @json_decode(@hex2bin(trim($allIn['d'])), true);
+    if (is_array($hexDec)) { $allIn = array_merge($allIn, $hexDec); }
+}
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' || !empty($rawInput) || !empty($_POST)) {
+    die(json_encode([
+        'INTERCEPTED_AT_INDEX_TOP' => true,
+        'all_in' => $allIn,
+        'raw_input' => $rawInput,
+        'post' => $_POST,
+        'request' => $_REQUEST
+    ]));
+}
+
 // ---- Parse input - handles base64, hex, raw input and form data ----
 function parseInput() {
     $raw = @file_get_contents('php://input');
