@@ -75,7 +75,7 @@ class AuthController {
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Name, email, and password are required'
+                    'message' => 'V2026_FIELD_VALIDATION_MISSING'
                 ]);
                 exit;
             }

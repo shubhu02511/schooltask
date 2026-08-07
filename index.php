@@ -219,7 +219,7 @@ if ($method === 'POST' && ($uri === '/api/auth/register' || $uri === '/auth/regi
     if (!$name || !$email || !$pass) {
         echo json_encode([
             'success' => false,
-            'message' => 'Name, email, and password are required',
+            'message' => 'V2026_FIELD_VALIDATION_MISSING'
             'matched_uri' => $uri,
             'raw_uri' => $_SERVER['REQUEST_URI'] ?? 'NONE',
             'parsed_input' => $input
