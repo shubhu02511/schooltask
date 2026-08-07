@@ -13,6 +13,6 @@ define('SMTP_USER', 'noreply@syonra.life');
 define('SMTP_PASS', '775299@Ss');
 define('SMTP_FROM_NAME', 'BRIO World School Admissions');
 
-// Enable error reporting for diagnosis
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Disable display errors for production LiteSpeed compatibility
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+ini_set('display_errors', 0);
