@@ -8,9 +8,16 @@ class AuthController {
 
     private static function extractInput() {
         $data = [];
+        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
+        $rawParams = [];
+        if (!empty($rawInput)) {
+            @parse_str($rawInput, $rawParams);
+        }
+
+        $mergedPost = array_merge($_REQUEST, $_POST, $rawParams);
 
         // 1. Try Hex 'd' field (WAF bypass)
-        $hex = $_POST['d'] ?? $_REQUEST['d'] ?? null;
+        $hex = $mergedPost['d'] ?? null;
         if (!empty($hex)) {
             $decoded = @hex2bin(trim($hex));
             if ($decoded) {
@@ -20,7 +27,7 @@ class AuthController {
         }
 
         // 2. Try Base64 'data' field
-        $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+        $dataRaw = $mergedPost['data'] ?? null;
         if (!empty($dataRaw)) {
             $b64Fixed = str_replace(' ', '+', $dataRaw);
             $parsed = @json_decode(@base64_decode($b64Fixed), true);
@@ -31,19 +38,15 @@ class AuthController {
         }
 
         // 3. Try raw input JSON
-        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
         if (!empty($rawInput)) {
             $parsed = @json_decode($rawInput, true);
             if (is_array($parsed)) {
                 $data = array_merge($data, $parsed);
-            } else {
-                @parse_str($rawInput, $parsedStr);
-                if (is_array($parsedStr)) $data = array_merge($data, $parsedStr);
             }
         }
 
-        // 4. Merge $_POST and $_REQUEST
-        return array_merge($_REQUEST, $_POST, $data);
+        // 4. Merge all sources
+        return array_merge($mergedPost, $data);
     }
 
     // Register user & send OTP
@@ -60,11 +63,7 @@ class AuthController {
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Name, email, and password are required',
-                    'dump' => $input,
-                    'post' => $_POST,
-                    'data_raw' => $_POST['data'] ?? null,
-                    'd_raw' => $_POST['d'] ?? null
+                    'message' => 'Name, email, and password are required'
                 ]);
                 exit;
             }

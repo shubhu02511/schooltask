@@ -161,7 +161,10 @@ function sendSMTP($to, $otp) {
 }
 
 // ---- Router ----
-$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
+if (!empty($_POST) || !empty($GLOBALS['RAW_INPUT']) || !empty($_SERVER['CONTENT_LENGTH'])) {
+    $method = 'POST';
+}
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $uri = preg_replace('#^/index\.php#i', '', $uri);
 if (strpos($uri, '/api') !== 0) {
