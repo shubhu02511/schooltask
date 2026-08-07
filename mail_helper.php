@@ -41,7 +41,9 @@ if (!function_exists('sendOTPEmail')) {
             $fromEmail = defined('SMTP_USER') ? SMTP_USER : 'noreply@syonra.life';
             $headers = "From: {$fromEmail}\r\nReply-To: {$fromEmail}\r\nContent-Type: text/html; charset=UTF-8";
 
-            @mail($cleanEmail, $subject, $htmlBody, $headers);
+            if (function_exists('mail')) {
+                @mail($cleanEmail, $subject, $htmlBody, $headers);
+            }
         } catch (Throwable $e) {
             // Fallback safety
         }
