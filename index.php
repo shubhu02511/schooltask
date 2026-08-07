@@ -16,6 +16,7 @@ require_once __DIR__ . '/controllers/CareerController.php';
 $router = new Router();
 
 // Auth System Routes
+$router->post('/api/auth/test-post', function() { header('Content-Type: application/json'); echo json_encode(['success' => true, 'message' => 'POST WORKS!']); });
 $router->post('/api/auth/register', [AuthController::class, 'register']);
 $router->post('/api/auth/verify-otp', [AuthController::class, 'verifyOTP']);
 $router->post('/api/auth/login', [AuthController::class, 'login']);
