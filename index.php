@@ -191,7 +191,10 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
     if (!$name || !$email || !$pass) {
         echo json_encode([
             'success' => false,
-            'message' => 'Name, email, and password are required'
+            'message' => 'Name, email, and password are required',
+            'parsed_input' => $input,
+            'raw_post' => $_POST,
+            'raw_stream' => substr(@file_get_contents('php://input'), 0, 100)
         ]);
         exit;
     }
