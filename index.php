@@ -180,11 +180,11 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
         'verified' => false
     ]);
 
-    sendSMTP($email, $otp);
+    // sendSMTP($email, $otp); // DISABLED: testing without SMTP
 
     echo json_encode([
         'success'  => true,
-        'message'  => 'OTP sent to ' . $email . '. Please verify.',
+        'message'  => 'OTP generated for ' . $email . '. Please verify.',
         'email'    => $email,
         'otp_demo' => $otp
     ]);
