@@ -5,8 +5,17 @@
 header('Content-Type: application/json');
 error_reporting(0);
 
-// ---- Parse input - $_POST only, no php://input ----
+// ---- Parse input - handles base64 'data' field (WAF bypass) and plain $_POST ----
 function parseInput() {
+    // If sender encoded payload as base64 in 'data' field
+    if (!empty($_POST['data'])) {
+        $decoded = @base64_decode($_POST['data']);
+        if ($decoded) {
+            $json = @json_decode($decoded, true);
+            if (is_array($json)) return $json;
+        }
+    }
+    // Plain form fields
     return $_POST ?: [];
 }
 
@@ -156,17 +165,6 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
         echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
         exit;
     }
-
-    // STRIPPED DOWN TEST - no file ops, no SMTP
-    $otp = strval(rand(100000, 999999));
-    echo json_encode([
-        'success'  => true,
-        'message'  => 'TEST OK - got name=' . $name . ' email=' . $email,
-        'otp_demo' => $otp
-    ]);
-    exit;
-
-    // BELOW DISABLED FOR TEST
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo json_encode(['success' => false, 'message' => 'Invalid email format']);
         exit;
@@ -185,17 +183,17 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
     dbSave($email, [
         'name'     => $name,
         'email'    => $email,
-        'password' => $hash,
+        'pw_hash'  => $hash,
         'otp'      => $otp,
         'expires'  => $expires,
         'verified' => false
     ]);
 
-    // sendSMTP($email, $otp); // DISABLED: testing without SMTP
+    sendSMTP($email, $otp);
 
     echo json_encode([
         'success'  => true,
-        'message'  => 'OTP generated for ' . $email . '. Please verify.',
+        'message'  => 'OTP sent to ' . $email . '. Please check your inbox.',
         'email'    => $email,
         'otp_demo' => $otp
     ]);
