@@ -12,7 +12,7 @@ class AuthController {
         // 1. Try Hex 'd' field (WAF bypass)
         $hex = $_POST['d'] ?? $_REQUEST['d'] ?? null;
         if (!empty($hex)) {
-            $decoded = @hex2bin($hex);
+            $decoded = @hex2bin(trim($hex));
             if ($decoded) {
                 $parsed = @json_decode($decoded, true);
                 if (is_array($parsed)) $data = array_merge($data, $parsed);
@@ -22,13 +22,16 @@ class AuthController {
         // 2. Try Base64 'data' field
         $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
         if (!empty($dataRaw)) {
-            $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
-            $parsed = @json_decode(@base64_decode($cleanB64), true);
+            $b64Fixed = str_replace(' ', '+', $dataRaw);
+            $parsed = @json_decode(@base64_decode($b64Fixed), true);
+            if (!is_array($parsed)) {
+                $parsed = @json_decode(@base64_decode(urldecode($dataRaw)), true);
+            }
             if (is_array($parsed)) $data = array_merge($data, $parsed);
         }
 
         // 3. Try raw input JSON
-        $rawInput = $GLOBALS['RAW_INPUT'] ?? '';
+        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
         if (!empty($rawInput)) {
             $parsed = @json_decode($rawInput, true);
             if (is_array($parsed)) {
@@ -55,18 +58,9 @@ class AuthController {
             $password = $input['password'] ?? '';
 
             if (empty($name) || empty($email) || empty($password)) {
-                $raw = @file_get_contents('php://input');
-                $dPost = $_POST['d'] ?? 'NOT_SET';
-                $dReq = $_REQUEST['d'] ?? 'NOT_SET';
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Name, email, and password are required',
-                    'debug_extracted' => $input,
-                    'debug_post_keys' => array_keys($_POST),
-                    'debug_req_keys' => array_keys($_REQUEST),
-                    'debug_d_post' => substr($dPost, 0, 40),
-                    'debug_raw_len' => strlen($raw),
-                    'debug_raw_preview' => substr($raw, 0, 60)
+                    'message' => 'Name, email, and password are required'
                 ]);
                 exit;
             }
