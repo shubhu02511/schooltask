@@ -36,7 +36,17 @@ if (!class_exists('JsonDBStatement')) {
         }
 
         public function execute($params = []) {
-            $store = json_decode(@file_get_contents($this->storageFile), true) ?: ['users' => [], 'career' => []];
+            $rawContent = @file_get_contents($this->storageFile);
+            $store = @json_decode($rawContent, true);
+            if (!is_array($store)) {
+                $store = ['users' => [], 'career' => []];
+            }
+            if (!isset($store['users']) || !is_array($store['users'])) {
+                $store['users'] = [];
+            }
+            if (!isset($store['career']) || !is_array($store['career'])) {
+                $store['career'] = [];
+            }
 
             if (stripos($this->sql, 'SELECT * FROM users WHERE email') !== false) {
                 $email = strtolower($params[0] ?? '');
