@@ -164,6 +164,9 @@ function sendSMTP($to, $otp) {
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $uri = preg_replace('#^/index\.php#i', '', $uri);
+if (strpos($uri, '/api') !== 0) {
+    $uri = '/api' . (strpos($uri, '/') === 0 ? '' : '/') . $uri;
+}
 $uri = rtrim($uri, '/') ?: '/';
 
 // ---- Route: GET /api/auth/me ----
