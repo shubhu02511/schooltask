@@ -35,8 +35,8 @@ class AuthController {
             $password = !empty($json['password']) ? $json['password'] : ($_POST['password'] ?? $_REQUEST['password'] ?? '');
 
             if (empty($name) || empty($email) || empty($password)) {
-                echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
-                return;
+                echo json_encode(['success' => false, 'message' => 'Name, email, and password are required', 'debug' => ['dataRaw' => $dataRaw, 'decoded' => $decoded ?? null, 'json' => $json]]);
+                exit;
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
