@@ -1,8 +1,10 @@
 <?php
-// Serve static assets directly if file exists
-$filePath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-if ($filePath !== '/' && file_exists(__DIR__ . $filePath) && !is_dir(__DIR__ . $filePath)) {
-    return false;
+// Serve static assets directly only under CLI dev server
+if (php_sapi_name() === 'cli-server') {
+    $filePath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    if ($filePath !== '/' && file_exists(__DIR__ . $filePath) && !is_dir(__DIR__ . $filePath)) {
+        return false;
+    }
 }
 
 require_once __DIR__ . '/config.php';
