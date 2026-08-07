@@ -185,7 +185,7 @@ if ($method === 'GET' && $uri === '/api/auth/me') {
 }
 
 // ---- Route: POST /api/auth/register ----
-if ($method === 'POST' && $uri === '/api/auth/register') {
+if ($method === 'POST' && ($uri === '/api/auth/register' || $uri === '/auth/register' || str_contains($uri, 'register'))) {
     $input = parseInput();
     $name  = trim($input['name'] ?? '');
     $email = strtolower(trim($input['email'] ?? ''));
@@ -195,9 +195,9 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
         echo json_encode([
             'success' => false,
             'message' => 'Name, email, and password are required',
-            'parsed_input' => $input,
-            'raw_post' => $_POST,
-            'raw_stream' => substr(@file_get_contents('php://input'), 0, 100)
+            'matched_uri' => $uri,
+            'raw_uri' => $_SERVER['REQUEST_URI'] ?? 'NONE',
+            'parsed_input' => $input
         ]);
         exit;
     }
