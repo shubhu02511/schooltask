@@ -170,7 +170,24 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
     $pass  = $input['password'] ?? '';
 
     if (!$name || !$email || !$pass) {
-        echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
+        $dbg_d = substr($_POST['d'] ?? '', 0, 30);
+        $dbg_data = substr($_POST['data'] ?? '', 0, 30);
+        $dbg_keys = array_keys($_POST);
+        $dbg_decoded = '';
+        if (!empty($_POST['d'])) {
+            $dbg_decoded = substr(@hex2bin($_POST['d']) ?: 'hex2bin_FAILED', 0, 60);
+        }
+        echo json_encode([
+            'success' => false,
+            'message' => 'Name, email, and password are required',
+            'debug' => [
+                'post_keys'  => $dbg_keys,
+                'd_preview'  => $dbg_d,
+                'data_prev'  => $dbg_data,
+                'decoded'    => $dbg_decoded,
+                'input_keys' => array_keys($input)
+            ]
+        ]);
         exit;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
