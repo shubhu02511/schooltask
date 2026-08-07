@@ -31,7 +31,8 @@ class Router {
         }
 
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestMethod && $route['path'] === $requestUri) {
+            $isPostPayload = ($route['method'] === 'POST' && (!empty($_POST) || !empty(file_get_contents('php://input'))));
+            if (($route['method'] === $requestMethod || $isPostPayload) && $route['path'] === $requestUri) {
                 $handler = $route['handler'];
                 if (is_array($handler)) {
                     try {
