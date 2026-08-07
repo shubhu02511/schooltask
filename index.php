@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['RAW_INPUT'] = @file_get_contents('php://input');
 header('Content-Type: application/json');
 try {
     // Serve static assets directly only under CLI dev server

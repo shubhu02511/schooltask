@@ -9,7 +9,7 @@ class AuthController {
         try {
             $db = getDB();
 
-            $rawInput = @file_get_contents('php://input');
+            $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
             $json = @json_decode($rawInput, true);
             if (!is_array($json)) {
                 $json = [];
