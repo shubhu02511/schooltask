@@ -6,8 +6,6 @@ class AuthController {
     // Register user & send OTP
     public function register() {
         header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => 'REGISTER METHOD REACHED!']);
-        exit;
         try {
             $db = getDB();
 
