@@ -156,6 +156,17 @@ if ($method === 'POST' && $uri === '/api/auth/register') {
         echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
         exit;
     }
+
+    // STRIPPED DOWN TEST - no file ops, no SMTP
+    $otp = strval(rand(100000, 999999));
+    echo json_encode([
+        'success'  => true,
+        'message'  => 'TEST OK - got name=' . $name . ' email=' . $email,
+        'otp_demo' => $otp
+    ]);
+    exit;
+
+    // BELOW DISABLED FOR TEST
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo json_encode(['success' => false, 'message' => 'Invalid email format']);
         exit;
