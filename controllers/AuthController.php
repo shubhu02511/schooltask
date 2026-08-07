@@ -6,49 +6,58 @@ require_once __DIR__ . '/../mail_helper.php';
 
 class AuthController {
 
+    private static function extractInput() {
+        $data = [];
+
+        // 1. Try Hex 'd' field (WAF bypass)
+        $hex = $_POST['d'] ?? $_REQUEST['d'] ?? null;
+        if (!empty($hex)) {
+            $decoded = @hex2bin($hex);
+            if ($decoded) {
+                $parsed = @json_decode($decoded, true);
+                if (is_array($parsed)) $data = array_merge($data, $parsed);
+            }
+        }
+
+        // 2. Try Base64 'data' field
+        $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+        if (!empty($dataRaw)) {
+            $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
+            $parsed = @json_decode(@base64_decode($cleanB64), true);
+            if (is_array($parsed)) $data = array_merge($data, $parsed);
+        }
+
+        // 3. Try raw input JSON
+        $rawInput = $GLOBALS['RAW_INPUT'] ?? '';
+        if (!empty($rawInput)) {
+            $parsed = @json_decode($rawInput, true);
+            if (is_array($parsed)) {
+                $data = array_merge($data, $parsed);
+            } else {
+                @parse_str($rawInput, $parsedStr);
+                if (is_array($parsedStr)) $data = array_merge($data, $parsedStr);
+            }
+        }
+
+        // 4. Merge $_POST and $_REQUEST
+        return array_merge($_REQUEST, $_POST, $data);
+    }
+
     // Register user & send OTP
     public function register() {
         header('Content-Type: application/json');
         try {
             $db = getDB();
+            $input = self::extractInput();
 
-            $rawInput = !empty($GLOBALS['RAW_INPUT']) ? $GLOBALS['RAW_INPUT'] : @file_get_contents('php://input');
-            $json = [];
-
-            // 1. Try decoding raw JSON body
-            if (!empty($rawInput)) {
-                $decodedJson = @json_decode($rawInput, true);
-                if (is_array($decodedJson)) {
-                    $json = array_merge($json, $decodedJson);
-                }
-            }
-
-            // 2. Try decoding base64 data field
-            $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
-            if (empty($dataRaw) && !empty($rawInput)) {
-                parse_str($rawInput, $parsedParams);
-                $dataRaw = $parsedParams['data'] ?? null;
-            }
-            if (!empty($dataRaw)) {
-                $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
-                $decodedB64 = @json_decode(base64_decode($cleanB64), true);
-                if (is_array($decodedB64)) {
-                    $json = array_merge($json, $decodedB64);
-                }
-            }
-
-            // 3. Fallback to $_POST and $_REQUEST
-            $name = trim($json['name'] ?? $_POST['name'] ?? $_REQUEST['name'] ?? '');
-            $email = strtolower(trim($json['email'] ?? $_POST['email'] ?? $_REQUEST['email'] ?? ''));
-            $password = $json['password'] ?? $_POST['password'] ?? $_REQUEST['password'] ?? '';
+            $name = trim($input['name'] ?? '');
+            $email = strtolower(trim($input['email'] ?? ''));
+            $password = $input['password'] ?? '';
 
             if (empty($name) || empty($email) || empty($password)) {
                 echo json_encode([
                     'success' => false,
-                    'message' => 'Name, email, and password are required',
-                    'debug_raw' => $rawInput,
-                    'debug_post' => $_POST,
-                    'debug_req' => $_REQUEST
+                    'message' => 'Name, email, and password are required'
                 ]);
                 exit;
             }
@@ -102,29 +111,9 @@ class AuthController {
         header('Content-Type: application/json');
         $db = getDB();
 
-        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
-        $json = [];
-        if (!empty($rawInput)) {
-            $decodedJson = @json_decode($rawInput, true);
-            if (is_array($decodedJson)) {
-                $json = array_merge($json, $decodedJson);
-            }
-        }
-        $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
-        if (empty($dataRaw) && !empty($rawInput)) {
-            parse_str($rawInput, $parsedParams);
-            $dataRaw = $parsedParams['data'] ?? null;
-        }
-        if (!empty($dataRaw)) {
-            $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
-            $decodedB64 = @json_decode(base64_decode($cleanB64), true);
-            if (is_array($decodedB64)) {
-                $json = array_merge($json, $decodedB64);
-            }
-        }
-
-        $email = strtolower(trim($json['email'] ?? $_POST['email'] ?? $_REQUEST['email'] ?? ''));
-        $otp = trim($json['otp_code'] ?? $_POST['otp_code'] ?? $_REQUEST['otp_code'] ?? '');
+        $input = self::extractInput();
+        $email = strtolower(trim($input['email'] ?? ''));
+        $otp = trim($input['otp_code'] ?? '');
 
         if (empty($email) || empty($otp)) {
             echo json_encode(['success' => false, 'message' => 'Email and OTP code are required']);
@@ -173,29 +162,9 @@ class AuthController {
         header('Content-Type: application/json');
         $db = getDB();
 
-        $rawInput = $GLOBALS['RAW_INPUT'] ?? @file_get_contents('php://input');
-        $json = [];
-        if (!empty($rawInput)) {
-            $decodedJson = @json_decode($rawInput, true);
-            if (is_array($decodedJson)) {
-                $json = array_merge($json, $decodedJson);
-            }
-        }
-        $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
-        if (empty($dataRaw) && !empty($rawInput)) {
-            parse_str($rawInput, $parsedParams);
-            $dataRaw = $parsedParams['data'] ?? null;
-        }
-        if (!empty($dataRaw)) {
-            $cleanB64 = str_replace(' ', '+', urldecode($dataRaw));
-            $decodedB64 = @json_decode(base64_decode($cleanB64), true);
-            if (is_array($decodedB64)) {
-                $json = array_merge($json, $decodedB64);
-            }
-        }
-
-        $email = strtolower(trim($json['email'] ?? $_POST['email'] ?? $_REQUEST['email'] ?? ''));
-        $password = $json['password'] ?? $_POST['password'] ?? $_REQUEST['password'] ?? '';
+        $input = self::extractInput();
+        $email = strtolower(trim($input['email'] ?? ''));
+        $password = $input['password'] ?? '';
 
         if (empty($email) || empty($password)) {
             echo json_encode(['success' => false, 'message' => 'Email and password are required']);
