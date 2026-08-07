@@ -16,8 +16,13 @@ class AuthController {
             }
 
             // Decode base64 payload if WAF bypass payload is present
-            if (!empty($_POST['data'])) {
-                $decoded = @json_decode(base64_decode($_POST['data']), true);
+            $dataRaw = $_POST['data'] ?? $_REQUEST['data'] ?? null;
+            if (empty($dataRaw) && !empty($GLOBALS['RAW_INPUT'])) {
+                parse_str($GLOBALS['RAW_INPUT'], $parsedParams);
+                $dataRaw = $parsedParams['data'] ?? null;
+            }
+            if ($dataRaw) {
+                $decoded = @json_decode(base64_decode($dataRaw), true);
                 if (is_array($decoded)) {
                     $json = array_merge($json, $decoded);
                 }
