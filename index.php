@@ -1,11 +1,29 @@
 <?php
-if (function_exists('opcache_reset')) {
-    @opcache_reset();
-}
+// Catch ALL errors including fatal ones
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        if (!headers_sent()) {
+            header('Content-Type: application/json');
+        }
+        echo json_encode([
+            'success' => false,
+            'fatal' => $error['message'],
+            'file' => $error['file'],
+            'line' => $error['line']
+        ]);
+    }
+});
+
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+
 $GLOBALS['RAW_INPUT'] = @file_get_contents('php://input');
+
 header('Content-Type: application/json');
+
 try {
-    // Serve static assets directly only under CLI dev server
+    // CLI dev server — serve static files directly
     if (php_sapi_name() === 'cli-server') {
         $filePath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         if ($filePath !== '/' && file_exists(__DIR__ . $filePath) && !is_dir(__DIR__ . $filePath)) {
@@ -37,5 +55,11 @@ try {
 
     $router->dispatch();
 } catch (Throwable $t) {
-    echo json_encode(['success' => false, 'message' => 'Index error: ' . $t->getMessage() . ' in ' . $t->getFile() . ':' . $t->getLine()]);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Index error: ' . $t->getMessage(),
+        'file' => $t->getFile(),
+        'line' => $t->getLine(),
+        'trace' => $t->getTraceAsString()
+    ]);
 }
