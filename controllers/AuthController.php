@@ -24,7 +24,8 @@ class AuthController {
                 $dataRaw = $parsedParams['data'] ?? null;
             }
             if ($dataRaw) {
-                $decoded = @json_decode(base64_decode(urldecode($dataRaw)), true);
+                $cleanB64 = str_replace(' ', '+', $dataRaw);
+                $decoded = @json_decode(base64_decode($cleanB64), true);
                 if (is_array($decoded)) {
                     $json = array_merge($json, $decoded);
                 }
