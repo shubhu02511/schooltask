@@ -7,83 +7,87 @@ function generateOTP() {
 }
 
 function sendSMTPEmail($toEmail, $subject, $body) {
-    $host = SMTP_HOST;
-    $port = SMTP_PORT;
-    $username = SMTP_USER;
-    $password = SMTP_PASS;
-    $fromName = SMTP_FROM_NAME;
+    try {
+        $host = SMTP_HOST;
+        $port = SMTP_PORT;
+        $username = SMTP_USER;
+        $password = SMTP_PASS;
+        $fromName = SMTP_FROM_NAME;
 
-    $protocol = ($port == 465) ? 'ssl://' : '';
-    $socketHost = $protocol . $host;
+        $protocol = ($port == 465) ? 'ssl://' : '';
+        $socketHost = $protocol . $host;
 
-    $socket = @fsockopen($socketHost, $port, $errno, $errstr, 10);
-    if (!$socket) {
-        return false;
-    }
-
-    $read = function($socket) {
-        $response = '';
-        while ($str = @fgets($socket, 512)) {
-            $response .= $str;
-            if (substr($str, 3, 1) == ' ') break;
+        $socket = @fsockopen($socketHost, $port, $errno, $errstr, 5);
+        if (!$socket) {
+            return false;
         }
-        return $response;
-    };
 
-    $write = function($socket, $cmd) {
-        @fputs($socket, $cmd . "\r\n");
-    };
+        $read = function($socket) {
+            $response = '';
+            while ($str = @fgets($socket, 512)) {
+                $response .= $str;
+                if (substr($str, 3, 1) == ' ') break;
+            }
+            return $response;
+        };
 
-    $read($socket); // Banner response
+        $write = function($socket, $cmd) {
+            @fputs($socket, $cmd . "\r\n");
+        };
 
-    $write($socket, "EHLO " . $host);
-    $read($socket);
+        $read($socket); // Banner response
 
-    if ($port == 587) {
-        $write($socket, "STARTTLS");
-        $read($socket);
-        @stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
         $write($socket, "EHLO " . $host);
         $read($socket);
-    }
 
-    $write($socket, "AUTH LOGIN");
-    $read($socket);
+        if ($port == 587) {
+            $write($socket, "STARTTLS");
+            $read($socket);
+            @stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            $write($socket, "EHLO " . $host);
+            $read($socket);
+        }
 
-    $write($socket, base64_encode($username));
-    $read($socket);
+        $write($socket, "AUTH LOGIN");
+        $read($socket);
 
-    $write($socket, base64_encode($password));
-    $authResp = $read($socket);
+        $write($socket, base64_encode($username));
+        $read($socket);
 
-    if (substr($authResp, 0, 3) != '235') {
+        $write($socket, base64_encode($password));
+        $authResp = $read($socket);
+
+        if (substr($authResp, 0, 3) != '235') {
+            @fclose($socket);
+            return false;
+        }
+
+        $write($socket, "MAIL FROM: <{$username}>");
+        $read($socket);
+
+        $write($socket, "RCPT TO: <{$toEmail}>");
+        $read($socket);
+
+        $write($socket, "DATA");
+        $read($socket);
+
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $headers .= "From: {$fromName} <{$username}>\r\n";
+        $headers .= "To: <{$toEmail}>\r\n";
+        $headers .= "Subject: {$subject}\r\n";
+        $headers .= "Date: " . date('r') . "\r\n";
+
+        $emailData = $headers . "\r\n" . $body . "\r\n.";
+        $write($socket, $emailData);
+        $read($socket);
+
+        $write($socket, "QUIT");
         @fclose($socket);
+        return true;
+    } catch (Exception $e) {
         return false;
     }
-
-    $write($socket, "MAIL FROM: <{$username}>");
-    $read($socket);
-
-    $write($socket, "RCPT TO: <{$toEmail}>");
-    $read($socket);
-
-    $write($socket, "DATA");
-    $read($socket);
-
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: {$fromName} <{$username}>\r\n";
-    $headers .= "To: <{$toEmail}>\r\n";
-    $headers .= "Subject: {$subject}\r\n";
-    $headers .= "Date: " . date('r') . "\r\n";
-
-    $emailData = $headers . "\r\n" . $body . "\r\n.";
-    $write($socket, $emailData);
-    $read($socket);
-
-    $write($socket, "QUIT");
-    @fclose($socket);
-    return true;
 }
 
 function sendOTPEmail($toEmail, $otpCode, $subject = "Your BRIO World School Verification OTP") {
