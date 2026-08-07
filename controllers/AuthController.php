@@ -1,7 +1,16 @@
 <?php
 // User Authentication Controller
-require_once __DIR__ . '/../db.php';
-require_once __DIR__ . '/../mail_helper.php';
+if (file_exists(dirname(__DIR__) . '/db.php')) {
+    require_once dirname(__DIR__) . '/db.php';
+} elseif (file_exists(__DIR__ . '/db.php')) {
+    require_once __DIR__ . '/db.php';
+}
+
+if (file_exists(dirname(__DIR__) . '/mail_helper.php')) {
+    require_once dirname(__DIR__) . '/mail_helper.php';
+} elseif (file_exists(__DIR__ . '/mail_helper.php')) {
+    require_once __DIR__ . '/mail_helper.php';
+}
 
 class AuthController {
     
