@@ -1,8 +1,8 @@
 <?php
-// ============================================================
-// BRIO World School API - Self-Contained Handler
-// ============================================================
+if (function_exists('opcache_reset')) { @opcache_reset(); }
+if (function_exists('clearstatcache')) { @clearstatcache(true); }
 header('Content-Type: application/json');
+header('X-API-Version: v99-hex-debug');
 error_reporting(0);
 
 // ---- Parse input - handles hex 'd' field (WAF bypass) and plain $_POST ----
