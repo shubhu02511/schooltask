@@ -1,7 +1,11 @@
 <?php
 // Configuration settings
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    $tmpDir = sys_get_temp_dir();
+    if (is_writable($tmpDir)) {
+        @ini_set('session.save_path', $tmpDir);
+    }
+    @session_start();
 }
 
 define('DB_FILE', __DIR__ . '/schooltask.sqlite');
