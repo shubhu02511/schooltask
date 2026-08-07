@@ -32,9 +32,15 @@ class Router {
             if ($route['method'] === $requestMethod && $route['path'] === $requestUri) {
                 $handler = $route['handler'];
                 if (is_array($handler)) {
-                    $controller = new $handler[0]();
-                    $action = $handler[1];
-                    $controller->$action();
+                    try {
+                        $className = $handler[0];
+                        $action = $handler[1];
+                        $controller = new $className();
+                        $controller->$action();
+                    } catch (Throwable $t) {
+                        header('Content-Type: application/json');
+                        echo json_encode(['success' => false, 'message' => 'Controller Error: ' . $t->getMessage()]);
+                    }
                 } else {
                     call_user_func($handler);
                 }
