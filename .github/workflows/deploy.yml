@@ -24,5 +24,7 @@ jobs:
           mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ ./;
           mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ public_html/;
           mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ syonra.life/;
+          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ schooltask/;
+          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ public_html/schooltask/;
           quit;
           "
