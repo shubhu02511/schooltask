@@ -21,7 +21,7 @@ class Router {
 
     public function dispatch(): void {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $rawUri = $_SERVER['REDIRECT_URL'] ?? $_SERVER['REQUEST_URI'] ?? '/';
+        $rawUri = $_SERVER['REQUEST_URI'] ?? $_SERVER['REDIRECT_URL'] ?? '/';
         $requestUri = parse_url($rawUri, PHP_URL_PATH);
         $requestUri = preg_replace('#^/index\.php#i', '', $requestUri);
         $requestUri = rtrim($requestUri, '/');
