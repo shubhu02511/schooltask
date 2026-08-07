@@ -8,54 +8,58 @@ class AuthController {
     // Register user & send OTP
     public function register(): void {
         header('Content-Type: application/json');
-        $db = getDB();
+        try {
+            $db = getDB();
 
-        $name = trim($_POST['name'] ?? '');
-        $email = strtolower(trim($_POST['email'] ?? ''));
-        $password = $_POST['password'] ?? '';
+            $name = trim($_POST['name'] ?? '');
+            $email = strtolower(trim($_POST['email'] ?? ''));
+            $password = $_POST['password'] ?? '';
 
-        if (empty($name) || empty($email) || empty($password)) {
-            echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
-            return;
+            if (empty($name) || empty($email) || empty($password)) {
+                echo json_encode(['success' => false, 'message' => 'Name, email, and password are required']);
+                return;
+            }
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo json_encode(['success' => false, 'message' => 'Invalid email address format']);
+                return;
+            }
+
+            // Check if verified user exists
+            $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            $existing = $stmt->fetch();
+
+            if ($existing && isset($existing['is_verified']) && $existing['is_verified'] == 1) {
+                echo json_encode(['success' => false, 'message' => 'Account already exists. Please login.']);
+                return;
+            }
+
+            $otp = generateOTP();
+            $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+            if ($existing) {
+                // Update unverified user
+                $update = $db->prepare("UPDATE users SET name = ?, password = ?, otp_code = ?, otp_expires = ? WHERE email = ?");
+                $update->execute([$name, $hashedPassword, $otp, $expires, $email]);
+            } else {
+                // Create unverified user
+                $insert = $db->prepare("INSERT INTO users (name, email, password, otp_code, otp_expires, is_verified) VALUES (?, ?, ?, ?, ?, 0)");
+                $insert->execute([$name, $email, $hashedPassword, $otp, $expires]);
+            }
+
+            sendOTPEmail($email, $otp);
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Registration OTP sent to your email (' . $email . '). Please verify.',
+                'email' => $email,
+                'otp_demo' => $otp
+            ]);
+        } catch (Throwable $t) {
+            echo json_encode(['success' => false, 'message' => 'Server error: ' . $t->getMessage()]);
         }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode(['success' => false, 'message' => 'Invalid email address format']);
-            return;
-        }
-
-        // Check if verified user exists
-        $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        $existing = $stmt->fetch();
-
-        if ($existing && $existing['is_verified'] == 1) {
-            echo json_encode(['success' => false, 'message' => 'Account already exists. Please login.']);
-            return;
-        }
-
-        $otp = generateOTP();
-        $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        if ($existing) {
-            // Update unverified user
-            $update = $db->prepare("UPDATE users SET name = ?, password = ?, otp_code = ?, otp_expires = ? WHERE email = ?");
-            $update->execute([$name, $hashedPassword, $otp, $expires, $email]);
-        } else {
-            // Create unverified user
-            $insert = $db->prepare("INSERT INTO users (name, email, password, otp_code, otp_expires, is_verified) VALUES (?, ?, ?, ?, ?, 0)");
-            $insert->execute([$name, $email, $hashedPassword, $otp, $expires]);
-        }
-
-        sendOTPEmail($email, $otp);
-
-        echo json_encode([
-            'success' => true,
-            'message' => 'Registration OTP sent to your email (' . $email . '). Please verify.',
-            'email' => $email,
-            'otp_demo' => $otp
-        ]);
     }
 
     // Verify Email OTP
