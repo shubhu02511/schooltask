@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=29000.0">
+  <link rel="stylesheet" href="styles.css?v=30000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -30,19 +30,27 @@
           if (!targetId || targetId === '' || targetId === '#') targetId = 'home';
           if (targetId.startsWith && targetId.startsWith('#')) targetId = targetId.substring(1);
           
-          var elem = document.getElementById(targetId);
-          if (!elem) elem = document.getElementById('home');
-          
-          if (elem) {
-            var headerOffset = 70;
-            var elementPosition = elem.getBoundingClientRect().top;
-            var offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerOffset;
-            
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: 'smooth'
-            });
+          var targetElem = document.getElementById(targetId);
+          if (!targetElem) targetId = 'home';
+
+          // Hide all page-view elements and show only the target page
+          var pages = document.querySelectorAll('.page-view');
+          for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove('active');
+            pages[i].style.setProperty('display', 'none', 'important');
           }
+          
+          var activePage = document.getElementById(targetId);
+          if (activePage) {
+            activePage.classList.add('active');
+            activePage.style.setProperty('display', 'block', 'important');
+          }
+
+          // Scroll to top of window for the new page
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
           
           // Update nav active state
           var navLinks = document.querySelectorAll('.nav-link');
@@ -1171,6 +1179,60 @@
           </div>
 
         </div>
+
+        <!-- Our Premier School Branches Section -->
+        <div id="branches" style="margin-top: 4.5rem; padding-top: 3rem; border-top: 2px solid var(--border-light);">
+          <div class="section-header text-center" style="margin-bottom: 2.5rem;">
+            <span class="badge badge-navy"><i class="fa-solid fa-location-dot"></i> Institutional Campuses</span>
+            <h2 style="font-size: 2.2rem; color: #0F172A;">Our Premier School Branches</h2>
+            <p style="color: #334155;">Explore our state-of-the-art smart eco-campuses across Vadodara, Gujarat and South Delhi NCR.</p>
+          </div>
+
+          <div class="grid-2" style="gap: 2.5rem;">
+            
+            <!-- Branch 1: Gujarat Campus -->
+            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 230px; object-fit: cover;">
+              <div style="padding: 1.75rem;">
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 25-Acre Eco-Green Campus</span>
+                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Gujarat</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                  Located in the Vadodara Tech Corridor, featuring 50m Olympic pool, 3D planetarium, AI incubator, and luxury eco boarding suites.
+                </p>
+                <div style="background: #F8FAFC; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155;">
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-map-location-dot text-gold"></i> Location:</strong> Vadodara Tech Corridor, Gujarat</p>
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (0265) 2980-100</p>
+                  <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> gujarat@brioworldschool.edu.in</p>
+                </div>
+                <a href="#gujarat-campus" class="btn btn-gold router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="width: 100%; justify-content: center;">
+                  <i class="fa-solid fa-compass"></i> Explore Gujarat Branch Details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Branch 2: Delhi NCR Campus -->
+            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 230px; object-fit: cover;">
+              <div style="padding: 1.75rem;">
+                <span class="badge badge-navy" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 18-Acre Institutional Campus</span>
+                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Delhi NCR</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                  Located in the South Delhi / Gurgaon Hub, featuring Apple Mac coding labs, FIFA football turf, 1,200-seat auditorium, and Ivy League cell.
+                </p>
+                <div style="background: #F8FAFC; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155;">
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-map-location-dot text-gold"></i> Location:</strong> South Delhi / Gurgaon Hub, New Delhi</p>
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (011) 4980-200</p>
+                  <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> delhi@brioworldschool.edu.in</p>
+                </div>
+                <a href="#delhi-campus" class="btn btn-navy router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="width: 100%; justify-content: center;">
+                  <i class="fa-solid fa-compass"></i> Explore Delhi NCR Branch Details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </section>
   </main>
@@ -2184,7 +2246,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=29000.0"></script>
+  <script src="app.js?v=30000.0"></script>
 </body>
 </html>
 
