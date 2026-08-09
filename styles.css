@@ -450,6 +450,44 @@ img {
   width: 36px;
   border-radius: 8px;
 }
+/* Floating Vertical Admission Sidebar Tab */
+.admission-sidebar-tab {
+  position: fixed !important;
+  right: 0 !important;
+  top: 45% !important;
+  transform: translateY(-50%) !important;
+  z-index: 99999 !important;
+  background: linear-gradient(135deg, #F59E0B, #D97706) !important;
+  color: #0F172A !important;
+  padding: 1rem 0.65rem !important;
+  border-radius: 12px 0 0 12px !important;
+  box-shadow: -4px 6px 20px rgba(245, 158, 11, 0.45) !important;
+  font-weight: 800 !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  writing-mode: vertical-rl !important;
+  text-orientation: mixed !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 2px solid #FFFFFF !important;
+  border-right: none !important;
+  text-decoration: none !important;
+}
+.admission-sidebar-tab:hover {
+  background: linear-gradient(135deg, #FBBF24, #F59E0B) !important;
+  transform: translateY(-50%) translateX(-4px) !important;
+  box-shadow: -6px 10px 25px rgba(245, 158, 11, 0.6) !important;
+  color: #0F172A !important;
+}
+.admission-sidebar-tab i {
+  transform: rotate(90deg) !important;
+  font-size: 1.1rem !important;
+}
 
 /* Scroll To Explore Indicator Overlay */
 .scroll-explore-container {
