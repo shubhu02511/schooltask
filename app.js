@@ -1163,6 +1163,7 @@ function initAuthSystem() {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ d: hexData })
+        });
         const rawText = await res.text();
         let data;
         try {
