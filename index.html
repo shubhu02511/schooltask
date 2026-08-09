@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=33000.0">
+  <link rel="stylesheet" href="styles.css?v=34000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -69,6 +69,36 @@
         } catch(e) {
           console.warn('navigateTo error:', e);
         }
+      };
+
+      // ============================================
+      // TOGGLE BRANCH DETAILS (Tap to Expand/Collapse)
+      // ============================================
+      window.toggleBranchDetails = function(detailsId, cardElem) {
+        try {
+          var details = document.getElementById(detailsId);
+          if (!details) return;
+          
+          var isHidden = details.style.display === 'none' || details.style.display === '';
+          
+          if (isHidden) {
+            details.style.display = 'block';
+            if (cardElem) {
+              var arrow = cardElem.querySelector('.branch-arrow');
+              var toggleText = cardElem.querySelector('.branch-toggle-btn span');
+              if (arrow) arrow.className = 'fa-solid fa-chevron-up branch-arrow';
+              if (toggleText) toggleText.innerText = 'Hide Details';
+            }
+          } else {
+            details.style.display = 'none';
+            if (cardElem) {
+              var arrow = cardElem.querySelector('.branch-arrow');
+              var toggleText = cardElem.querySelector('.branch-toggle-btn span');
+              if (arrow) arrow.className = 'fa-solid fa-chevron-down branch-arrow';
+              if (toggleText) toggleText.innerText = 'Tap for Details';
+            }
+          }
+        } catch(e) {}
       };
 
       // ============================================
@@ -1257,22 +1287,33 @@
 
         </div>
 
-        <!-- Our Premier School Branches Section -->
+        <!-- Our Premier School Branches Section (Tap Card to Expand Details) -->
         <div id="branches" style="margin-top: 4.5rem; padding-top: 3rem; border-top: 2px solid var(--border-light);">
           <div class="section-header text-center" style="margin-bottom: 2.5rem;">
             <span class="badge badge-navy"><i class="fa-solid fa-location-dot"></i> Institutional Campuses</span>
             <h2 style="font-size: 2.2rem; color: #0F172A;">Our Premier School Branches</h2>
-            <p style="color: #334155;">Explore our state-of-the-art smart eco-campuses across Vadodara, Gujarat and South Delhi NCR.</p>
+            <p style="color: #334155;">Tap on any school card below to expand branch details, contact numbers &amp; campus tours.</p>
           </div>
 
           <div class="grid-2" style="gap: 2.5rem;">
             
             <!-- Branch 1: Gujarat Campus -->
-            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
-              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 230px; object-fit: cover;">
-              <div style="padding: 1.75rem;">
+            <div class="feature-card branch-card" onclick="window.toggleBranchDetails('gujarat-details', this)" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+              <div style="position: relative; height: 250px;">
+                <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover;">
+                <span class="badge badge-gold" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                  <i class="fa-solid fa-location-dot"></i> Vadodara, Gujarat
+                </span>
+              </div>
+              <div style="padding: 1.5rem; background: var(--primary-navy); color: white; display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 1.5rem; color: var(--accent-gold); margin: 0;">BRIO World School - Gujarat</h3>
+                <span class="branch-toggle-btn" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>Tap for Details</span> <i class="fa-solid fa-chevron-down branch-arrow"></i>
+                </span>
+              </div>
+              <!-- Expandable Details Container (Hidden by Default) -->
+              <div id="gujarat-details" class="branch-details-content" style="display: none; padding: 1.75rem; background: #FFFFFF; border-top: 1px solid var(--border-light);">
                 <span class="badge badge-gold" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 25-Acre Eco-Green Campus</span>
-                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Gujarat</h3>
                 <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
                   Located in the Vadodara Tech Corridor, featuring 50m Olympic pool, 3D planetarium, AI incubator, and luxury eco boarding suites.
                 </p>
@@ -1281,18 +1322,29 @@
                   <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (0265) 2980-100</p>
                   <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> gujarat@brioworldschool.edu.in</p>
                 </div>
-                <a href="#gujarat-campus" class="btn btn-gold router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="width: 100%; justify-content: center;">
+                <a href="#gujarat-campus" class="btn btn-gold router-link" onclick="event.stopPropagation(); window.navigateTo('gujarat-campus'); return false;" style="width: 100%; justify-content: center;">
                   <i class="fa-solid fa-compass"></i> Explore Gujarat Branch Details <i class="fa-solid fa-arrow-right"></i>
                 </a>
               </div>
             </div>
 
             <!-- Branch 2: Delhi NCR Campus -->
-            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
-              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 230px; object-fit: cover;">
-              <div style="padding: 1.75rem;">
+            <div class="feature-card branch-card" onclick="window.toggleBranchDetails('delhi-details', this)" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+              <div style="position: relative; height: 250px;">
+                <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 100%; object-fit: cover;">
+                <span class="badge badge-navy" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                  <i class="fa-solid fa-location-dot"></i> South Delhi, NCR
+                </span>
+              </div>
+              <div style="padding: 1.5rem; background: var(--primary-navy); color: white; display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="font-size: 1.5rem; color: var(--accent-gold); margin: 0;">BRIO World School - Delhi NCR</h3>
+                <span class="branch-toggle-btn" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); padding: 0.4rem 0.85rem; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>Tap for Details</span> <i class="fa-solid fa-chevron-down branch-arrow"></i>
+                </span>
+              </div>
+              <!-- Expandable Details Container (Hidden by Default) -->
+              <div id="delhi-details" class="branch-details-content" style="display: none; padding: 1.75rem; background: #FFFFFF; border-top: 1px solid var(--border-light);">
                 <span class="badge badge-navy" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 18-Acre Institutional Campus</span>
-                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Delhi NCR</h3>
                 <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
                   Located in the South Delhi / Gurgaon Hub, featuring Apple Mac coding labs, FIFA football turf, 1,200-seat auditorium, and Ivy League cell.
                 </p>
@@ -1301,7 +1353,7 @@
                   <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (011) 4980-200</p>
                   <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> delhi@brioworldschool.edu.in</p>
                 </div>
-                <a href="#delhi-campus" class="btn btn-navy router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="width: 100%; justify-content: center;">
+                <a href="#delhi-campus" class="btn btn-navy router-link" onclick="event.stopPropagation(); window.navigateTo('delhi-campus'); return false;" style="width: 100%; justify-content: center;">
                   <i class="fa-solid fa-compass"></i> Explore Delhi NCR Branch Details <i class="fa-solid fa-arrow-right"></i>
                 </a>
               </div>
@@ -2427,7 +2479,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=33000.0"></script>
+  <script src="app.js?v=34000.0"></script>
 </body>
 </html>
 
