@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=19000.0">
+  <link rel="stylesheet" href="styles.css?v=20000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -442,11 +442,11 @@
       <button type="button" class="carousel-control prev-slide" id="hero-prev-btn" onclick="if(window.heroSlidePrev) window.heroSlidePrev(); return false;" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
       <button type="button" class="carousel-control next-slide" id="hero-next-btn" onclick="if(window.heroSlideNext) window.heroSlideNext(); return false;" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
 
-      <!-- Scroll to Explore Indicator Overlay -->
-      <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll to Leadership Team">
+      <!-- Scroll Down Indicator Overlay (Sunbeam Reference Style) -->
+      <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll down">
         <div class="scroll-explore-line"></div>
-        <div class="scroll-explore-text">SCROLL TO EXPLORE</div>
-        <div class="scroll-explore-arrow"><i class="fa-solid fa-angles-down text-gold"></i></div>
+        <div class="scroll-explore-text">SCROLL DOWN</div>
+        <div class="scroll-explore-arrow"><i class="fa-solid fa-chevron-down text-gold"></i></div>
       </div>
 
       <!-- Carousel Indicators Dots (4 Slides) -->
@@ -2241,7 +2241,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=19000.0"></script>
+  <script src="app.js?v=20000.0"></script>
 </body>
 </html>
 
