@@ -327,14 +327,29 @@ img {
   color: var(--primary-navy);
 }
 
-/* Page View System - Full Seamless Layout */
+/* Page View System - SPA Single Page View Router */
 .page-view {
+  display: none !important;
+}
+.page-view.active {
   display: block !important;
   animation: fadeIn 0.4s ease-in-out;
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Slide Content Left-Slide Animation */
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-70px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Hero 5-Slide Carousel */
@@ -371,12 +386,24 @@ img {
   pointer-events: auto;
   z-index: 2;
 }
+.hero-slide.active .hero-slide-content {
+  animation: slideInFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 .hero-slide-content {
-  max-width: 920px;
+  max-width: 1080px;
   margin: 0 auto;
   width: 100%;
   color: #FFFFFF;
-  padding: 0 1.5rem;
+  padding: 0 2.5rem;
+  text-align: left !important;
+}
+.hero-slide-content .badge,
+.hero-slide-content .hero-title,
+.hero-slide-content .hero-subtitle,
+.hero-slide-content .hero-ctas {
+  text-align: left !important;
+  margin-left: 0 !important;
+  justify-content: flex-start !important;
 }
 .hero-title {
   font-size: 3.2rem;
@@ -391,13 +418,14 @@ img {
   font-weight: 700;
   color: #FFFFFF;
   text-shadow: 0 2px 12px rgba(0,0,0,0.9);
-  margin: 0 auto 2rem;
+  margin: 0 0 2rem 0 !important;
+  max-width: 750px;
 }
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start !important;
   align-items: center;
 }
 .carousel-control {
@@ -446,6 +474,36 @@ img {
   background: var(--accent-gold);
   width: 36px;
   border-radius: 8px;
+}
+
+/* Floating Admission Tab (Vertical RL) */
+.admission-sidebar-tab {
+  position: fixed !important;
+  top: 45% !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  writing-mode: vertical-rl !important;
+  text-orientation: mixed !important;
+  z-index: 99999 !important;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  color: #0F172A !important;
+  padding: 1.25rem 0.65rem !important;
+  border-radius: 8px 0 0 8px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  box-shadow: -4px 4px 15px rgba(0, 0, 0, 0.3) !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+.admission-sidebar-tab:hover {
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%) !important;
+  box-shadow: -6px 6px 20px rgba(245, 158, 11, 0.5) !important;
 }
 
 /* Scroll To Explore Indicator Overlay */
