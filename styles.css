@@ -327,14 +327,10 @@ img {
   color: var(--primary-navy);
 }
 
-/* Page View System */
+/* Page View System - Full Seamless Layout */
 .page-view {
-  display: none;
-  animation: fadeIn 0.4s ease-in-out;
-}
-.page-view.active-page,
-.page-view:target {
   display: block !important;
+  animation: fadeIn 0.4s ease-in-out;
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }

@@ -45,29 +45,15 @@ function initRouter() {
       targetElement = document.getElementById('home');
     }
 
-    let pageToActivate = null;
     if (targetElement) {
-      if (targetElement.classList.contains('page-view')) {
-        pageToActivate = targetElement;
-      } else {
-        pageToActivate = targetElement.closest('.page-view');
-      }
-    }
+      const headerOffset = 70;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-    if (!pageToActivate) {
-      pageToActivate = document.getElementById('home');
-    }
-
-    // Hide all page views
-    document.querySelectorAll('.page-view').forEach(page => {
-      page.classList.remove('active-page');
-      page.style.display = 'none';
-    });
-
-    // Show target page
-    if (pageToActivate) {
-      pageToActivate.classList.add('active-page');
-      pageToActivate.style.display = 'block';
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
 
     // Update Nav Active State
@@ -85,9 +71,6 @@ function initRouter() {
     if (navMenu) {
       navMenu.classList.remove('mobile-active');
     }
-
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Attach direct click handlers to ALL .router-link and .nav-link elements
