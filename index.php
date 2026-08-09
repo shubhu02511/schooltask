@@ -2,373 +2,143 @@
 @ob_start();
 if (function_exists('opcache_reset')) { @opcache_reset(); }
 if (function_exists('clearstatcache')) { @clearstatcache(true); }
+
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/mail_helper.php';
+require_once __DIR__ . '/controllers/AuthController.php';
+
 header('Content-Type: application/json');
+
+// Disable error leakage in output
 error_reporting(0);
-// ---- Parse input - handles base64, hex, raw input and form data ----
-function parseInput() {
-    $raw = @file_get_contents('php://input');
-    $inputData = [];
+ini_set('display_errors', 0);
 
-    if (!empty($raw)) {
-        @parse_str($raw, $inputData);
-    }
-
-    $allPost = array_merge($_POST ?? [], $inputData);
-
-    // 1. Hex 'd' field (WAF bypass)
-    $d = $allPost['d'] ?? $_REQUEST['d'] ?? null;
-    if (!empty($d)) {
-        $decoded = @hex2bin(trim($d));
-        if ($decoded) {
-            $json = @json_decode($decoded, true);
-            if (is_array($json)) return $json;
-        }
-    }
-
-    // 2. Base64 'data' field
-    $data = $allPost['data'] ?? $_REQUEST['data'] ?? null;
-    if (!empty($data)) {
-        $b64 = str_replace(' ', '+', $data);
-        $decoded = @base64_decode($b64);
-        if ($decoded) {
-            $json = @json_decode($decoded, true);
-            if (is_array($json)) return $json;
-        }
-    }
-
-    // 3. Raw JSON body
-    if (!empty($raw)) {
-        $json = @json_decode($raw, true);
-        if (is_array($json)) return $json;
-    }
-
-    return array_merge($_REQUEST, $allPost);
-}
-
-// ---- Flat-file database (no sessions, no PDO) ----
-function dbGet($email) {
-    $f = sys_get_temp_dir() . '/brio_users.json';
-    if (!file_exists($f)) return null;
-    $data = @json_decode(@file_get_contents($f), true) ?? [];
-    return $data[strtolower($email)] ?? null;
-}
-
-function dbSave($email, $record) {
-    $f = sys_get_temp_dir() . '/brio_users.json';
-    $data = [];
-    if (file_exists($f)) {
-        $data = @json_decode(@file_get_contents($f), true) ?? [];
-    }
-    $data[strtolower($email)] = $record;
-    @file_put_contents($f, json_encode($data), LOCK_EX);
-}
-
-// ---- OTP ----
-function makeOTP() { return strval(rand(100000, 999999)); }
-
-// ---- Mail sender ----
-function sendMail($to, $otp) {
-    $from = 'noreply@syonra.life';
-    $subject = 'BRIO World School - Your OTP Verification Code';
-    $body = "<div style='font-family:Arial,sans-serif;max-width:520px;margin:0 auto;padding:20px;border:1px solid #e2e8f0;border-radius:12px;'>
-        <h2 style='color:#0F172A;border-bottom:2px solid #F59E0B;padding-bottom:10px;'>BRIO World School</h2>
-        <p>Your One-Time Password (OTP) for account verification:</p>
-        <div style='text-align:center;margin:25px 0;'>
-            <span style='font-size:36px;font-weight:900;letter-spacing:10px;color:#0F172A;background:#FEF3C7;padding:14px 28px;border-radius:10px;border:2px solid #F59E0B;'>{$otp}</span>
-        </div>
-        <p style='color:#64748B;font-size:13px;'>Valid for <strong>10 minutes</strong>. Do not share this code.</p>
-        <hr style='border:none;border-top:1px solid #E2E8F0;margin:20px 0;'>
-        <p style='color:#94A3B8;font-size:11px;text-align:center;'>BRIO World School | noreply@syonra.life</p>
-    </div>";
-    $headers = "From: BRIO World School <{$from}>\r\nReply-To: {$from}\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0";
-    @mail($to, $subject, $body, $headers);
-}
-
-// ---- SMTP mail (PHPMailer-free using sockets) ----
-function sendSMTP($to, $otp) {
-    // Try SMTP first, fall back to mail()
-    try {
-        $host = 'mail.syonra.life';
-        $port = 465;
-        $user = 'noreply@syonra.life';
-        $pass = '775299@Ss';
-        $from = 'noreply@syonra.life';
-        $fromName = 'BRIO World School';
-        $subject = 'BRIO World School - OTP: ' . $otp;
-        $body = "Your OTP for BRIO World School account verification is: {$otp}\n\nValid for 10 minutes.";
-
-        $ctx = stream_context_create(['ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
-        ]]);
-
-        $sock = @stream_socket_client("ssl://{$host}:{$port}", $errno, $errstr, 10, STREAM_CLIENT_CONNECT, $ctx);
-        if (!$sock) {
-            // SMTP failed - fall back
-            sendMail($to, $otp);
-            return;
-        }
-
-        $recv = function($s) { return fgets($s, 512); };
-        $send = function($s, $cmd) { fwrite($s, $cmd . "\r\n"); return fgets($s, 512); };
-
-        $recv($sock); // banner
-        $send($sock, "EHLO syonra.life");
-        fgets($sock, 512); fgets($sock, 512); fgets($sock, 512); fgets($sock, 512); fgets($sock, 512);
-
-        $b64u = base64_encode($user);
-        $b64p = base64_encode($pass);
-        $send($sock, "AUTH LOGIN");
-        $send($sock, $b64u);
-        $resp = $send($sock, $b64p);
-
-        if (strpos($resp, '235') === false) {
-            fclose($sock);
-            sendMail($to, $otp);
-            return;
-        }
-
-        $send($sock, "MAIL FROM:<{$from}>");
-        $send($sock, "RCPT TO:<{$to}>");
-        $send($sock, "DATA");
-
-        $htmlBody = "<div style='font-family:Arial,sans-serif;max-width:520px;margin:0 auto;padding:20px;'>
-            <h2 style='color:#0F172A;'>BRIO World School</h2>
-            <p>Your OTP verification code is:</p>
-            <div style='text-align:center;margin:20px 0;'>
-                <span style='font-size:36px;font-weight:900;letter-spacing:8px;background:#FEF3C7;padding:12px 24px;border-radius:8px;'>{$otp}</span>
-            </div>
-            <p style='color:#64748B;font-size:13px;'>Valid for 10 minutes.</p>
-        </div>";
-
-        $message = "From: {$fromName} <{$from}>\r\n";
-        $message .= "To: <{$to}>\r\n";
-        $message .= "Subject: {$subject}\r\n";
-        $message .= "MIME-Version: 1.0\r\n";
-        $message .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $message .= "\r\n";
-        $message .= $htmlBody;
-        $message .= "\r\n.";
-
-        fwrite($sock, $message . "\r\n");
-        $send($sock, "QUIT");
-        fclose($sock);
-    } catch (Throwable $e) {
-        sendMail($to, $otp);
-    }
-}
-
-// ---- Router ----
 $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
 if (!empty($_POST) || !empty($GLOBALS['RAW_INPUT']) || !empty($_SERVER['CONTENT_LENGTH'])) {
     $method = 'POST';
 }
-$uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+$rawUri = $_SERVER['REQUEST_URI'] ?? $_SERVER['REDIRECT_URL'] ?? '/';
+$uri = parse_url($rawUri, PHP_URL_PATH);
 $uri = preg_replace('#^/index\.php#i', '', $uri);
 if (strpos($uri, '/api') !== 0) {
     $uri = '/api' . (strpos($uri, '/') === 0 ? '' : '/') . $uri;
 }
 $uri = rtrim($uri, '/') ?: '/';
 
-// ---- Route: GET /api/auth/me ----
-if ($method === 'GET' && $uri === '/api/auth/me') {
-    @session_start();
-    if (!empty($_SESSION['user_email'])) {
-        echo json_encode(['logged_in' => true, 'user' => [
-            'id'    => $_SESSION['user_id'] ?? 1,
-            'name'  => $_SESSION['user_name'] ?? 'User',
-            'email' => $_SESSION['user_email']
-        ]]);
-    } else {
-        echo json_encode(['logged_in' => false]);
-    }
-    exit;
-}
+$authController = new AuthController();
 
-// ---- Route: POST /api/auth/register ----
-if ($method === 'POST' && ($uri === '/api/auth/register' || $uri === '/auth/register' || str_contains($uri, 'register'))) {
-    $input = parseInput();
-    $name  = trim($input['name'] ?? '');
+// Route Dispatcher
+if ($method === 'GET' && ($uri === '/api/auth/me' || $uri === '/api/auth/user')) {
+    $authController->me();
+} elseif ($method === 'POST' && str_contains($uri, 'register')) {
+    $authController->register();
+} elseif ($method === 'POST' && str_contains($uri, 'verify-otp')) {
+    $authController->verifyOTP();
+} elseif ($method === 'POST' && str_contains($uri, 'login')) {
+    $authController->login();
+} elseif ($method === 'POST' && str_contains($uri, 'forgot-password')) {
+    header('Content-Type: application/json');
+    $db = getDB();
+    $input = AuthController::extractInput();
     $email = strtolower(trim($input['email'] ?? ''));
-    $pass  = $input['password'] ?? '';
 
-    if (!$name || !$email || !$pass) {
-        echo json_encode([
-            'success' => false,
-            'message' => 'V2026_FIELD_VALIDATION_MISSING'
-            'matched_uri' => $uri,
-            'raw_uri' => $_SERVER['REQUEST_URI'] ?? 'NONE',
-            'parsed_input' => $input
-        ]);
-        exit;
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid email format']);
+    if (empty($email)) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Email address is required']);
         exit;
     }
 
-    $existing = dbGet($email);
-    if ($existing && !empty($existing['verified'])) {
-        echo json_encode(['success' => false, 'message' => 'Account already exists. Please login.']);
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        http_response_code(404);
+        echo json_encode(['success' => false, 'message' => 'Email address not found']);
         exit;
     }
 
-    $otp     = makeOTP();
-    $expires = time() + 600;
-    $hash    = hash('sha256', $pass . 'brio2026salt');
+    $cooldown = checkOTPCooldown($email);
+    if ($cooldown > 0) {
+        http_response_code(429);
+        echo json_encode(['success' => false, 'message' => "Please wait {$cooldown} seconds before requesting a new OTP."]);
+        exit;
+    }
 
-    dbSave($email, [
-        'name'     => $name,
-        'email'    => $email,
-        'pw_hash'  => $hash,
-        'otp'      => $otp,
-        'expires'  => $expires,
-        'verified' => false
-    ]);
+    $otp = generateOTP();
+    $expires = date('Y-m-d H:i:s', strtotime('+5 minutes'));
 
-    sendSMTP($email, $otp);
+    $update = $db->prepare("UPDATE users SET otp_code = ?, otp_expires = ? WHERE id = ?");
+    $update->execute([$otp, $expires, $user['id']]);
+
+    $sent = sendOTPEmail($email, $otp, "Password Reset OTP - BRIO World School");
+    if (!$sent) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Failed to send OTP email. Please try again later.']);
+        exit;
+    }
 
     echo json_encode([
-        'success'  => true,
-        'message'  => 'OTP sent to ' . $email . '. Please check your inbox.',
-        'email'    => $email,
-        'otp_demo' => $otp
+        'success' => true,
+        'message' => 'Password reset OTP sent to your email address (' . $email . '). Please check your inbox.',
+        'email' => $email
     ]);
     exit;
-}
-
-// ---- Route: POST /api/auth/verify-otp ----
-if ($method === 'POST' && $uri === '/api/auth/verify-otp') {
-    $input = parseInput();
+} elseif ($method === 'POST' && str_contains($uri, 'reset-password')) {
+    header('Content-Type: application/json');
+    $db = getDB();
+    $input = AuthController::extractInput();
     $email = strtolower(trim($input['email'] ?? ''));
-    $otp   = trim($input['otp_code'] ?? '');
+    $otp = trim($input['otp_code'] ?? '');
+    $newPass = $input['new_password'] ?? '';
 
-    $user = dbGet($email);
+    if (empty($email) || empty($otp) || empty($newPass)) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Email, OTP, and new password are required']);
+        exit;
+    }
+
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
     if (!$user) {
+        http_response_code(404);
         echo json_encode(['success' => false, 'message' => 'User not found']);
         exit;
     }
-    if ($user['otp'] !== $otp && $otp !== '123456') {
-        echo json_encode(['success' => false, 'message' => 'Invalid OTP']);
-        exit;
-    }
-    if (time() > ($user['expires'] ?? 0)) {
-        echo json_encode(['success' => false, 'message' => 'OTP expired. Please register again.']);
-        exit;
-    }
 
-    $user['verified'] = true;
-    $user['otp']      = null;
-    dbSave($email, $user);
-
-    @session_start();
-    $_SESSION['user_email'] = $email;
-    $_SESSION['user_name']  = $user['name'];
-    $_SESSION['user_id']    = crc32($email);
-
-    echo json_encode(['success' => true, 'message' => 'Account verified!', 'user' => [
-        'id'    => crc32($email),
-        'name'  => $user['name'],
-        'email' => $email
-    ]]);
-    exit;
-}
-
-// ---- Route: POST /api/auth/login ----
-if ($method === 'POST' && $uri === '/api/auth/login') {
-    $input = parseInput();
-    $email = strtolower(trim($input['email'] ?? ''));
-    $pass  = $input['password'] ?? '';
-
-    $user = dbGet($email);
-    $hash = hash('sha256', $pass . 'brio2026salt');
-    $storedHash = $user['pw_hash'] ?? $user['password'] ?? '';
-
-    if (!$user || $storedHash !== $hash) {
-        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
-        exit;
-    }
-    if (empty($user['verified'])) {
-        $otp     = makeOTP();
-        $user['otp']     = $otp;
-        $user['expires'] = time() + 600;
-        dbSave($email, $user);
-        sendSMTP($email, $otp);
-        echo json_encode(['success' => false, 'require_otp' => true, 'message' => 'Account not verified. OTP sent to ' . $email, 'email' => $email, 'otp_demo' => $otp]);
+    $sessionOTP = $_SESSION['latest_otp_' . $email]['code'] ?? null;
+    if ($user['otp_code'] !== $otp && $sessionOTP !== $otp) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Invalid OTP code']);
         exit;
     }
 
-    @session_start();
-    $_SESSION['user_email'] = $email;
-    $_SESSION['user_name']  = $user['name'];
-    $_SESSION['user_id']    = crc32($email);
-
-    echo json_encode(['success' => true, 'message' => 'Login successful!', 'user' => [
-        'id'    => crc32($email),
-        'name'  => $user['name'],
-        'email' => $email
-    ]]);
-    exit;
-}
-
-// ---- Route: POST /api/auth/forgot-password ----
-if ($method === 'POST' && $uri === '/api/auth/forgot-password') {
-    $input = parseInput();
-    $email = strtolower(trim($input['email'] ?? ''));
-    $user  = dbGet($email);
-    if (!$user) {
-        echo json_encode(['success' => false, 'message' => 'Email not registered']);
+    $sessionExpires = $_SESSION['latest_otp_' . $email]['expires'] ?? 0;
+    $dbExpires = !empty($user['otp_expires']) ? strtotime($user['otp_expires']) : 0;
+    $maxExpires = max($sessionExpires, $dbExpires);
+    if ($maxExpires > 0 && time() > $maxExpires) {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'OTP code has expired. Please request a new one.']);
         exit;
     }
-    $otp             = makeOTP();
-    $user['otp']     = $otp;
-    $user['expires'] = time() + 600;
-    dbSave($email, $user);
-    sendSMTP($email, $otp);
-    echo json_encode(['success' => true, 'message' => 'Password reset OTP sent to ' . $email, 'email' => $email, 'otp_demo' => $otp]);
+
+    unset($_SESSION['latest_otp_' . $email]);
+    $hashedPassword = sha1($newPass . 'brio_salt_2026');
+    $update = $db->prepare("UPDATE users SET password = ?, is_verified = 1, otp_code = NULL, otp_expires = NULL WHERE id = ?");
+    $update->execute([$hashedPassword, $user['id']]);
+
+    echo json_encode(['success' => true, 'message' => 'Password reset successfully! You can now login.']);
+    exit;
+} elseif ($method === 'POST' && str_contains($uri, 'logout')) {
+    $authController->logout();
+} elseif ($method === 'POST' && str_contains($uri, 'career')) {
+    echo json_encode(['success' => true, 'message' => 'Career application submitted successfully!']);
     exit;
 }
 
-// ---- Route: POST /api/auth/reset-password ----
-if ($method === 'POST' && $uri === '/api/auth/reset-password') {
-    $input   = parseInput();
-    $email   = strtolower(trim($input['email'] ?? ''));
-    $otp     = trim($input['otp_code'] ?? '');
-    $newPass = $input['new_password'] ?? '';
-    $user    = dbGet($email);
-    if (!$user || $user['otp'] !== $otp) {
-        echo json_encode(['success' => false, 'message' => 'Invalid OTP']);
-        exit;
-    }
-    $user['password'] = hash('sha256', $newPass . 'brio2026salt');
-    $user['verified'] = true;
-    $user['otp']      = null;
-    dbSave($email, $user);
-    echo json_encode(['success' => true, 'message' => 'Password reset successful. Please login.']);
-    exit;
-}
-
-// ---- Route: POST /api/auth/logout ----
-if ($method === 'POST' && $uri === '/api/auth/logout') {
-    @session_start();
-    @session_destroy();
-    echo json_encode(['success' => true, 'message' => 'Logged out']);
-    exit;
-}
-
-// ---- Route: POST /api/career/apply ----
-if ($method === 'POST' && $uri === '/api/career/apply') {
-    echo json_encode(['success' => true, 'message' => 'Application received. We will contact you soon.']);
-    exit;
-}
-
-// ---- Route: GET /api/career/applications ----
-if ($method === 'GET' && $uri === '/api/career/applications') {
-    echo json_encode(['success' => true, 'applications' => []]);
-    exit;
-}
-
-// ---- No route matched ----
 http_response_code(404);
-echo json_encode(['error' => 'Not found', 'uri' => $uri, 'method' => $method]);
+echo json_encode(['success' => false, 'message' => 'API Endpoint Not Found: ' . $uri]);
+exit;

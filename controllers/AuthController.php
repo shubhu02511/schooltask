@@ -153,8 +153,9 @@ class AuthController {
         // Check 5-minute Expiration
         $sessionExpires = $_SESSION['latest_otp_' . $email]['expires'] ?? 0;
         $dbExpires = !empty($user['otp_expires']) ? strtotime($user['otp_expires']) : 0;
-        $maxExpires = max($sessionExpires, $dbExpires);
-        if ($maxExpires > 0 && time() > $maxExpires) {
+
+        if (($dbExpires > 0 && time() > $dbExpires) || ($sessionExpires > 0 && time() > $sessionExpires)) {
+            http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'OTP code has expired. Please request a new one.']);
             exit;
         }
@@ -204,9 +205,14 @@ class AuthController {
             exit;
         }
 
-        $isMatch = ($user['password'] === sha1($password . 'brio_salt_2026')) || password_verify($password, $user['password']);
+        $sha1Hash = sha1($password . 'brio_salt_2026');
+        $sha256Hash = hash('sha256', $password . 'brio2026salt');
+
+        $isMatch = (!empty($user['password']) && ($user['password'] === $sha1Hash || $user['password'] === $sha256Hash || password_verify($password, $user['password']))) ||
+                   (!empty($user['pw_hash']) && ($user['pw_hash'] === $sha256Hash || $user['pw_hash'] === $sha1Hash));
 
         if (!$isMatch) {
+            http_response_code(401);
             echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
             exit;
         }

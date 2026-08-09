@@ -1237,9 +1237,7 @@ function initAuthSystem() {
           alert(data.message);
         }
       } catch (err) {
-        alert('Email verified successfully! Welcome to BRIO Portal.');
-        handleSuccessfulLoginRedirect({ name: 'Verified User', email: document.getElementById('otp-hidden-email').value });
-        otpModal.classList.remove('active');
+        alert(err.message || 'OTP verification failed. Please check your code.');
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Verify OTP & Activate Account';
@@ -1280,12 +1278,10 @@ function initAuthSystem() {
           loginModal.classList.remove('active');
           otpModal.classList.add('active');
         } else {
-          alert(data.message);
+          alert(data.message || 'Invalid email or password');
         }
       } catch (err) {
-        alert('Login successful! Redirecting to Portal Home...');
-        handleSuccessfulLoginRedirect({ name: 'Portal User', email: formData.get('email') });
-        loginModal.classList.remove('active');
+        alert(err.message || 'Login failed. Please check your email and password.');
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login to Account';

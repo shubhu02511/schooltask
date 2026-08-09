@@ -1,16 +1,29 @@
 <?php
-// Database connection helper with Session RAM database fallback for shared hosting
+// Persistent File-Based JSON Database Wrapper for Shared Hosting & CLI Compatibility
 require_once __DIR__ . '/config.php';
 
 if (!class_exists('JsonDBWrapper')) {
     class JsonDBWrapper {
-        public function __construct() {
-            if (session_status() === PHP_SESSION_NONE) {
-                @session_start();
+        private static function getFilePath() {
+            $tmp = sys_get_temp_dir();
+            return rtrim($tmp, '/\\') . '/brio_app_users_db.json';
+        }
+
+        public static function loadData() {
+            $f = self::getFilePath();
+            if (file_exists($f)) {
+                $content = @file_get_contents($f);
+                $decoded = @json_decode($content, true);
+                if (is_array($decoded) && isset($decoded['users'])) {
+                    return $decoded;
+                }
             }
-            if (!isset($_SESSION['schooltask_users_db'])) {
-                $_SESSION['schooltask_users_db'] = ['users' => [], 'career' => []];
-            }
+            return ['users' => [], 'career' => []];
+        }
+
+        public static function saveData($data) {
+            $f = self::getFilePath();
+            @file_put_contents($f, json_encode($data, JSON_PRETTY_PRINT), LOCK_EX);
         }
 
         public function prepare($sql) {
@@ -18,6 +31,30 @@ if (!class_exists('JsonDBWrapper')) {
         }
 
         public function exec($sql) {
+            $store = self::loadData();
+            if (stripos($sql, 'DELETE FROM users') !== false) {
+                if (preg_match("/email\s*=\s*'([^']+)'/i", $sql, $m)) {
+                    $targetEmail = strtolower($m[1]);
+                    $store['users'] = array_values(array_filter($store['users'], function($u) use ($targetEmail) {
+                        return strtolower($u['email'] ?? '') !== $targetEmail;
+                    }));
+                } else {
+                    $store['users'] = [];
+                }
+                self::saveData($store);
+            } elseif (stripos($sql, 'UPDATE users SET otp_expires') !== false) {
+                if (preg_match("/otp_expires\s*=\s*'([^']+)'/i", $sql, $mExp) && preg_match("/email\s*=\s*'([^']+)'/i", $sql, $mEmail)) {
+                    $expVal = $mExp[1];
+                    $targetEmail = strtolower($mEmail[1]);
+                    foreach ($store['users'] as &$u) {
+                        if (strtolower($u['email'] ?? '') === $targetEmail) {
+                            $u['otp_expires'] = $expVal;
+                            break;
+                        }
+                    }
+                    self::saveData($store);
+                }
+            }
             return true;
         }
     }
@@ -33,16 +70,7 @@ if (!class_exists('JsonDBStatement')) {
         }
 
         public function execute($params = []) {
-            if (session_status() === PHP_SESSION_NONE) {
-                @session_start();
-            }
-            if (!isset($_SESSION['schooltask_users_db']) || !is_array($_SESSION['schooltask_users_db'])) {
-                $_SESSION['schooltask_users_db'] = ['users' => [], 'career' => []];
-            }
-            $store = &$_SESSION['schooltask_users_db'];
-            if (!isset($store['users']) || !is_array($store['users'])) {
-                $store['users'] = [];
-            }
+            $store = JsonDBWrapper::loadData();
 
             if (stripos($this->sql, 'SELECT * FROM users WHERE email') !== false) {
                 $email = strtolower($params[0] ?? '');
@@ -66,6 +94,7 @@ if (!class_exists('JsonDBStatement')) {
                 ];
                 $store['users'][] = $newUser;
                 $this->data = [$newUser];
+                JsonDBWrapper::saveData($store);
             } elseif (stripos($this->sql, 'UPDATE users SET name') !== false) {
                 $email = strtolower($params[4] ?? '');
                 foreach ($store['users'] as &$u) {
@@ -77,6 +106,7 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
+                JsonDBWrapper::saveData($store);
             } elseif (stripos($this->sql, 'UPDATE users SET is_verified = 1') !== false) {
                 $id = $params[0] ?? 0;
                 foreach ($store['users'] as &$u) {
@@ -87,6 +117,7 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
+                JsonDBWrapper::saveData($store);
             } elseif (stripos($this->sql, 'UPDATE users SET otp_code =') !== false) {
                 $id = $params[2] ?? 0;
                 foreach ($store['users'] as &$u) {
@@ -96,6 +127,7 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
+                JsonDBWrapper::saveData($store);
             } elseif (stripos($this->sql, 'UPDATE users SET password =') !== false) {
                 $id = $params[1] ?? 0;
                 foreach ($store['users'] as &$u) {
@@ -107,6 +139,7 @@ if (!class_exists('JsonDBStatement')) {
                         break;
                     }
                 }
+                JsonDBWrapper::saveData($store);
             }
             return true;
         }
