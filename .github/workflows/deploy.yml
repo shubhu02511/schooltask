@@ -7,7 +7,7 @@ on:
 
 jobs:
   web-deploy:
-    name: Deploy to cPanel public_html
+    name: Deploy to cPanel syonra.life
     runs-on: ubuntu-latest
     steps:
       - name: Get latest code
@@ -19,7 +19,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/
+          server-dir: /syonra.life/
           local-dir: ./
           exclude: |
             **/.git*
