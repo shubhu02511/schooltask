@@ -119,9 +119,17 @@ function setupMobileNav() {
         navMenu.style.top = '100%';
         navMenu.style.left = '0';
         navMenu.style.right = '0';
-        navMenu.style.background = 'white';
+        navMenu.style.background = '#0F172A';
         navMenu.style.padding = '1.5rem';
-        navMenu.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+        navMenu.style.boxShadow = '0 12px 35px rgba(0,0,0,0.5)';
+        navMenu.style.zIndex = '999';
+        navMenu.style.borderBottom = '3px solid #F59E0B';
+        
+        navMenu.querySelectorAll('.nav-link').forEach(l => {
+          l.style.color = '#FFFFFF';
+          l.style.padding = '0.6rem 0';
+          l.style.fontWeight = '600';
+        });
       }
     });
 

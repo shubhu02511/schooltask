@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=999.0">
+  <link rel="stylesheet" href="styles.css?v=1000.0">
 
   <!-- Immediate Inline Router Engine -->
   <script>
@@ -222,7 +222,7 @@
       <button class="carousel-control next-slide" id="hero-next-btn"><i class="fa-solid fa-chevron-right"></i></button>
 
       <!-- Scroll to Explore Indicator Overlay -->
-      <div class="scroll-explore-container">
+      <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership') || document.getElementById('about'); if(sec) sec.scrollIntoView({behavior: 'smooth'}); return false;" style="cursor: pointer;" title="Click to scroll down">
         <div class="scroll-explore-line"></div>
         <div class="scroll-explore-text">SCROLL TO EXPLORE</div>
         <div class="scroll-explore-arrow"><i class="fa-solid fa-angles-down text-gold"></i></div>
@@ -2013,7 +2013,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=999.0"></script>
+  <script src="app.js?v=1000.0"></script>
 </body>
 </html>
 
