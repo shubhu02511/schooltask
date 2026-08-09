@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -16,80 +16,218 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=3000.0">
+  <link rel="stylesheet" href="styles.css?v=5000.0">
 
-  <!-- Immediate Inline Router Engine -->
+
+  <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
   <script>
-    // Core navigation function
-    window.navigateTo = function(targetId) {
-      if (!targetId || targetId === '' || targetId === '#') targetId = 'home';
-      if (targetId.startsWith('#')) targetId = targetId.substring(1);
-
-      var elem = document.getElementById(targetId);
-      if (!elem) {
-        targetId = 'home';
-        elem = document.getElementById('home');
-      }
-
-      var pageViews = document.querySelectorAll('.page-view');
-      var pageToActivate = null;
-
-      if (elem) {
-        if (elem.classList.contains('page-view')) {
-          pageToActivate = elem;
-        } else {
-          pageToActivate = elem.closest('.page-view');
-        }
-      }
-
-      if (!pageToActivate) pageToActivate = document.getElementById('home');
-
-      for (var i = 0; i < pageViews.length; i++) {
-        pageViews[i].classList.remove('active-page');
-      }
-
-      if (pageToActivate) {
-        pageToActivate.classList.add('active-page');
-      }
-
-      var navLinks = document.querySelectorAll('.nav-link');
-      for (var j = 0; j < navLinks.length; j++) {
-        var href = navLinks[j].getAttribute('href');
-        if (href === '#' + targetId || (href === '#home' && targetId === 'home')) {
-          navLinks[j].classList.add('active');
-        } else {
-          navLinks[j].classList.remove('active');
-        }
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    // Global click event delegation - catches ALL router-link and nav-link clicks
-    document.addEventListener('click', function(e) {
-      var target = e.target;
-      // Walk up DOM tree to find an anchor with a hash href
-      while (target && target !== document) {
-        if (target.tagName === 'A') {
-          var href = target.getAttribute('href');
-          if (href && href.startsWith('#') && href.length > 1) {
-            // Check if this is a router link or nav link
-            if (target.classList.contains('router-link') ||
-                target.classList.contains('nav-link') ||
-                target.classList.contains('admission-sidebar-tab')) {
-              e.preventDefault();
-              window.navigateTo(href.substring(1));
-              return;
+    (function() {
+      // ============================================
+      // NAVIGATION ENGINE
+      // ============================================
+      window.navigateTo = function(targetId) {
+        try {
+          if (!targetId || targetId === '' || targetId === '#') targetId = 'home';
+          if (targetId.startsWith && targetId.startsWith('#')) targetId = targetId.substring(1);
+          
+          var pages = document.querySelectorAll('.page-view');
+          var found = null;
+          
+          // Find the target page
+          var elem = document.getElementById(targetId);
+          if (elem) {
+            if (elem.classList.contains('page-view')) {
+              found = elem;
+            } else {
+              found = elem.closest ? elem.closest('.page-view') : null;
             }
           }
-          break;
+          if (!found) found = document.getElementById('home');
+          
+          // Hide all pages
+          for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove('active-page');
+            pages[i].style.display = 'none';
+          }
+          
+          // Show target
+          if (found) {
+            found.classList.add('active-page');
+            found.style.display = 'block';
+          }
+          
+          // Update nav active state
+          var navLinks = document.querySelectorAll('.nav-link');
+          for (var j = 0; j < navLinks.length; j++) {
+            var href = navLinks[j].getAttribute('href') || '';
+            if (href === '#' + targetId || (href === '#home' && targetId === 'home')) {
+              navLinks[j].classList.add('active');
+            } else {
+              navLinks[j].classList.remove('active');
+            }
+          }
+          
+          // Close mobile nav if open
+          var navMenu = document.querySelector('.nav-menu');
+          if (navMenu) navMenu.classList.remove('mobile-active');
+          
+          // Scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Update hash silently
+          if (window.history && window.history.pushState) {
+            window.history.pushState(null, '', '#' + targetId);
+          }
+        } catch(e) {
+          console.warn('navigateTo error:', e);
         }
-        target = target.parentElement;
-      }
-    }, true); // Use capture phase for maximum reliability
+      };
+
+      // ============================================
+      // GLOBAL CLICK HANDLER (catches ALL buttons/links)
+      // ============================================
+      document.addEventListener('click', function(e) {
+        try {
+          var target = e.target;
+          var depth = 0;
+          while (target && target !== document && depth < 6) {
+            if (target.tagName === 'A') {
+              var href = target.getAttribute('href') || '';
+              if (href.startsWith('#') && href.length > 1) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.navigateTo(href.substring(1));
+                return;
+              }
+              break;
+            }
+            target = target.parentElement;
+            depth++;
+          }
+        } catch(e) {}
+      }, true);
+
+      // ============================================
+      // MOBILE NAV TOGGLE
+      // ============================================
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          // Initial route
+          var hash = window.location.hash.substring(1);
+          window.navigateTo(hash || 'home');
+
+          // Mobile hamburger
+          var toggleBtn = document.querySelector('.mobile-nav-toggle');
+          var navMenu = document.querySelector('.nav-menu');
+          if (toggleBtn && navMenu) {
+            toggleBtn.addEventListener('click', function(e) {
+              e.stopPropagation();
+              navMenu.classList.toggle('mobile-active');
+            });
+            document.addEventListener('click', function(e) {
+              if (navMenu.classList.contains('mobile-active')) {
+                if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                  navMenu.classList.remove('mobile-active');
+                }
+              }
+            });
+          }
+
+          // Hero Carousel Setup
+          var slides = document.querySelectorAll('.hero-slide');
+          var dots = document.querySelectorAll('#hero-carousel-dots .dot');
+          var currentSlide = 0;
+          var timer = null;
+
+          function goToSlide(idx) {
+            try {
+              slides[currentSlide].classList.remove('active');
+              if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+              currentSlide = ((idx % slides.length) + slides.length) % slides.length;
+              slides[currentSlide].classList.add('active');
+              if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+            } catch(e) {}
+          }
+
+          function startAuto() {
+            clearInterval(timer);
+            timer = setInterval(function() { goToSlide(currentSlide + 1); }, 4500);
+          }
+
+          window.heroSlidePrev = function() { goToSlide(currentSlide - 1); startAuto(); };
+          window.heroSlideNext = function() { goToSlide(currentSlide + 1); startAuto(); };
+
+          var prevBtn = document.getElementById('hero-prev-btn');
+          var nextBtn = document.getElementById('hero-next-btn');
+          if (prevBtn) prevBtn.addEventListener('click', window.heroSlidePrev);
+          if (nextBtn) nextBtn.addEventListener('click', window.heroSlideNext);
+
+          dots.forEach(function(dot, idx) {
+            dot.addEventListener('click', function() { goToSlide(idx); startAuto(); });
+          });
+
+          // Touch swipe
+          var heroSec = document.querySelector('.hero-carousel-container');
+          if (heroSec) {
+            var touchX = 0;
+            heroSec.addEventListener('touchstart', function(e) {
+              touchX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            heroSec.addEventListener('touchend', function(e) {
+              var dx = e.changedTouches[0].screenX - touchX;
+              if (dx < -40) window.heroSlideNext();
+              else if (dx > 40) window.heroSlidePrev();
+            }, { passive: true });
+          }
+
+          startAuto();
+
+          // Auth button - Portal Login
+          var authBtn = document.getElementById('auth-nav-btn');
+          if (authBtn) {
+            authBtn.addEventListener('click', function() {
+              var modal = document.getElementById('login-modal');
+              if (modal) modal.classList.add('active');
+            });
+          }
+
+          // Modal close on backdrop click
+          document.querySelectorAll('.modal-backdrop').forEach(function(modal) {
+            modal.addEventListener('click', function(e) {
+              if (e.target === modal) modal.classList.remove('active');
+            });
+          });
+          document.querySelectorAll('.modal-close-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var modal = btn.closest('.modal-backdrop');
+              if (modal) modal.classList.remove('active');
+            });
+          });
+
+          // Escape key closes modals
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+              document.querySelectorAll('.modal-backdrop.active').forEach(function(m) {
+                m.classList.remove('active');
+              });
+            }
+          });
+
+        } catch(e) {
+          console.warn('Init error:', e);
+        }
+      });
+
+      // Browser back/forward
+      window.addEventListener('popstate', function() {
+        var hash = window.location.hash.substring(1);
+        window.navigateTo(hash || 'home');
+      });
+    })();
   </script>
 </head>
 <body>
+
 
   <!-- Announcement Ticker Bar -->
   <div class="top-ticker-bar">
@@ -115,7 +253,7 @@
         <div class="logo-icon">B</div>
         <div class="brand-text">
           <h1>BRIO WORLD SCHOOL</h1>
-          <p>Inspiring Excellence • Global Campus</p>
+          <p>Inspiring Excellence â€¢ Global Campus</p>
         </div>
       </a>
 
@@ -268,7 +406,7 @@
                   CHAIRPERSON | BRIO GROUP
                 </span>
                 <p id="spotlight-quote" style="font-size: 0.88rem; color: #1E293B; line-height: 1.6; font-style: italic; margin: 0;">
-                  "Every remarkable journey begins with a vision—bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
+                  "Every remarkable journey begins with a visionâ€”bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
                 </p>
               </div>
             </div>
@@ -665,16 +803,16 @@
             <label for="calc-transport"><i class="fa-solid fa-bus"></i> Transport Route Zone</label>
             <select id="calc-transport" class="form-control">
               <option value="none">Self Transport / No Bus Needed</option>
-              <option value="zone1" selected>Zone 1 (Within 5 km radius) - ₹12,000/yr</option>
-              <option value="zone2">Zone 2 (5 km to 12 km radius) - ₹18,000/yr</option>
-              <option value="zone3">Zone 3 (12 km to 20 km radius) - ₹24,000/yr</option>
+              <option value="zone1" selected>Zone 1 (Within 5 km radius) - â‚¹12,000/yr</option>
+              <option value="zone2">Zone 2 (5 km to 12 km radius) - â‚¹18,000/yr</option>
+              <option value="zone3">Zone 3 (12 km to 20 km radius) - â‚¹24,000/yr</option>
             </select>
           </div>
 
           <div class="form-group" style="margin-top: 1.5rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" id="calc-hostel" style="width: 18px; height: 18px; accent-color: var(--accent-gold);">
-              <span>Include Boarding & Hostel Facility (₹95,000/yr)</span>
+              <span>Include Boarding & Hostel Facility (â‚¹95,000/yr)</span>
             </label>
           </div>
         </div>
@@ -688,31 +826,31 @@
             <tbody>
               <tr>
                 <td style="color: var(--text-light);">Admission Fee (One-Time)</td>
-                <td style="text-align: right; color: white; font-weight: 600;">₹25,000</td>
+                <td style="text-align: right; color: white; font-weight: 600;">â‚¹25,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Annual Tuition Fee</td>
-                <td id="fee-tuition" style="text-align: right; color: white; font-weight: 600;">₹65,000</td>
+                <td id="fee-tuition" style="text-align: right; color: white; font-weight: 600;">â‚¹65,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">STEM & Digital Science Lab Fee</td>
-                <td id="fee-lab" style="text-align: right; color: white; font-weight: 600;">₹8,000</td>
+                <td id="fee-lab" style="text-align: right; color: white; font-weight: 600;">â‚¹8,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Co-Curricular & Sports Fee</td>
-                <td id="fee-activity" style="text-align: right; color: white; font-weight: 600;">₹12,000</td>
+                <td id="fee-activity" style="text-align: right; color: white; font-weight: 600;">â‚¹12,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Transport Fleet Fee</td>
-                <td id="fee-transport" style="text-align: right; color: white; font-weight: 600;">₹12,000</td>
+                <td id="fee-transport" style="text-align: right; color: white; font-weight: 600;">â‚¹12,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Hostel & Dining Charges</td>
-                <td id="fee-hostel" style="text-align: right; color: white; font-weight: 600;">₹0</td>
+                <td id="fee-hostel" style="text-align: right; color: white; font-weight: 600;">â‚¹0</td>
               </tr>
               <tr class="fee-total-row">
                 <td style="color: var(--accent-gold);">Total Estimated Fee</td>
-                <td id="fee-total" style="text-align: right; color: var(--accent-gold);">₹1,22,000</td>
+                <td id="fee-total" style="text-align: right; color: var(--accent-gold);">â‚¹1,22,000</td>
               </tr>
             </tbody>
           </table>
@@ -1238,7 +1376,7 @@
               
               <!-- Job 1 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time • Senior Wing</span>
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time â€¢ Senior Wing</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">PGT Physics & JEE Foundation Mentor</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat & Delhi Campuses | M.Sc. Physics required</p>
                 <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics & JEE Mentor" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1248,7 +1386,7 @@
 
               <!-- Job 2 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time • STEM Lab</span>
+                <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time â€¢ STEM Lab</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">AI & Robotics STEM Coach</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | B.Tech / M.Tech in CS/Robotics</p>
                 <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI & Robotics STEM Coach" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1258,7 +1396,7 @@
 
               <!-- Job 3 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Full-Time • Middle Wing</span>
+                <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Full-Time â€¢ Middle Wing</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">TGT English & Drama Facilitator</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Delhi NCR Campus | M.A. English & B.Ed. required</p>
                 <button type="button" class="btn btn-emerald career-apply-trigger" data-job="TGT English & Drama Facilitator" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1268,7 +1406,7 @@
 
               <!-- Job 4 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time • Sports Wing</span>
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time â€¢ Sports Wing</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">Head Aquatics & Swimming Coach</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | Certified NIS Coach</p>
                 <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1357,7 +1495,7 @@
     <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
       <div class="container text-center">
         <span class="badge badge-gold"><i class="fa-solid fa-building-columns"></i> Premier Eco-Green Campus</span>
-        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School — Gujarat</h1>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School â€” Gujarat</h1>
         <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
           Sprawling 25-acre smart eco-campus located in the Vadodara Tech Corridor, designed for academic excellence, sports development, and residential care.
         </p>
@@ -1403,7 +1541,7 @@
           <div>
             <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Gujarat Campus Contact</span>
             <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Gujarat Campus</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat — 390001</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat â€” 390001</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (0265) 2980-100 / +91 98795 11000</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> gujarat@brioworldschool.edu.in</p>
             <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
@@ -1421,7 +1559,7 @@
     <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
       <div class="container text-center">
         <span class="badge badge-navy"><i class="fa-solid fa-building-columns"></i> Institutional Hub Campus</span>
-        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School — Delhi NCR</h1>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School â€” Delhi NCR</h1>
         <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
           18-acre ultra-modern green campus located in South Delhi / Gurgaon Hub, equipped with IB & CBSE accreditation and Apple Mac innovation suites.
         </p>
@@ -1467,7 +1605,7 @@
           <div>
             <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Delhi NCR Campus Contact</span>
             <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Delhi NCR Campus</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Institutional Area, South Delhi / Gurgaon Hub, New Delhi — 110070</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Institutional Area, South Delhi / Gurgaon Hub, New Delhi â€” 110070</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (011) 4980-200 / +91 98112 44000</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> delhi@brioworldschool.edu.in</p>
             <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
@@ -1582,7 +1720,7 @@
 
     <div class="chat-body">
       <div class="chat-msg chat-msg-bot">
-        Hello! 👋 Welcome to BRIO World School. How can I assist you today?
+        Hello! ðŸ‘‹ Welcome to BRIO World School. How can I assist you today?
         <div class="chat-quick-options">
           <span class="chat-chip">Admission Fee Structure</span>
           <span class="chat-chip">Apply for 2026-27</span>
@@ -1650,7 +1788,7 @@
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <span style="color: var(--text-muted);">Amount Paid:</span>
-          <strong id="receipt-amount" style="color: var(--accent-emerald);">₹32,500</strong>
+          <strong id="receipt-amount" style="color: var(--accent-emerald);">â‚¹32,500</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <span style="color: var(--text-muted);">Installment:</span>
@@ -1692,7 +1830,7 @@
             Empowering minds, shaping futures. A community dedicated to academic excellence across our Gujarat & Delhi NCR campuses.
           </p>
           <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
-            © 2026 BRIO World School. All rights reserved.
+            Â© 2026 BRIO World School. All rights reserved.
           </p>
         </div>
 
@@ -1825,7 +1963,7 @@
         </div>
         <div class="form-group">
           <label>Password *</label>
-          <input type="password" name="password" id="login-password" class="form-control" placeholder="••••••••" required>
+          <input type="password" name="password" id="login-password" class="form-control" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; margin-bottom: 1.25rem;">
           <a href="#" id="open-register-link" style="color: #2563EB; font-weight: 600;">Create New Account</a>
@@ -2013,9 +2151,10 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=3000.0"></script>
+  <script src="app.js?v=5000.0"></script>
 </body>
 </html>
+
 
 
 
