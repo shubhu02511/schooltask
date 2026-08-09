@@ -1314,11 +1314,7 @@ function initAuthSystem() {
 
         if (data.success) {
           document.getElementById('reset-hidden-email').value = data.email;
-          if (data.otp_demo) {
-            alert(`Password Reset OTP sent! (Demo Code: ${data.otp_demo})`);
-          } else {
-            alert(data.message);
-          }
+          alert(data.message || 'Password reset OTP sent to your email.');
           forgotModal.classList.remove('active');
           resetModal.classList.add('active');
         } else {

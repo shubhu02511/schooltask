@@ -85,8 +85,15 @@ class AuthController {
                 exit;
             }
 
+            // Check Rate Limiting Cooldown (60 seconds)
+            $cooldown = checkOTPCooldown($email);
+            if ($cooldown > 0) {
+                echo json_encode(['success' => false, 'message' => "Please wait {$cooldown} seconds before requesting a new OTP email."]);
+                exit;
+            }
+
             $otp = generateOTP();
-            $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+            $expires = date('Y-m-d H:i:s', strtotime('+5 minutes'));
             $hashedPassword = sha1($password . 'brio_salt_2026');
 
             if (is_array($existing)) {
@@ -103,7 +110,7 @@ class AuthController {
 
             echo json_encode([
                 'success' => true,
-                'message' => 'Registration OTP sent to your email (' . $email . '). Please verify.',
+                'message' => 'Registration OTP sent to your email (' . $email . '). Please check your inbox.',
                 'email' => $email
             ]);
             exit;
@@ -143,7 +150,17 @@ class AuthController {
             exit;
         }
 
-        // Mark as verified
+        // Check 5-minute Expiration
+        $sessionExpires = $_SESSION['latest_otp_' . $email]['expires'] ?? 0;
+        $dbExpires = !empty($user['otp_expires']) ? strtotime($user['otp_expires']) : 0;
+        $maxExpires = max($sessionExpires, $dbExpires);
+        if ($maxExpires > 0 && time() > $maxExpires) {
+            echo json_encode(['success' => false, 'message' => 'OTP code has expired. Please request a new one.']);
+            exit;
+        }
+
+        // Single-Use Consumption: Clear OTP from database and session
+        unset($_SESSION['latest_otp_' . $email]);
         $update = $db->prepare("UPDATE users SET is_verified = 1, otp_code = NULL, otp_expires = NULL WHERE id = ?");
         $update->execute([$user['id']]);
 
@@ -195,9 +212,16 @@ class AuthController {
         }
 
         if (empty($user['is_verified']) || $user['is_verified'] == 0) {
+            // Check Rate Limiting Cooldown (60 seconds)
+            $cooldown = checkOTPCooldown($email);
+            if ($cooldown > 0) {
+                echo json_encode(['success' => false, 'message' => "Please wait {$cooldown} seconds before requesting a new OTP email."]);
+                exit;
+            }
+
             // Re-send OTP if unverified
             $otp = generateOTP();
-            $expires = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+            $expires = date('Y-m-d H:i:s', strtotime('+5 minutes'));
             $update = $db->prepare("UPDATE users SET otp_code = ?, otp_expires = ? WHERE id = ?");
             $update->execute([$otp, $expires, $user['id']]);
 
@@ -207,8 +231,7 @@ class AuthController {
                 'success' => false,
                 'require_otp' => true,
                 'message' => 'Account unverified. A new OTP has been sent to your email (' . $email . ').',
-                'email' => $email,
-                'otp_demo' => $otp
+                'email' => $email
             ]);
             exit;
         }
