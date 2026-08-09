@@ -700,6 +700,43 @@ img {
   font-size: 0.8rem;
 }
 
+/* Global Hero Section & Inner Page Banners System */
+.hero-section,
+.page-banner {
+  background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%) !important;
+  color: #FFFFFF !important;
+  padding: 4.5rem 1.5rem !important;
+  text-align: center !important;
+  position: relative !important;
+  border-bottom: 3px solid var(--accent-gold) !important;
+  box-shadow: 0 8px 24px rgba(9, 18, 36, 0.25) !important;
+}
+
+.hero-section h1,
+.hero-section .hero-title,
+.page-banner h1,
+.page-banner .hero-title {
+  color: #FFFFFF !important;
+  font-size: 2.85rem !important;
+  font-weight: 800 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.85rem !important;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85) !important;
+}
+
+.hero-section p,
+.hero-section .hero-subtitle,
+.page-banner p,
+.page-banner .hero-subtitle {
+  color: #E2E8F0 !important;
+  font-size: 1.08rem !important;
+  font-weight: 500 !important;
+  max-width: 720px !important;
+  margin: 0 auto !important;
+  line-height: 1.65 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
 /* Section Headers & Cards Balance */
 .section-padding {
   padding: 5rem 0;
@@ -710,13 +747,14 @@ img {
   margin: 0 auto 3rem;
 }
 .section-header h2 {
+  color: #0F172A !important;
   font-size: 2.35rem;
   font-weight: 800;
   letter-spacing: -0.5px;
   margin: 0.6rem 0 0.85rem;
 }
 .section-header p {
-  color: var(--text-muted);
+  color: #334155 !important;
   font-size: 1.02rem;
   line-height: 1.65;
   margin: 0 auto;
