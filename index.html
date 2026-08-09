@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=24000.0">
+  <link rel="stylesheet" href="styles.css?v=25000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -359,8 +359,6 @@
         <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About</a></li>
         <li class="nav-item"><a href="#academics" class="nav-link" onclick="window.navigateTo('academics'); return false;">Academics</a></li>
         <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Campus</a></li>
-        <li class="nav-item"><a href="#gujarat-campus" class="nav-link" onclick="window.navigateTo('gujarat-campus'); return false;"><i class="fa-solid fa-location-dot text-gold" style="font-size: 0.8rem;"></i> Gujarat Branch</a></li>
-        <li class="nav-item"><a href="#delhi-campus" class="nav-link" onclick="window.navigateTo('delhi-campus'); return false;"><i class="fa-solid fa-location-dot text-gold" style="font-size: 0.8rem;"></i> Delhi NCR Branch</a></li>
         <li class="nav-item"><a href="#admissions" class="nav-link" onclick="window.navigateTo('admissions'); return false;">Admissions</a></li>
         <li class="nav-item"><a href="#careers" class="nav-link" onclick="window.navigateTo('careers'); return false;">Careers</a></li>
         <li class="nav-item" style="margin-left: 0.5rem;">
@@ -1225,9 +1223,61 @@
               <h4>Organic Multi-Cuisine Eco Dining Hall</h4>
               <p>Hygienic, nutritionist-planned meals prepared fresh daily.</p>
             </div>
+        </div>
+
+        <!-- Our Premier School Branches & Campuses Section -->
+        <div id="branches" style="margin-top: 5rem; padding-top: 3rem; border-top: 2px solid var(--border-light);">
+          <div class="section-header text-center" style="margin-bottom: 3rem;">
+            <span class="badge badge-navy"><i class="fa-solid fa-location-dot"></i> Institutional Campuses</span>
+            <h2 style="font-size: 2.2rem; color: #0F172A;">Our Premier School Branches</h2>
+            <p style="color: #334155;">State-of-the-art smart eco-campuses equipped with CBSE &amp; IB accreditation across premier locations.</p>
           </div>
 
+          <div class="grid-2" style="gap: 2.5rem;">
+            
+            <!-- Branch 1: Gujarat Campus -->
+            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 230px; object-fit: cover;">
+              <div style="padding: 1.75rem;">
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 25-Acre Eco-Green Campus</span>
+                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Gujarat</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                  Located in the Vadodara Tech Corridor, featuring 50m Olympic pool, 3D planetarium, AI incubator, and luxury eco boarding suites.
+                </p>
+                <div style="background: #F8FAFC; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155;">
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-map-location-dot text-gold"></i> Location:</strong> Vadodara Tech Corridor, Gujarat</p>
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (0265) 2980-100</p>
+                  <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> gujarat@brioworldschool.edu.in</p>
+                </div>
+                <a href="#gujarat-campus" class="btn btn-gold router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="width: 100%; justify-content: center;">
+                  <i class="fa-solid fa-compass"></i> Explore Gujarat Branch Details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Branch 2: Delhi NCR Campus -->
+            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 230px; object-fit: cover;">
+              <div style="padding: 1.75rem;">
+                <span class="badge badge-navy" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 18-Acre Institutional Campus</span>
+                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Delhi NCR</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                  Located in the South Delhi / Gurgaon Hub, featuring Apple Mac coding labs, FIFA football turf, 1,200-seat auditorium, and Ivy League cell.
+                </p>
+                <div style="background: #F8FAFC; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155;">
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-map-location-dot text-gold"></i> Location:</strong> South Delhi / Gurgaon Hub, New Delhi</p>
+                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (011) 4980-200</p>
+                  <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> delhi@brioworldschool.edu.in</p>
+                </div>
+                <a href="#delhi-campus" class="btn btn-navy router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="width: 100%; justify-content: center;">
+                  <i class="fa-solid fa-compass"></i> Explore Delhi NCR Branch Details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
         </div>
+
       </div>
     </section>
   </main>
@@ -1909,50 +1959,66 @@
   <!-- FOOTER -->
   <footer class="main-footer" style="background: #091224; color: white; padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.08);">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
         
         <!-- Col 1: Brand Info -->
         <div>
           <h3 style="color: var(--accent-gold); font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">BRIO World School</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #94A3B8; max-width: 320px; margin-bottom: 2rem;">
-            Empowering minds, shaping futures. A community dedicated to academic excellence across our Gujarat & Delhi NCR campuses.
+          <p style="font-size: 0.88rem; line-height: 1.6; color: #94A3B8; max-width: 300px; margin-bottom: 1.5rem;">
+            Empowering minds, shaping global leaders. A premier educational community dedicated to academic rigor and moral values across Gujarat &amp; Delhi NCR.
           </p>
-          <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
-            © 2026 BRIO World School. All rights reserved.
-          </p>
+          <div style="display: flex; gap: 0.75rem;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-linkedin-in"></i></a>
+          </div>
         </div>
 
-        <!-- Col 2: Admissions -->
+        <!-- Col 2: School Branches -->
         <div>
-          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Admissions</h4>
+          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Our Branches</h4>
           <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
-            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Quick Inquiry</a></li>
-            <li><a href="#facilities" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Campus Tour</a></li>
-            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Fee Calculator</a></li>
+            <li><a href="#gujarat-campus" class="router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;"><i class="fa-solid fa-location-dot text-gold" style="margin-right: 6px;"></i> Gujarat Campus</a></li>
+            <li><a href="#delhi-campus" class="router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;"><i class="fa-solid fa-location-dot text-gold" style="margin-right: 6px;"></i> Delhi NCR Campus</a></li>
+            <li><a href="#facilities" class="router-link" onclick="window.navigateTo('facilities'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;"><i class="fa-solid fa-building-columns text-gold" style="margin-right: 6px;"></i> All Facilities</a></li>
           </ul>
         </div>
 
-        <!-- Col 3: School -->
+        <!-- Col 3: Academics & Admissions -->
         <div>
-          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">School</h4>
+          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Admissions</h4>
           <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
-            <li><a href="#careers" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Faculty Directory</a></li>
-            <li><a href="#academics" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Academic Wings</a></li>
-            <li><a href="#leadership" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Leadership Team</a></li>
+            <li><a href="#admissions" class="router-link" onclick="window.navigateTo('admissions'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Online Application</a></li>
+            <li><a href="#admissions" class="router-link" onclick="window.navigateTo('admissions'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Fee Estimator</a></li>
+            <li><a href="#academics" class="router-link" onclick="window.navigateTo('academics'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Curriculum &amp; Wings</a></li>
+            <li><a href="#careers" class="router-link" onclick="window.navigateTo('careers'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Faculty Careers</a></li>
           </ul>
         </div>
 
-        <!-- Col 4: Legal -->
+        <!-- Col 4: Quick Contact -->
         <div>
-          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Legal</h4>
+          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Helpdesk</h4>
+          <p style="font-size: 0.85rem; color: #94A3B8; margin-bottom: 0.4rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 6px;"></i> +91 (0265) 2980-100</p>
+          <p style="font-size: 0.85rem; color: #94A3B8; margin-bottom: 0.4rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 6px;"></i> +91 (011) 4980-200</p>
+          <p style="font-size: 0.85rem; color: #94A3B8; margin: 0;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 6px;"></i> info@brioworldschool.edu.in</p>
+        </div>
+
+        <!-- Col 5: Legal & Policy -->
+        <div>
+          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Legal</h4>
           <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">T&C</a></li>
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Refund Policy</a></li>
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Mandatory Public Disclosure</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Terms of Service</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Privacy Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Refund Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Mandatory Public Disclosure</a></li>
           </ul>
         </div>
 
+      </div>
+
+      <div style="text-align: center; padding-top: 1.75rem; color: #64748B; font-size: 0.82rem;">
+        &copy; 2026 BRIO World School. All Rights Reserved. Designed for Educational Excellence.
       </div>
     </div>
   </footer>
@@ -2238,7 +2304,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=24000.0"></script>
+  <script src="app.js?v=25000.0"></script>
 </body>
 </html>
 
