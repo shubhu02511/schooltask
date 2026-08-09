@@ -110,36 +110,48 @@ function setupMobileNav() {
   const navMenu = document.querySelector('.nav-menu');
 
   if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', () => {
-      const isVisible = navMenu.style.display === 'flex';
-      navMenu.style.display = isVisible ? 'none' : 'flex';
-      if (!isVisible) {
-        navMenu.style.flexDirection = 'column';
-        navMenu.style.position = 'absolute';
-        navMenu.style.top = '100%';
-        navMenu.style.left = '0';
-        navMenu.style.right = '0';
-        navMenu.style.background = '#0F172A';
-        navMenu.style.padding = '1.5rem';
-        navMenu.style.boxShadow = '0 12px 35px rgba(0,0,0,0.5)';
-        navMenu.style.zIndex = '999';
-        navMenu.style.borderBottom = '3px solid #F59E0B';
-        
-        navMenu.querySelectorAll('.nav-link').forEach(l => {
-          l.style.color = '#FFFFFF';
-          l.style.padding = '0.6rem 0';
-          l.style.fontWeight = '600';
-        });
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navMenu.classList.toggle('mobile-active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+        navMenu.classList.remove('mobile-active');
       }
     });
 
-    document.querySelectorAll('.nav-link').forEach(link => {
+    document.querySelectorAll('.nav-link, .btn').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
-          navMenu.style.display = 'none';
+          navMenu.classList.remove('mobile-active');
         }
       });
     });
+  }
+
+  // Touch Swipe Support for Hero Carousel on Mobile Devices
+  const heroContainer = document.querySelector('.hero-carousel-container');
+  if (heroContainer) {
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    heroContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    heroContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 40) {
+        // Swipe left -> Next slide
+        const nextBtn = document.getElementById('hero-next-btn');
+        if (nextBtn) nextBtn.click();
+      } else if (touchEndX - touchStartX > 40) {
+        // Swipe right -> Prev slide
+        const prevBtn = document.getElementById('hero-prev-btn');
+        if (prevBtn) prevBtn.click();
+      }
+    }, { passive: true });
   }
 }
 
