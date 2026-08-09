@@ -39,19 +39,43 @@ function initRouter() {
       targetId = targetId.substring(1);
     }
 
-    let targetElement = document.getElementById(targetId);
-    if (!targetElement) {
-      targetId = 'home';
-      targetElement = document.getElementById('home');
-    }
+    const pages = document.querySelectorAll('.page-view');
+    const targetElement = document.getElementById(targetId);
+    let pageToActivate = null;
 
     if (targetElement) {
+      if (targetElement.classList.contains('page-view')) {
+        pageToActivate = targetElement;
+      } else {
+        pageToActivate = targetElement.closest('.page-view');
+      }
+    }
+    if (!pageToActivate) pageToActivate = document.getElementById('home');
+
+    // Hide all pages
+    pages.forEach(p => {
+      p.classList.remove('active-page');
+      p.style.display = 'none';
+    });
+
+    // Show target page
+    if (pageToActivate) {
+      pageToActivate.classList.add('active-page');
+      pageToActivate.style.display = 'block';
+    }
+
+    // Scroll to target element or top of page
+    if (targetElement && targetElement !== pageToActivate) {
       const headerOffset = 70;
       const elementPosition = targetElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
       window.scrollTo({
         top: offsetPosition,
+        behavior: 'smooth'
+      });
+    } else {
+      window.scrollTo({
+        top: 0,
         behavior: 'smooth'
       });
     }
@@ -59,7 +83,8 @@ function initRouter() {
     // Update Nav Active State
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href');
-      if (href === `#${targetId}` || (href === '#home' && targetId === 'home')) {
+      const linkTarget = href ? href.replace('#', '') : '';
+      if (linkTarget === targetId || (linkTarget === 'home' && targetId === 'home') || (pageToActivate && pageToActivate.id === linkTarget)) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
