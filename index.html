@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=27000.0">
+  <link rel="stylesheet" href="styles.css?v=12000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -30,47 +30,25 @@
           if (!targetId || targetId === '' || targetId === '#') targetId = 'home';
           if (targetId.startsWith && targetId.startsWith('#')) targetId = targetId.substring(1);
           
-          var pages = document.querySelectorAll('.page-view');
-          var targetElem = document.getElementById(targetId);
-          var pageToActivate = null;
-
-          if (targetElem) {
-            if (targetElem.classList.contains('page-view')) {
-              pageToActivate = targetElem;
-            } else {
-              pageToActivate = targetElem.closest ? targetElem.closest('.page-view') : null;
-            }
-          }
-          if (!pageToActivate) pageToActivate = document.getElementById('home');
-
-          // Hide all pages
-          for (var i = 0; i < pages.length; i++) {
-            pages[i].classList.remove('active-page');
-            pages[i].style.display = 'none';
-          }
-
-          // Show target page
-          if (pageToActivate) {
-            pageToActivate.classList.add('active-page');
-            pageToActivate.style.display = 'block';
-          }
-
-          // Scroll to element or top
-          if (targetElem && targetElem !== pageToActivate) {
+          var elem = document.getElementById(targetId);
+          if (!elem) elem = document.getElementById('home');
+          
+          if (elem) {
             var headerOffset = 70;
-            var elementPosition = targetElem.getBoundingClientRect().top;
+            var elementPosition = elem.getBoundingClientRect().top;
             var offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerOffset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
           }
           
           // Update nav active state
           var navLinks = document.querySelectorAll('.nav-link');
           for (var j = 0; j < navLinks.length; j++) {
             var href = navLinks[j].getAttribute('href') || '';
-            var linkTarget = href.replace('#', '');
-            if (linkTarget === targetId || (linkTarget === 'home' && targetId === 'home') || (pageToActivate && pageToActivate.id === linkTarget)) {
+            if (href === '#' + targetId || (href === '#home' && targetId === 'home')) {
               navLinks[j].classList.add('active');
             } else {
               navLinks[j].classList.remove('active');
@@ -356,15 +334,15 @@
       <!-- Navigation Links -->
       <ul class="nav-menu">
         <li class="nav-item"><a href="#home" class="nav-link active" onclick="window.navigateTo('home'); return false;">Home</a></li>
-        <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About</a></li>
+        <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About Us</a></li>
         <li class="nav-item"><a href="#academics" class="nav-link" onclick="window.navigateTo('academics'); return false;">Academics</a></li>
-        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Campus</a></li>
-        <li class="nav-item"><a href="#cocurricular" class="nav-link" onclick="window.navigateTo('cocurricular'); return false;">Student Life</a></li>
-        <li class="nav-item"><a href="#admissions" class="nav-link" onclick="window.navigateTo('admissions'); return false;">Admissions</a></li>
+        <li class="nav-item"><a href="#admissions" class="nav-link" onclick="window.navigateTo('admissions'); return false;">Admissions & Fees</a></li>
+        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Campus Life</a></li>
+        <li class="nav-item"><a href="#events" class="nav-link" onclick="window.navigateTo('events'); return false;">News & Events</a></li>
         <li class="nav-item"><a href="#careers" class="nav-link" onclick="window.navigateTo('careers'); return false;">Careers</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link" onclick="window.navigateTo('contact'); return false;">Contact</a></li>
         <li class="nav-item" style="margin-left: 0.5rem;">
-          <button type="button" id="auth-nav-btn" class="btn btn-gold" style="padding: 0.5rem 1.15rem; font-size: 0.88rem; font-weight: 700; cursor: pointer;">
+          <button type="button" id="auth-nav-btn" class="btn btn-gold" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; font-weight: 700;">
             <i class="fa-solid fa-user-lock"></i> <span id="auth-nav-btn-text">Portal Login</span>
           </button>
         </li>
@@ -380,58 +358,71 @@
   <!-- PAGE 1: HOME -->
   <main id="home" class="page-view active-page">
     
-    <!-- 1. 4-Slide Premium Hero Banner Carousel -->
-    <section class="hero-carousel-section" role="region" aria-roledescription="carousel" aria-label="BRIO World School Campus Highlights">
+    <!-- 1. 5-Slide Hero Banner Carousel -->
+    <section class="hero-carousel-section">
       <div class="hero-carousel-container">
         
-        <!-- Slide 1: Main Campus Visual -->
-        <div class="hero-slide active" role="group" aria-roledescription="slide" aria-label="Slide 1 of 4: Inspiring Excellence" style="background-image: linear-gradient(to right, rgba(9,18,36,0.85) 0%, rgba(9,18,36,0.55) 55%, rgba(9,18,36,0.25) 100%), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80');">
-          <div class="container hero-slide-content">
+        <!-- Slide 1 -->
+        <div class="hero-slide active" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-center">
             <span class="badge badge-gold"><i class="fa-solid fa-award"></i> CBSE &amp; IB WORLD ACCREDITED</span>
-            <h1 class="hero-title">Inspiring Excellence. <br><span style="color:#FDE047;">Shaping Tomorrow.</span></h1>
-            <p class="hero-subtitle">Sprawling 25-acre smart eco-campus nurturing future global leaders through holistic education, dual CBSE &amp; IB pathways, and moral ethics.</p>
+            <h1 class="hero-title">Nurturing Global Leaders with <span style="color:#FDE047;">Ethics &amp; Innovation</span></h1>
+            <p class="hero-subtitle">"Where every beat marches to the rhythm of pride."</p>
             <div class="hero-ctas">
-              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Admission</a>
-              <a href="#about" class="btn btn-outline-white router-link" onclick="window.navigateTo('about'); return false;"><i class="fa-solid fa-building-columns"></i> Explore Our School</a>
+              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Admissions 2026-27</a>
+              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-building-columns"></i> Explore Campuses</a>
             </div>
           </div>
         </div>
 
-        <!-- Slide 2: STEM & AI Innovation -->
-        <div class="hero-slide" role="group" aria-roledescription="slide" aria-label="Slide 2 of 4: STEM and Robotics" style="background-image: linear-gradient(to right, rgba(9,18,36,0.85) 0%, rgba(9,18,36,0.55) 55%, rgba(9,18,36,0.25) 100%), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80');">
-          <div class="container hero-slide-content">
-            <span class="badge badge-emerald"><i class="fa-solid fa-microchip"></i> FUTURISTIC STEM &amp; AI LABS</span>
-            <h1 class="hero-title">Future-Ready STEM, AI &amp; <br><span style="color:#FDE047;">Robotics Innovation</span></h1>
-            <p class="hero-subtitle">Equipping young minds with hands-on robotics, coding, 3D prototyping, space science, and AI incubator laboratories.</p>
+        <!-- Slide 2 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-center">
+            <span class="badge badge-emerald"><i class="fa-solid fa-microchip"></i> FUTURISTIC STEM LABS</span>
+            <h1 class="hero-title">Robotics, Coding &amp; <span style="color:#FDE047;">AI Innovation Incubator</span></h1>
+            <p class="hero-subtitle">"Where hands-on curiosity shapes tomorrow's inventors."</p>
             <div class="hero-ctas">
-              <a href="#facilities" class="btn btn-gold router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-atom"></i> Explore STEM &amp; Robotics</a>
-              <a href="#academics" class="btn btn-outline-white router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-graduation-cap"></i> View Academic Wings</a>
+              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-graduation-cap"></i> View Academic Wings</a>
+              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-compass"></i> STEM Campus Tour</a>
             </div>
           </div>
         </div>
 
-        <!-- Slide 3: Sports & Student Life -->
-        <div class="hero-slide" role="group" aria-roledescription="slide" aria-label="Slide 3 of 4: Sports and Creative Arts" style="background-image: linear-gradient(to right, rgba(9,18,36,0.85) 0%, rgba(9,18,36,0.55) 55%, rgba(9,18,36,0.25) 100%), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1920&q=80');">
-          <div class="container hero-slide-content">
-            <span class="badge badge-gold"><i class="fa-solid fa-trophy"></i> OLYMPIC SPORTS &amp; ARTS</span>
-            <h1 class="hero-title">Champions in Sports, <br><span style="color:#FDE047;">Leadership &amp; Creative Arts</span></h1>
-            <p class="hero-subtitle">Olympic-standard sports complex, performing arts theaters, indoor heated pool, and 50+ student-led clubs.</p>
+        <!-- Slide 3 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-center">
+            <span class="badge badge-gold"><i class="fa-solid fa-trophy"></i> OLYMPIC SPORTS COMPLEX</span>
+            <h1 class="hero-title">Building Champions in <span style="color:#FDE047;">Sports &amp; Life</span></h1>
+            <p class="hero-subtitle">"Where discipline and teamwork define true victory."</p>
             <div class="hero-ctas">
-              <a href="#cocurricular" class="btn btn-gold router-link" onclick="window.navigateTo('cocurricular'); return false;"><i class="fa-solid fa-masks-theater"></i> Explore Student Life</a>
-              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-compass"></i> Campus Facilities</a>
+              <a href="#facilities" class="btn btn-gold router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-person-swimming"></i> Sports Academies</a>
+              <a href="#admissions" class="btn btn-outline-white router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply 2026-27</a>
             </div>
           </div>
         </div>
 
-        <!-- Slide 4: Global Education & Academics -->
-        <div class="hero-slide" role="group" aria-roledescription="slide" aria-label="Slide 4 of 4: Global Future" style="background-image: linear-gradient(to right, rgba(9,18,36,0.85) 0%, rgba(9,18,36,0.55) 55%, rgba(9,18,36,0.25) 100%), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80');">
-          <div class="container hero-slide-content">
-            <span class="badge badge-navy"><i class="fa-solid fa-book-open-reader"></i> DUAL GLOBAL ACCREDITATION</span>
-            <h1 class="hero-title">Preparing Students for a <br><span style="color:#FDE047;">Global Future</span></h1>
-            <p class="hero-subtitle">Preparing scholars for Ivy League and premier global universities through dual CBSE &amp; IB Diploma pathways with 100% board distinction.</p>
+        <!-- Slide 4 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-center">
+            <span class="badge badge-navy"><i class="fa-solid fa-book-open-reader"></i> SMART PEDAGOGY</span>
+            <h1 class="hero-title">Interactive Digital <span style="color:#FDE047;">Experiential Classrooms</span></h1>
+            <p class="hero-subtitle">"Where every mind discovers the passion for learning."</p>
             <div class="hero-ctas">
-              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-chalkboard-user"></i> Explore Academics</a>
-              <a href="#admissions" class="btn btn-outline-white router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Session 2026-27</a>
+              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-chalkboard-user"></i> Curriculum Details</a>
+              <a href="#about" class="btn btn-outline-white router-link" onclick="window.navigateTo('about'); return false;"><i class="fa-solid fa-circle-info"></i> About BRIO</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-center">
+            <span class="badge badge-gold"><i class="fa-solid fa-user-graduate"></i> GLOBAL PLACEMENTS</span>
+            <h1 class="hero-title">Guiding Scholars to <span style="color:#FDE047;">Ivy League &amp; Top Colleges</span></h1>
+            <p class="hero-subtitle">"Where ambition meets world-class mentorship."</p>
+            <div class="hero-ctas">
+              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-paper-plane"></i> Scholarship Test (B-SAT)</a>
+              <a href="#contact" class="btn btn-outline-white router-link" onclick="window.navigateTo('contact'); return false;"><i class="fa-solid fa-headset"></i> Contact Helpline</a>
             </div>
           </div>
         </div>
@@ -442,67 +433,25 @@
       <button type="button" class="carousel-control prev-slide" id="hero-prev-btn" onclick="if(window.heroSlidePrev) window.heroSlidePrev(); return false;" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
       <button type="button" class="carousel-control next-slide" id="hero-next-btn" onclick="if(window.heroSlideNext) window.heroSlideNext(); return false;" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
 
-      <!-- Scroll Down Indicator Overlay (Sunbeam Reference Style) -->
+      <!-- Scroll to Explore Indicator Overlay -->
       <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll down">
         <div class="scroll-explore-line"></div>
-        <div class="scroll-explore-text">SCROLL DOWN</div>
-        <div class="scroll-explore-arrow"><i class="fa-solid fa-chevron-down text-gold"></i></div>
+        <div class="scroll-explore-text">SCROLL TO EXPLORE</div>
+        <div class="scroll-explore-arrow"><i class="fa-solid fa-angles-down text-gold"></i></div>
       </div>
 
-      <!-- Carousel Indicators Dots (4 Slides) -->
-      <div class="carousel-indicators" id="hero-carousel-dots" aria-label="Slide indicators">
-        <button type="button" class="dot active" data-slide="0" aria-label="Go to Slide 1 of 4"></button>
-        <button type="button" class="dot" data-slide="1" aria-label="Go to Slide 2 of 4"></button>
-        <button type="button" class="dot" data-slide="2" aria-label="Go to Slide 3 of 4"></button>
-        <button type="button" class="dot" data-slide="3" aria-label="Go to Slide 4 of 4"></button>
-      </div>
-    </section>
-
-    <!-- Trust / Stats Bar Immediately Below Hero -->
-    <section class="trust-stats-section">
-      <div class="container">
-        <div class="trust-stats-grid">
-          <div class="trust-stat-item">
-            <div class="trust-stat-icon"><i class="fa-solid fa-award"></i></div>
-            <div>
-              <div class="trust-stat-val">25+</div>
-              <div class="trust-stat-label">Years Experience</div>
-            </div>
-          </div>
-          <div class="trust-stat-item">
-            <div class="trust-stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
-            <div>
-              <div class="trust-stat-val">15K+</div>
-              <div class="trust-stat-label">Global Alumni</div>
-            </div>
-          </div>
-          <div class="trust-stat-item">
-            <div class="trust-stat-icon"><i class="fa-solid fa-masks-theater"></i></div>
-            <div>
-              <div class="trust-stat-val">50+</div>
-              <div class="trust-stat-label">Clubs &amp; Activities</div>
-            </div>
-          </div>
-          <div class="trust-stat-item">
-            <div class="trust-stat-icon"><i class="fa-solid fa-trophy"></i></div>
-            <div>
-              <div class="trust-stat-val">20+</div>
-              <div class="trust-stat-label">Sports Programs</div>
-            </div>
-          </div>
-          <div class="trust-stat-item">
-            <div class="trust-stat-icon"><i class="fa-solid fa-certificate"></i></div>
-            <div>
-              <div class="trust-stat-val">100%</div>
-              <div class="trust-stat-label">Board Pass Rate</div>
-            </div>
-          </div>
-        </div>
+      <!-- Carousel Indicators Dots -->
+      <div class="carousel-indicators" id="hero-carousel-dots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+        <span class="dot" data-slide="3"></span>
+        <span class="dot" data-slide="4"></span>
       </div>
     </section>
 
-    <!-- 2. Interactive Leadership Team Carousel Slider (Immediately After Hero) -->
-    <section id="leadership" class="section-padding" style="position: relative; overflow: hidden;">
+    <!-- 2. Interactive Leadership Team Carousel Slider (Matching Screenshot 1) -->
+    <section id="leadership" class="section-padding bg-light" style="position: relative; overflow: hidden;">
       <div class="container" style="position: relative;">
         
         <!-- Header with Vertical Divider -->
@@ -512,7 +461,7 @@
           </h2>
         </div>
 
-        <!-- Slider Side Navigation Buttons -->
+        <!-- Slider Side Navigation Buttons (Matching Screenshot) -->
         <button class="leadership-nav-btn lead-prev-btn" id="lead-prev-btn" title="Previous Leader">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
@@ -522,7 +471,7 @@
 
         <div style="display: grid; grid-template-columns: 1.3fr 2.7fr; gap: 1.5rem; align-items: stretch;" id="leadership-slider-container">
           
-          <!-- Left Featured Chairman Spotlight Card -->
+          <!-- Left Featured Chairman Spotlight Card (Dynamic) -->
           <div id="lead-spotlight-card" style="background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
             <div style="display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; background: #FFFFFF; padding: 1rem;">
               <img id="spotlight-img" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80" alt="Dr. Rajeshwar Roy" style="width: 100%; height: 260px; object-fit: cover; border-radius: 6px;">
@@ -531,7 +480,7 @@
                   CHAIRPERSON | BRIO GROUP
                 </span>
                 <p id="spotlight-quote" style="font-size: 0.88rem; color: #1E293B; line-height: 1.6; font-style: italic; margin: 0;">
-                  "Every remarkable journey begins with a vision - bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
+                  "Every remarkable journey begins with a vision - bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
                 </p>
               </div>
             </div>
@@ -540,7 +489,7 @@
             </div>
           </div>
 
-          <!-- Right Executive Members Grid -->
+          <!-- Right 4 Executive Members Cards (Dynamic Grid) -->
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;" id="lead-cards-grid">
             
             <!-- Member 1 -->
@@ -585,8 +534,48 @@
       </div>
     </section>
 
-    <!-- 3. 6 Pillars of World-Class Learning Section -->
-    <section id="home-pillars" class="section-padding bg-light">
+    <!-- 3. School Branches Section (Photo & Name Only) -->
+    <section id="branches" class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-gold">Our Campuses</span>
+          <h2>School Branches</h2>
+        </div>
+
+        <div class="grid-2" style="gap: 2.5rem;">
+          
+          <!-- Gujarat Campus Card Link -->
+          <a href="#gujarat-campus" class="wing-card router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="display: block; text-decoration: none; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <div class="wing-img" style="height: 320px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus">
+              <span class="badge badge-gold" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                Click to Explore Details <i class="fa-solid fa-arrow-right"></i>
+              </span>
+            </div>
+            <div style="padding: 1.5rem; text-align: center; background: var(--primary-navy); color: white;">
+              <h3 style="font-size: 1.6rem; color: var(--accent-gold); margin: 0;">Gujarat Campus</h3>
+            </div>
+          </a>
+
+          <!-- Delhi NCR Campus Card Link -->
+          <a href="#delhi-campus" class="wing-card router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="display: block; text-decoration: none; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <div class="wing-img" style="height: 320px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus">
+              <span class="badge badge-gold" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                Click to Explore Details <i class="fa-solid fa-arrow-right"></i>
+              </span>
+            </div>
+            <div style="padding: 1.5rem; text-align: center; background: var(--primary-navy); color: white;">
+              <h3 style="font-size: 1.6rem; color: var(--accent-gold); margin: 0;">Delhi NCR Campus</h3>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 6 Pillars of World-Class Learning Section -->
+    <section id="pillars" class="section-padding">
       <div class="container">
         <div class="section-header text-center">
           <span class="badge badge-navy">The BRIO Distinction</span>
@@ -597,176 +586,34 @@
         <div class="grid-3">
           <div class="feature-card">
             <div class="feature-icon"><i class="fa-solid fa-microchip"></i></div>
-            <h3>1. STEM &amp; AI Innovation Labs</h3>
+            <h3>1. STEM & AI Innovation Labs</h3>
             <p>Robotics, 3D printing, coding, and hands-on scientific discovery from primary wing onwards.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="feature-card">
             <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
             <h3>2. Dual Global Curriculum</h3>
             <p>Affiliated with CBSE Board along with IB Diploma and Cambridge International Pathways.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="feature-card">
             <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
             <h3>3. Olympic Sports Complex</h3>
             <p>5-acre indoor and outdoor sports academy with professional coaches for cricket, tennis, and swimming.</p>
-            <a href="#facilities" class="router-link text-gold" onclick="window.navigateTo('facilities'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="feature-card">
             <div class="feature-icon"><i class="fa-solid fa-user-graduate"></i></div>
             <h3>4. Ivy League University Cell</h3>
-            <p>Dedicated career counseling guiding 100% placement into top global &amp; national universities.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            <p>Dedicated career counseling guiding 100% placement into top global & national universities.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon"><i class="fa-solid fa-masks-theater"></i></div>
-            <h3>5. Visual &amp; Performing Arts</h3>
+            <h3>5. Visual & Performing Arts</h3>
             <p>1,200-seater auditorium, music conservatories, dance studios, and theater societies.</p>
-            <a href="#cocurricular" class="router-link text-gold" onclick="window.navigateTo('cocurricular'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="feature-card">
             <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h3>6. Safe &amp; Residential Campus</h3>
+            <h3>6. Safe & Residential Campus</h3>
             <p>24/7 CCTV security, air-conditioned eco-hostels, medical infirmary, and GPS-tracked bus transport.</p>
-            <a href="#facilities" class="router-link text-gold" onclick="window.navigateTo('facilities'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. Academic Programs Overview Section -->
-    <section id="academics-overview" class="section-padding">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-gold"><i class="fa-solid fa-graduation-cap"></i> Academic Excellence</span>
-          <h2 style="color: #0F172A;">Integrated Dual Global Curriculum</h2>
-          <p style="color: #334155;">From foundational primary years to senior wing board excellence &amp; Ivy League university placement.</p>
-        </div>
-
-        <div class="grid-4" style="gap: 1.5rem;">
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-shapes"></i></div>
-            <h4>Foundational Wing</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Play-based experiential learning, phonics, and emotional resilience for Pre-K to Grade 2.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-book-open"></i></div>
-            <h4>Primary Wing</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Inquiry-driven CBSE &amp; Cambridge primary pathway for Grade 3 to 5.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #D1FAE5; color: #059669;"><i class="fa-solid fa-flask-vial"></i></div>
-            <h4>Middle Wing</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">STEM robotics, coding, scientific inquiry, and language labs for Grade 6 to 8.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #EDE9FE; color: #7C3AED;"><i class="fa-solid fa-user-graduate"></i></div>
-            <h4>Senior Wing</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">CBSE Board &amp; IB Diploma preparation with JEE/NEET mentorship for Grade 9 to 12.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. Campus Facilities Overview Section -->
-    <section id="campus-overview" class="section-padding bg-light">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-navy"><i class="fa-solid fa-building-columns"></i> World-Class Infrastructure</span>
-          <h2 style="color: #0F172A;">Campus Life &amp; Facilities</h2>
-          <p style="color: #334155;">Sprawling eco-green campuses designed to ignite creativity, athletic excellence, and residential safety.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="Robotics Lab">
-            <div class="gallery-overlay">
-              <span class="badge badge-gold" style="width: fit-content; margin-bottom: 0.3rem;">STEM</span>
-              <h4>Robotics &amp; AI Incubator</h4>
-              <p>Hands-on 3D printing and coding from primary wing onwards.</p>
-            </div>
-          </div>
-          <div class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=600&q=80" alt="Swimming Pool">
-            <div class="gallery-overlay">
-              <span class="badge badge-gold" style="width: fit-content; margin-bottom: 0.3rem;">Sports</span>
-              <h4>Olympic Swimming Pool</h4>
-              <p>50-meter temperature-controlled pool with certified coaches.</p>
-            </div>
-          </div>
-          <div class="gallery-card">
-            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80" alt="Digital Library">
-            <div class="gallery-overlay">
-              <span class="badge badge-gold" style="width: fit-content; margin-bottom: 0.3rem;">Library</span>
-              <h4>Central Digital Library</h4>
-              <p>Over 35,000 books, research journals, and Kindle e-readers.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center" style="margin-top: 2.5rem;">
-          <a href="#facilities" class="btn btn-navy router-link" onclick="window.navigateTo('facilities'); return false;">
-            <i class="fa-solid fa-compass"></i> View All Campus Facilities <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. News & Circulars Overview Section -->
-    <section id="news-overview" class="section-padding">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-gold"><i class="fa-solid fa-newspaper"></i> Campus Happenings</span>
-          <h2 style="color: #0F172A;">News, Circulars &amp; Updates</h2>
-          <p style="color: #334155;">Latest announcements, academic circulars, and sports achievements from BRIO World School.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
-            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Academic News</span>
-            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">100% Board Pass Rate in Class X &amp; XII</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Over 65% of students scored above 90% distinction in CBSE Board examinations.</p>
-            <a href="#events" class="router-link text-gold" onclick="window.navigateTo('events'); return false;" style="font-weight: 700; font-size: 0.85rem;">Read News Article <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
-            <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">STEM Achievement</span>
-            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">1st Rank in National Robotics Championship</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">BRIO Robotics Team wins Gold Medal at the National AI &amp; Innovation Expo.</p>
-            <a href="#events" class="router-link text-gold" onclick="window.navigateTo('events'); return false;" style="font-weight: 700; font-size: 0.85rem;">Read News Article <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light);">
-            <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Sports Highlight</span>
-            <h4 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Inter-School Aquatics Meet Champions</h4>
-            <h5 style="display:none">Sports Medal</h5>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Swimmers secure 14 medals at the State Level Swimming Competition.</p>
-            <a href="#events" class="router-link text-gold" onclick="window.navigateTo('events'); return false;" style="font-weight: 700; font-size: 0.85rem;">Read News Article <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 8. Admissions Callout Section -->
-    <section id="admissions-overview" class="section-padding bg-navy" style="background: linear-gradient(135deg, #091224 0%, #1E293B 100%); color: white; border-top: 3px solid var(--accent-gold);">
-      <div class="container text-center" style="max-width: 800px; margin: 0 auto;">
-        <span class="badge badge-gold" style="margin-bottom: 1rem;"><i class="fa-solid fa-calendar-check"></i> Session 2026-27 Open</span>
-        <h2 style="font-size: 2.4rem; color: white; margin-bottom: 1rem;">Begin Your Child's Journey of Excellence</h2>
-        <p style="color: #E2E8F0; font-size: 1.05rem; line-height: 1.65; margin-bottom: 2rem;">
-          Admissions are open for Pre-K to Grade 11 across our Gujarat and Delhi NCR Campuses. Schedule a personal campus tour or complete your online application.
-        </p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;">
-            <i class="fa-solid fa-file-pen"></i> Apply for Admission 2026-27
-          </a>
-          <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;">
-            <i class="fa-solid fa-compass"></i> Explore All Campuses
-          </a>
         </div>
       </div>
     </section>
@@ -777,12 +624,12 @@
   <main id="about" class="page-view">
     
     <!-- Hero Banner -->
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.92), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
+    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
         <span class="badge badge-gold"><i class="fa-solid fa-award"></i> 25+ YEARS OF EXCELLENCE</span>
-        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: #FFFFFF;">About BRIO World School</h1>
-        <p class="hero-subtitle" style="margin: 0; color: #F1F5F9; font-size: 1.08rem; line-height: 1.65; max-width: 750px;">
-          Founded with a commitment to holistic development, BRIO World School blends academic rigor, AI &amp; STEM innovation, and moral values across our premier Gujarat and Delhi NCR campuses.
+        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">About BRIO World School</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
+          Founded with a commitment to holistic development, BRIO World School blends academic rigor, AI & STEM innovation, and moral values across our premier Gujarat and Delhi NCR campuses.
         </p>
       </div>
     </div>
@@ -886,11 +733,11 @@
 
   <!-- PAGE 3: ACADEMICS -->
   <main id="academics" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-gold"><i class="fa-solid fa-graduation-cap"></i> Academic Excellence</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">Curriculum &amp; Pedagogy</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-gold">Academic Excellence</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Curriculum & Pedagogy</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
           An inquiry-driven academic framework designed to spur intellect, critical thinking, and practical problem-solving.
         </p>
       </div>
@@ -992,11 +839,11 @@
 
   <!-- PAGE 4: ADMISSIONS -->
   <main id="admissions" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-gold"><i class="fa-solid fa-calendar-check"></i> Session 2026-27</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">Admissions &amp; Fee Structure</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-gold">Session 2026-27</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Admissions & Fee Structure</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
           Join the BRIO family. Transparent fee structure, merit scholarships, and simple online application process.
         </p>
       </div>
@@ -1239,12 +1086,12 @@
 
   <!-- PAGE 5: FACILITIES -->
   <main id="facilities" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-gold"><i class="fa-solid fa-building-columns"></i> World-Class Infrastructure</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">Campus Life &amp; Facilities</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
-          Explore our 25-acre eco-green campus designed to inspire curiosity, physical health, and artistic growth.
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-gold">World-Class Infrastructure</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Campus Life & Facilities</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
+          Explore our 20-acre eco-green campus designed to inspire curiosity, physical health, and artistic growth.
         </p>
       </div>
     </div>
@@ -1361,72 +1208,20 @@
               <h4>Organic Multi-Cuisine Eco Dining Hall</h4>
               <p>Hygienic, nutritionist-planned meals prepared fresh daily.</p>
             </div>
-        </div>
-
-        <!-- Our Premier School Branches & Campuses Section -->
-        <div id="branches" style="margin-top: 5rem; padding-top: 3rem; border-top: 2px solid var(--border-light);">
-          <div class="section-header text-center" style="margin-bottom: 3rem;">
-            <span class="badge badge-navy"><i class="fa-solid fa-location-dot"></i> Institutional Campuses</span>
-            <h2 style="font-size: 2.2rem; color: #0F172A;">Our Premier School Branches</h2>
-            <p style="color: #334155;">State-of-the-art smart eco-campuses equipped with CBSE &amp; IB accreditation across premier locations.</p>
           </div>
 
-          <div class="grid-2" style="gap: 2.5rem;">
-            
-            <!-- Branch 1: Gujarat Campus -->
-            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
-              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 230px; object-fit: cover;">
-              <div style="padding: 1.75rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 25-Acre Eco-Green Campus</span>
-                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Gujarat</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
-                  Located in the Vadodara Tech Corridor, featuring 50m Olympic pool, 3D planetarium, AI incubator, and luxury eco boarding suites.
-                </p>
-                <div style="background: #F8FAFC; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155;">
-                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-map-location-dot text-gold"></i> Location:</strong> Vadodara Tech Corridor, Gujarat</p>
-                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (0265) 2980-100</p>
-                  <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> gujarat@brioworldschool.edu.in</p>
-                </div>
-                <a href="#gujarat-campus" class="btn btn-gold router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="width: 100%; justify-content: center;">
-                  <i class="fa-solid fa-compass"></i> Explore Gujarat Branch Details <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-
-            <!-- Branch 2: Delhi NCR Campus -->
-            <div class="feature-card" style="background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; padding: 0; box-shadow: var(--shadow-md);">
-              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 230px; object-fit: cover;">
-              <div style="padding: 1.75rem;">
-                <span class="badge badge-navy" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-building-columns"></i> 18-Acre Institutional Campus</span>
-                <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin-bottom: 0.5rem;">BRIO World School - Delhi NCR</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
-                  Located in the South Delhi / Gurgaon Hub, featuring Apple Mac coding labs, FIFA football turf, 1,200-seat auditorium, and Ivy League cell.
-                </p>
-                <div style="background: #F8FAFC; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; font-size: 0.85rem; color: #334155;">
-                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-map-location-dot text-gold"></i> Location:</strong> South Delhi / Gurgaon Hub, New Delhi</p>
-                  <p style="margin-bottom: 0.4rem;"><strong><i class="fa-solid fa-phone text-gold"></i> Helpline:</strong> +91 (011) 4980-200</p>
-                  <p style="margin: 0;"><strong><i class="fa-solid fa-envelope text-gold"></i> Admissions:</strong> delhi@brioworldschool.edu.in</p>
-                </div>
-                <a href="#delhi-campus" class="btn btn-navy router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="width: 100%; justify-content: center;">
-                  <i class="fa-solid fa-compass"></i> Explore Delhi NCR Branch Details <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
-            </div>
-
-          </div>
         </div>
-
       </div>
     </section>
   </main>
 
   <!-- PAGE 6: ACTIVITIES -->
   <main id="cocurricular" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-gold"><i class="fa-solid fa-masks-theater"></i> Holistic Growth</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">Co-Curricular &amp; Student Clubs</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-gold">Holistic Growth</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Co-Curricular & Student Clubs</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
           Unlocking talents beyond books: Model UN, Dramatics, Music, Astronomy, and Leadership Expeditions.
         </p>
       </div>
@@ -1457,11 +1252,11 @@
 
   <!-- PAGE 7: EVENTS -->
   <main id="events" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-gold"><i class="fa-solid fa-newspaper"></i> Campus Happenings</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">News, Circulars &amp; Event Gallery</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-gold">Campus Happenings</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">News, Circulars & Event Gallery</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
           Stay updated with current circulars, upcoming sports trials, and academic calendars.
         </p>
       </div>
@@ -1628,11 +1423,11 @@
 
   <!-- PAGE 8: CAREERS -->
   <main id="careers" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-emerald"><i class="fa-solid fa-user-tie"></i> Faculty Recruitment</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">Careers at BRIO World School</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-emerald">Faculty Recruitment</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Careers at BRIO World School</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
           Join an inspiring educator community. We offer competitive remuneration, research grants, and global training across our Gujarat and Delhi NCR campuses.
         </p>
       </div>
@@ -1766,18 +1561,21 @@
         </div>
 
       </div>
+    </section>
+  </main>
+
   <!-- PAGE 9: GUJARAT CAMPUS -->
   <main id="gujarat-campus" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
+    <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center">
         <span class="badge badge-gold"><i class="fa-solid fa-building-columns"></i> Premier Eco-Green Campus</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: white;">BRIO World School  -   Gujarat</h1>
-        <p class="hero-subtitle" style="margin: 0 0 1.5rem; max-width: 750px; color: #F1F5F9;">
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School  -  Gujarat</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
           Sprawling 25-acre smart eco-campus located in the Vadodara Tech Corridor, designed for academic excellence, sports development, and residential care.
         </p>
-        <div style="display: flex; gap: 1rem; justify-content: flex-start;">
-          <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Gujarat Campus 2026-27</a>
-          <a href="#home" class="btn btn-outline-white router-link" onclick="window.navigateTo('home'); return false;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Gujarat Campus 2026-27</a>
+          <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-arrow-left"></i> Back to All Campuses</a>
         </div>
       </div>
     </div>
@@ -1817,7 +1615,7 @@
           <div>
             <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Gujarat Campus Contact</span>
             <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Gujarat Campus</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat  -   390001</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat  -  390001</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (0265) 2980-100 / +91 98795 11000</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> gujarat@brioworldschool.edu.in</p>
             <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
@@ -1832,16 +1630,16 @@
 
   <!-- PAGE 10: DELHI NCR CAMPUS -->
   <main id="delhi-campus" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
+    <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center">
         <span class="badge badge-navy"><i class="fa-solid fa-building-columns"></i> Institutional Hub Campus</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: white;">BRIO World School  -   Delhi NCR</h1>
-        <p class="hero-subtitle" style="margin: 0 0 1.5rem; max-width: 750px; color: #F1F5F9;">
-          18-acre ultra-modern green campus located in South Delhi / Gurgaon Hub, equipped with IB &amp; CBSE accreditation and Apple Mac innovation suites.
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School  -  Delhi NCR</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
+          18-acre ultra-modern green campus located in South Delhi / Gurgaon Hub, equipped with IB & CBSE accreditation and Apple Mac innovation suites.
         </p>
-        <div style="display: flex; gap: 1rem; justify-content: flex-start;">
-          <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Delhi Campus 2026-27</a>
-          <a href="#home" class="btn btn-outline-white router-link" onclick="window.navigateTo('home'); return false;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Delhi Campus 2026-27</a>
+          <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-arrow-left"></i> Back to All Campuses</a>
         </div>
       </div>
     </div>
@@ -1896,11 +1694,11 @@
 
   <!-- PAGE 11: CONTACT -->
   <main id="contact" class="page-view">
-    <div class="hero-section page-banner" style="padding: 4.5rem 0; background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%); border-bottom: 3px solid var(--accent-gold);">
-      <div class="container text-left">
-        <span class="badge badge-gold"><i class="fa-solid fa-headset"></i> Get In Touch</span>
-        <h1 class="hero-title" style="font-size: 2.85rem; margin-top: 0.5rem; color: #FFFFFF;">Contact Campus Directory</h1>
-        <p class="hero-subtitle" style="margin: 0; max-width: 750px; color: #E2E8F0;">
+    <div class="hero-section" style="padding: 4rem 0;">
+      <div class="container text-center">
+        <span class="badge badge-gold">Get In Touch</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem;">Contact Campus Directory</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
           Have questions or want to schedule a personal campus tour? Contact our helpdesk.
         </p>
       </div>
@@ -2097,66 +1895,50 @@
   <!-- FOOTER -->
   <footer class="main-footer" style="background: #091224; color: white; padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.08);">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem;">
         
         <!-- Col 1: Brand Info -->
         <div>
           <h3 style="color: var(--accent-gold); font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">BRIO World School</h3>
-          <p style="font-size: 0.88rem; line-height: 1.6; color: #94A3B8; max-width: 300px; margin-bottom: 1.5rem;">
-            Empowering minds, shaping global leaders. A premier educational community dedicated to academic rigor and moral values across Gujarat &amp; Delhi NCR.
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #94A3B8; max-width: 320px; margin-bottom: 2rem;">
+            Empowering minds, shaping futures. A community dedicated to academic excellence across our Gujarat & Delhi NCR campuses.
           </p>
-          <div style="display: flex; gap: 0.75rem;">
-            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-youtube"></i></a>
-            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; text-decoration: none;"><i class="fa-brands fa-linkedin-in"></i></a>
-          </div>
+          <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
+            © 2026 BRIO World School. All rights reserved.
+          </p>
         </div>
 
-        <!-- Col 2: School Branches -->
+        <!-- Col 2: Admissions -->
         <div>
-          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Our Branches</h4>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Admissions</h4>
           <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
-            <li><a href="#gujarat-campus" class="router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;"><i class="fa-solid fa-location-dot text-gold" style="margin-right: 6px;"></i> Gujarat Campus</a></li>
-            <li><a href="#delhi-campus" class="router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;"><i class="fa-solid fa-location-dot text-gold" style="margin-right: 6px;"></i> Delhi NCR Campus</a></li>
-            <li><a href="#facilities" class="router-link" onclick="window.navigateTo('facilities'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;"><i class="fa-solid fa-building-columns text-gold" style="margin-right: 6px;"></i> All Facilities</a></li>
+            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Quick Inquiry</a></li>
+            <li><a href="#facilities" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Campus Tour</a></li>
+            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Fee Calculator</a></li>
           </ul>
         </div>
 
-        <!-- Col 3: Academics & Admissions -->
+        <!-- Col 3: School -->
         <div>
-          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Admissions</h4>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">School</h4>
           <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
-            <li><a href="#admissions" class="router-link" onclick="window.navigateTo('admissions'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Online Application</a></li>
-            <li><a href="#admissions" class="router-link" onclick="window.navigateTo('admissions'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Fee Estimator</a></li>
-            <li><a href="#academics" class="router-link" onclick="window.navigateTo('academics'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Curriculum &amp; Wings</a></li>
-            <li><a href="#careers" class="router-link" onclick="window.navigateTo('careers'); return false;" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Faculty Careers</a></li>
+            <li><a href="#careers" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Faculty Directory</a></li>
+            <li><a href="#academics" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Academic Wings</a></li>
+            <li><a href="#leadership" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Leadership Team</a></li>
           </ul>
         </div>
 
-        <!-- Col 4: Quick Contact -->
+        <!-- Col 4: Legal -->
         <div>
-          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Helpdesk</h4>
-          <p style="font-size: 0.85rem; color: #94A3B8; margin-bottom: 0.4rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 6px;"></i> +91 (0265) 2980-100</p>
-          <p style="font-size: 0.85rem; color: #94A3B8; margin-bottom: 0.4rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 6px;"></i> +91 (011) 4980-200</p>
-          <p style="font-size: 0.85rem; color: #94A3B8; margin: 0;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 6px;"></i> info@brioworldschool.edu.in</p>
-        </div>
-
-        <!-- Col 5: Legal & Policy -->
-        <div>
-          <h4 style="color: white; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">Legal</h4>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Legal</h4>
           <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Terms of Service</a></li>
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Privacy Policy</a></li>
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Refund Policy</a></li>
-            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.88rem;">Mandatory Public Disclosure</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">T&C</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Refund Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Mandatory Public Disclosure</a></li>
           </ul>
         </div>
 
-      </div>
-
-      <div style="text-align: center; padding-top: 1.75rem; color: #64748B; font-size: 0.82rem;">
-        &copy; 2026 BRIO World School. All Rights Reserved. Designed for Educational Excellence.
       </div>
     </div>
   </footer>
@@ -2442,7 +2224,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=27000.0"></script>
+  <script src="app.js?v=12000.0"></script>
 </body>
 </html>
 

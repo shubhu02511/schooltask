@@ -39,43 +39,19 @@ function initRouter() {
       targetId = targetId.substring(1);
     }
 
-    const pages = document.querySelectorAll('.page-view');
-    const targetElement = document.getElementById(targetId);
-    let pageToActivate = null;
+    let targetElement = document.getElementById(targetId);
+    if (!targetElement) {
+      targetId = 'home';
+      targetElement = document.getElementById('home');
+    }
 
     if (targetElement) {
-      if (targetElement.classList.contains('page-view')) {
-        pageToActivate = targetElement;
-      } else {
-        pageToActivate = targetElement.closest('.page-view');
-      }
-    }
-    if (!pageToActivate) pageToActivate = document.getElementById('home');
-
-    // Hide all pages
-    pages.forEach(p => {
-      p.classList.remove('active-page');
-      p.style.display = 'none';
-    });
-
-    // Show target page
-    if (pageToActivate) {
-      pageToActivate.classList.add('active-page');
-      pageToActivate.style.display = 'block';
-    }
-
-    // Scroll to target element or top of page
-    if (targetElement && targetElement !== pageToActivate) {
       const headerOffset = 70;
       const elementPosition = targetElement.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
-      });
-    } else {
-      window.scrollTo({
-        top: 0,
         behavior: 'smooth'
       });
     }
@@ -83,8 +59,7 @@ function initRouter() {
     // Update Nav Active State
     document.querySelectorAll('.nav-link').forEach(link => {
       const href = link.getAttribute('href');
-      const linkTarget = href ? href.replace('#', '') : '';
-      if (linkTarget === targetId || (linkTarget === 'home' && targetId === 'home') || (pageToActivate && pageToActivate.id === linkTarget)) {
+      if (href === `#${targetId}` || (href === '#home' && targetId === 'home')) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -930,12 +905,12 @@ function initHeroCarousel() {
     }
   }
 
-  // Auto-slide timer (5.5 seconds per slide)
+  // Auto-slide timer
   function startAutoSlide() {
     stopAutoSlide();
     carouselTimer = setInterval(() => {
       goToSlide(currentSlide + 1);
-    }, 5500);
+    }, 4500);
   }
 
   function stopAutoSlide() {
@@ -971,7 +946,6 @@ function initHeroCarousel() {
     });
   }
 
-  // Dot Indicator click listeners
   dots.forEach((dot, idx) => {
     dot.addEventListener('click', () => {
       goToSlide(idx);
@@ -979,23 +953,7 @@ function initHeroCarousel() {
     });
   });
 
-  // Pause on hover & keyboard focus
-  const heroSection = document.querySelector('.hero-carousel-section');
-  if (heroSection) {
-    heroSection.addEventListener('mouseenter', stopAutoSlide);
-    heroSection.addEventListener('mouseleave', startAutoSlide);
-    heroSection.addEventListener('focusin', stopAutoSlide);
-    heroSection.addEventListener('focusout', startAutoSlide);
-  }
-
-  // Keyboard accessibility
-  document.addEventListener('keydown', (e) => {
-    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
-    if (e.key === 'ArrowLeft') window.heroSlidePrev();
-    if (e.key === 'ArrowRight') window.heroSlideNext();
-  });
-
-  // Start auto slide (5.5 seconds)
+  // Start auto slide
   startAutoSlide();
 }
 
