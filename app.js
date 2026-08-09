@@ -946,14 +946,21 @@ function initHeroCarousel() {
     });
   }
 
-  dots.forEach((dot, idx) => {
-    dot.addEventListener('click', () => {
-      goToSlide(idx);
-      startAutoSlide();
-    });
+  // Pause on hover
+  const heroSection = document.querySelector('.hero-carousel-section');
+  if (heroSection) {
+    heroSection.addEventListener('mouseenter', stopAutoSlide);
+    heroSection.addEventListener('mouseleave', startAutoSlide);
+  }
+
+  // Keyboard accessibility
+  document.addEventListener('keydown', (e) => {
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+    if (e.key === 'ArrowLeft') window.heroSlidePrev();
+    if (e.key === 'ArrowRight') window.heroSlideNext();
   });
 
-  // Start auto slide
+  // Start auto slide (5.5 seconds)
   startAutoSlide();
 }
 

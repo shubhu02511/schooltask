@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=12000.0">
+  <link rel="stylesheet" href="styles.css?v=13000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -334,17 +334,22 @@
       <!-- Navigation Links -->
       <ul class="nav-menu">
         <li class="nav-item"><a href="#home" class="nav-link active" onclick="window.navigateTo('home'); return false;">Home</a></li>
-        <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About Us</a></li>
+        <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About</a></li>
         <li class="nav-item"><a href="#academics" class="nav-link" onclick="window.navigateTo('academics'); return false;">Academics</a></li>
-        <li class="nav-item"><a href="#admissions" class="nav-link" onclick="window.navigateTo('admissions'); return false;">Admissions & Fees</a></li>
-        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Campus Life</a></li>
-        <li class="nav-item"><a href="#events" class="nav-link" onclick="window.navigateTo('events'); return false;">News & Events</a></li>
+        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Campus</a></li>
+        <li class="nav-item"><a href="#cocurricular" class="nav-link" onclick="window.navigateTo('cocurricular'); return false;">Student Life</a></li>
+        <li class="nav-item"><a href="#admissions" class="nav-link" onclick="window.navigateTo('admissions'); return false;">Admissions</a></li>
         <li class="nav-item"><a href="#careers" class="nav-link" onclick="window.navigateTo('careers'); return false;">Careers</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link" onclick="window.navigateTo('contact'); return false;">Contact</a></li>
-        <li class="nav-item" style="margin-left: 0.5rem;">
-          <button type="button" id="auth-nav-btn" class="btn btn-gold" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; font-weight: 700;">
+        <li class="nav-item" style="margin-left: 0.25rem;">
+          <button type="button" id="auth-nav-btn" class="btn btn-outline" style="padding: 0.45rem 0.85rem; font-size: 0.85rem; border-color: var(--primary-navy); color: var(--primary-navy);">
             <i class="fa-solid fa-user-lock"></i> <span id="auth-nav-btn-text">Portal Login</span>
           </button>
+        </li>
+        <li class="nav-item" style="margin-left: 0.25rem;">
+          <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;" style="padding: 0.45rem 1.1rem; font-size: 0.85rem; font-weight: 700;">
+            <i class="fa-solid fa-paper-plane"></i> Apply Now
+          </a>
         </li>
       </ul>
 
@@ -358,71 +363,58 @@
   <!-- PAGE 1: HOME -->
   <main id="home" class="page-view active-page">
     
-    <!-- 1. 5-Slide Hero Banner Carousel -->
+    <!-- 1. 4-Slide Premium Hero Banner Carousel -->
     <section class="hero-carousel-section">
       <div class="hero-carousel-container">
         
-        <!-- Slide 1 -->
+        <!-- Slide 1: Main Campus Visual -->
         <div class="hero-slide active" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80');">
           <div class="container hero-slide-content text-center">
             <span class="badge badge-gold"><i class="fa-solid fa-award"></i> CBSE &amp; IB WORLD ACCREDITED</span>
-            <h1 class="hero-title">Nurturing Global Leaders with <span style="color:#FDE047;">Ethics &amp; Innovation</span></h1>
-            <p class="hero-subtitle">"Where every beat marches to the rhythm of pride."</p>
+            <h1 class="hero-title">Inspiring Excellence. <span style="color:#FDE047;">Shaping Tomorrow.</span></h1>
+            <p class="hero-subtitle">Sprawling 25-acre smart eco-campus nurturing future global leaders through holistic education, dual CBSE &amp; IB pathways, and moral ethics.</p>
             <div class="hero-ctas">
-              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Admissions 2026-27</a>
-              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-building-columns"></i> Explore Campuses</a>
+              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Admission</a>
+              <a href="#about" class="btn btn-outline-white router-link" onclick="window.navigateTo('about'); return false;"><i class="fa-solid fa-building-columns"></i> Explore Our School</a>
             </div>
           </div>
         </div>
 
-        <!-- Slide 2 -->
+        <!-- Slide 2: STEM & AI Innovation -->
         <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80');">
           <div class="container hero-slide-content text-center">
-            <span class="badge badge-emerald"><i class="fa-solid fa-microchip"></i> FUTURISTIC STEM LABS</span>
-            <h1 class="hero-title">Robotics, Coding &amp; <span style="color:#FDE047;">AI Innovation Incubator</span></h1>
-            <p class="hero-subtitle">"Where hands-on curiosity shapes tomorrow's inventors."</p>
+            <span class="badge badge-emerald"><i class="fa-solid fa-microchip"></i> FUTURISTIC STEM &amp; AI LABS</span>
+            <h1 class="hero-title">Future-Ready STEM, AI &amp; <span style="color:#FDE047;">Robotics Innovation</span></h1>
+            <p class="hero-subtitle">Equipping young minds with hands-on robotics, coding, 3D prototyping, space science, and AI incubator laboratories.</p>
             <div class="hero-ctas">
-              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-graduation-cap"></i> View Academic Wings</a>
-              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-compass"></i> STEM Campus Tour</a>
+              <a href="#facilities" class="btn btn-gold router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-atom"></i> Explore STEM &amp; Robotics</a>
+              <a href="#academics" class="btn btn-outline-white router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-graduation-cap"></i> View Academic Wings</a>
             </div>
           </div>
         </div>
 
-        <!-- Slide 3 -->
+        <!-- Slide 3: Sports & Student Life -->
         <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1920&q=80');">
           <div class="container hero-slide-content text-center">
-            <span class="badge badge-gold"><i class="fa-solid fa-trophy"></i> OLYMPIC SPORTS COMPLEX</span>
-            <h1 class="hero-title">Building Champions in <span style="color:#FDE047;">Sports &amp; Life</span></h1>
-            <p class="hero-subtitle">"Where discipline and teamwork define true victory."</p>
+            <span class="badge badge-gold"><i class="fa-solid fa-trophy"></i> OLYMPIC SPORTS &amp; ARTS</span>
+            <h1 class="hero-title">Champions in Sports, <span style="color:#FDE047;">Leadership &amp; Creative Arts</span></h1>
+            <p class="hero-subtitle">Olympic-standard sports complex, performing arts theaters, indoor heated pool, and 50+ student-led clubs.</p>
             <div class="hero-ctas">
-              <a href="#facilities" class="btn btn-gold router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-person-swimming"></i> Sports Academies</a>
-              <a href="#admissions" class="btn btn-outline-white router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply 2026-27</a>
+              <a href="#cocurricular" class="btn btn-gold router-link" onclick="window.navigateTo('cocurricular'); return false;"><i class="fa-solid fa-masks-theater"></i> Explore Student Life</a>
+              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-compass"></i> Campus Facilities</a>
             </div>
           </div>
         </div>
 
-        <!-- Slide 4 -->
+        <!-- Slide 4: Global Education & Academics -->
         <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80');">
           <div class="container hero-slide-content text-center">
-            <span class="badge badge-navy"><i class="fa-solid fa-book-open-reader"></i> SMART PEDAGOGY</span>
-            <h1 class="hero-title">Interactive Digital <span style="color:#FDE047;">Experiential Classrooms</span></h1>
-            <p class="hero-subtitle">"Where every mind discovers the passion for learning."</p>
+            <span class="badge badge-navy"><i class="fa-solid fa-book-open-reader"></i> DUAL GLOBAL ACCREDITATION</span>
+            <h1 class="hero-title">Preparing Students for a <span style="color:#FDE047;">Global Future</span></h1>
+            <p class="hero-subtitle">Preparing scholars for Ivy League and premier global universities through dual CBSE &amp; IB Diploma pathways with 100% board distinction.</p>
             <div class="hero-ctas">
-              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-chalkboard-user"></i> Curriculum Details</a>
-              <a href="#about" class="btn btn-outline-white router-link" onclick="window.navigateTo('about'); return false;"><i class="fa-solid fa-circle-info"></i> About BRIO</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 5 -->
-        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.90), rgba(15,23,42,0.80)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80');">
-          <div class="container hero-slide-content text-center">
-            <span class="badge badge-gold"><i class="fa-solid fa-user-graduate"></i> GLOBAL PLACEMENTS</span>
-            <h1 class="hero-title">Guiding Scholars to <span style="color:#FDE047;">Ivy League &amp; Top Colleges</span></h1>
-            <p class="hero-subtitle">"Where ambition meets world-class mentorship."</p>
-            <div class="hero-ctas">
-              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-paper-plane"></i> Scholarship Test (B-SAT)</a>
-              <a href="#contact" class="btn btn-outline-white router-link" onclick="window.navigateTo('contact'); return false;"><i class="fa-solid fa-headset"></i> Contact Helpline</a>
+              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-chalkboard-user"></i> Explore Academics</a>
+              <a href="#admissions" class="btn btn-outline-white router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Session 2026-27</a>
             </div>
           </div>
         </div>
@@ -434,19 +426,61 @@
       <button type="button" class="carousel-control next-slide" id="hero-next-btn" onclick="if(window.heroSlideNext) window.heroSlideNext(); return false;" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
 
       <!-- Scroll to Explore Indicator Overlay -->
-      <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll down">
+      <div class="scroll-explore-container" onclick="var sec = document.getElementById('about'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll down">
         <div class="scroll-explore-line"></div>
         <div class="scroll-explore-text">SCROLL TO EXPLORE</div>
         <div class="scroll-explore-arrow"><i class="fa-solid fa-angles-down text-gold"></i></div>
       </div>
 
-      <!-- Carousel Indicators Dots -->
+      <!-- Carousel Indicators Dots (4 Slides) -->
       <div class="carousel-indicators" id="hero-carousel-dots">
         <span class="dot active" data-slide="0"></span>
         <span class="dot" data-slide="1"></span>
         <span class="dot" data-slide="2"></span>
         <span class="dot" data-slide="3"></span>
-        <span class="dot" data-slide="4"></span>
+      </div>
+    </section>
+
+    <!-- Trust / Stats Bar Immediately Below Hero -->
+    <section class="trust-stats-section">
+      <div class="container">
+        <div class="trust-stats-grid">
+          <div class="trust-stat-item">
+            <div class="trust-stat-icon"><i class="fa-solid fa-award"></i></div>
+            <div>
+              <div class="trust-stat-val">25+</div>
+              <div class="trust-stat-label">Years Experience</div>
+            </div>
+          </div>
+          <div class="trust-stat-item">
+            <div class="trust-stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
+            <div>
+              <div class="trust-stat-val">15K+</div>
+              <div class="trust-stat-label">Global Alumni</div>
+            </div>
+          </div>
+          <div class="trust-stat-item">
+            <div class="trust-stat-icon"><i class="fa-solid fa-masks-theater"></i></div>
+            <div>
+              <div class="trust-stat-val">50+</div>
+              <div class="trust-stat-label">Clubs &amp; Activities</div>
+            </div>
+          </div>
+          <div class="trust-stat-item">
+            <div class="trust-stat-icon"><i class="fa-solid fa-trophy"></i></div>
+            <div>
+              <div class="trust-stat-val">20+</div>
+              <div class="trust-stat-label">Sports Programs</div>
+            </div>
+          </div>
+          <div class="trust-stat-item">
+            <div class="trust-stat-icon"><i class="fa-solid fa-certificate"></i></div>
+            <div>
+              <div class="trust-stat-val">100%</div>
+              <div class="trust-stat-label">Board Pass Rate</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2224,7 +2258,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=12000.0"></script>
+  <script src="app.js?v=13000.0"></script>
 </body>
 </html>
 
