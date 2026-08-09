@@ -1186,44 +1186,84 @@ img {
     overflow-x: hidden !important;
     width: 100% !important;
   }
-  .top-ticker-content { flex-direction: column; gap: 0.4rem; text-align: center; }
+  .top-ticker-content { flex-direction: column; gap: 0.3rem; text-align: center; font-size: 0.75rem; }
   .ticker-left { flex-direction: column; gap: 0.2rem; }
   .ticker-links { display: none; }
   
   .hero-carousel-section {
     height: auto !important;
-    min-height: 540px !important;
-    padding: 3.5rem 0 5.5rem !important;
+    min-height: 560px !important;
+    padding: 3.5rem 0.5rem 6.5rem !important;
   }
   .hero-slide-content {
-    padding: 0 1rem !important;
+    padding: 0 0.85rem !important;
+    max-width: 100% !important;
+  }
+  .hero-slide-content .badge {
+    font-size: 0.72rem !important;
+    padding: 0.35rem 0.75rem !important;
+    margin-bottom: 0.5rem !important;
+    display: inline-block !important;
   }
   .hero-title {
-    font-size: 1.85rem !important;
-    line-height: 1.3 !important;
+    font-size: 1.6rem !important;
+    line-height: 1.35 !important;
+    margin: 0.5rem 0 0.75rem !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95) !important;
   }
   .hero-subtitle {
-    font-size: 0.95rem !important;
-    margin-bottom: 1.25rem !important;
+    font-size: 0.88rem !important;
+    line-height: 1.45 !important;
+    margin: 0 auto 1.25rem !important;
+    color: #E2E8F0 !important;
+    max-width: 90% !important;
   }
   .hero-ctas {
     flex-direction: column !important;
-    gap: 0.75rem !important;
+    gap: 0.65rem !important;
     align-items: center !important;
+    width: 100% !important;
   }
   .hero-ctas .btn {
     width: 100% !important;
-    max-width: 300px !important;
+    max-width: 280px !important;
+    padding: 0.65rem 1rem !important;
     font-size: 0.85rem !important;
   }
-  .carousel-control.prev-slide { left: 0.4rem !important; width: 38px !important; height: 38px !important; }
-  .carousel-control.next-slide { right: 0.4rem !important; width: 38px !important; height: 38px !important; }
 
+  /* Chevron Carousel Arrows on Mobile */
+  .carousel-control {
+    z-index: 50 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.2rem !important;
+    background: rgba(15, 23, 42, 0.85) !important;
+    border: 2px solid #F59E0B !important;
+    color: #F59E0B !important;
+  }
+  .carousel-control.prev-slide { left: 0.25rem !important; }
+  .carousel-control.next-slide { right: 0.25rem !important; }
+
+  /* Carousel Dots & Scroll-Explore Separation on Mobile */
+  .carousel-indicators {
+    bottom: 0.6rem !important;
+    z-index: 40 !important;
+  }
   .scroll-explore-container {
-    bottom: 1.2rem !important;
+    bottom: 2.75rem !important;
+    z-index: 45 !important;
   }
   .scroll-explore-line {
-    width: 100px !important;
+    width: 90px !important;
+    height: 2px !important;
+  }
+  .scroll-explore-text {
+    font-size: 0.68rem !important;
+    letter-spacing: 1.5px !important;
   }
 
   .hero-section { padding: 3rem 0 4rem; }

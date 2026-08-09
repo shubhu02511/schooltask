@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=1001.0">
+  <link rel="stylesheet" href="styles.css?v=2000.0">
 
   <!-- Immediate Inline Router Engine -->
   <script>
@@ -218,8 +218,8 @@
       </div>
 
       <!-- Carousel Navigation Controls -->
-      <button class="carousel-control prev-slide" id="hero-prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
-      <button class="carousel-control next-slide" id="hero-next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+      <button type="button" class="carousel-control prev-slide" id="hero-prev-btn" onclick="if(window.heroSlidePrev) window.heroSlidePrev(); return false;" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+      <button type="button" class="carousel-control next-slide" id="hero-next-btn" onclick="if(window.heroSlideNext) window.heroSlideNext(); return false;" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
 
       <!-- Scroll to Explore Indicator Overlay -->
       <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership') || document.getElementById('about'); if(sec) sec.scrollIntoView({behavior: 'smooth'}); return false;" style="cursor: pointer;" title="Click to scroll down">
@@ -2013,7 +2013,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1001.0"></script>
+  <script src="app.js?v=2000.0"></script>
 </body>
 </html>
 

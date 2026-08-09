@@ -928,18 +928,30 @@ function initHeroCarousel() {
     }
   }
 
+  // Global prev/next triggers
+  window.heroSlidePrev = function() {
+    goToSlide(currentSlide - 1);
+    startAutoSlide();
+  };
+  window.heroSlideNext = function() {
+    goToSlide(currentSlide + 1);
+    startAutoSlide();
+  };
+
   // Event Listeners
   if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      goToSlide(currentSlide - 1);
-      startAutoSlide();
+    prevBtn.addEventListener('click', window.heroSlidePrev);
+    prevBtn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      window.heroSlidePrev();
     });
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      goToSlide(currentSlide + 1);
-      startAutoSlide();
+    nextBtn.addEventListener('click', window.heroSlideNext);
+    nextBtn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      window.heroSlideNext();
     });
   }
 
