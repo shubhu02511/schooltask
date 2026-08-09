@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=8000.0">
+  <link rel="stylesheet" href="styles.css?v=9000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -181,6 +181,77 @@
           }
 
           startAuto();
+
+          // BrioBot Chat Toggle & Handlers
+          window.toggleBrioBot = function() {
+            var chat = document.querySelector('.chat-widget');
+            if (chat) chat.classList.toggle('active');
+          };
+
+          var botTriggerBtn = document.querySelector('.brio-bot-trigger');
+          if (botTriggerBtn) {
+            botTriggerBtn.addEventListener('click', window.toggleBrioBot);
+          }
+
+          var chatCloseBtn = document.querySelector('.chat-close');
+          if (chatCloseBtn) {
+            chatCloseBtn.addEventListener('click', function() {
+              var chat = document.querySelector('.chat-widget');
+              if (chat) chat.classList.remove('active');
+            });
+          }
+
+          // Chat send & quick chips
+          var chatSendBtn = document.getElementById('chat-send-btn');
+          var chatInput = document.getElementById('chat-input-field');
+          var chatBody = document.querySelector('.chat-body');
+
+          function sendBotMessage(userText) {
+            if (!chatBody || !userText) return;
+            var uDiv = document.createElement('div');
+            uDiv.className = 'chat-msg chat-msg-user';
+            uDiv.innerText = userText;
+            chatBody.appendChild(uDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(function() {
+              var lower = userText.toLowerCase();
+              var reply = "Thank you for reaching out to BRIO World School! You can contact our Admissions Cell directly at admissions@brioworldschool.edu.in or call +91 (0542) 2890-400.";
+              if (lower.indexOf('fee') !== -1 || lower.indexOf('cost') !== -1 || lower.indexOf('tuition') !== -1 || lower.indexOf('structure') !== -1) {
+                reply = "Our annual tuition ranges from â‚¹45,000 for Pre-Primary to â‚¹1,10,000 for Senior Secondary. You can use our interactive Fee Calculator in the Admissions tab for a complete breakdown!";
+              } else if (lower.indexOf('admission') !== -1 || lower.indexOf('apply') !== -1 || lower.indexOf('2026') !== -1) {
+                reply = "Admissions for Academic Session 2026-27 are live! Click 'Apply for Admissions' in the header or check the Admissions tab.";
+              } else if (lower.indexOf('cbse') !== -1 || lower.indexOf('ib') !== -1 || lower.indexOf('curriculum') !== -1) {
+                reply = "BRIO World School offers dual global accreditation: CBSE and the IB Diploma Pathway for Grades 11 & 12.";
+              } else if (lower.indexOf('bus') !== -1 || lower.indexOf('hostel') !== -1 || lower.indexOf('transport') !== -1 || lower.indexOf('facility') !== -1) {
+                reply = "We operate GPS-tracked AC buses and premium air-conditioned boarding facilities for Boys & Girls (Grades 5-12).";
+              }
+              var bDiv = document.createElement('div');
+              bDiv.className = 'chat-msg chat-msg-bot';
+              bDiv.innerText = reply;
+              chatBody.appendChild(bDiv);
+              chatBody.scrollTop = chatBody.scrollHeight;
+            }, 500);
+          }
+
+          if (chatSendBtn && chatInput) {
+            chatSendBtn.addEventListener('click', function() {
+              var val = chatInput.value.trim();
+              if (val) { sendBotMessage(val); chatInput.value = ''; }
+            });
+            chatInput.addEventListener('keypress', function(e) {
+              if (e.key === 'Enter') {
+                var val = chatInput.value.trim();
+                if (val) { sendBotMessage(val); chatInput.value = ''; }
+              }
+            });
+          }
+
+          document.querySelectorAll('.chat-chip').forEach(function(chip) {
+            chip.addEventListener('click', function() {
+              sendBotMessage(chip.innerText);
+            });
+          });
 
           // Auth button - Portal Login
           var authBtn = document.getElementById('auth-nav-btn');
@@ -406,7 +477,7 @@
                   CHAIRPERSON | BRIO GROUP
                 </span>
                 <p id="spotlight-quote" style="font-size: 0.88rem; color: #1E293B; line-height: 1.6; font-style: italic; margin: 0;">
-                  "Every remarkable journey begins with a visionÃ¢â‚¬â€bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
+                  "Every remarkable journey begins with a visionÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Âbold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
                 </p>
               </div>
             </div>
@@ -803,16 +874,16 @@
             <label for="calc-transport"><i class="fa-solid fa-bus"></i> Transport Route Zone</label>
             <select id="calc-transport" class="form-control">
               <option value="none">Self Transport / No Bus Needed</option>
-              <option value="zone1" selected>Zone 1 (Within 5 km radius) - Ã¢â€šÂ¹12,000/yr</option>
-              <option value="zone2">Zone 2 (5 km to 12 km radius) - Ã¢â€šÂ¹18,000/yr</option>
-              <option value="zone3">Zone 3 (12 km to 20 km radius) - Ã¢â€šÂ¹24,000/yr</option>
+              <option value="zone1" selected>Zone 1 (Within 5 km radius) - ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹12,000/yr</option>
+              <option value="zone2">Zone 2 (5 km to 12 km radius) - ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹18,000/yr</option>
+              <option value="zone3">Zone 3 (12 km to 20 km radius) - ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹24,000/yr</option>
             </select>
           </div>
 
           <div class="form-group" style="margin-top: 1.5rem;">
             <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="checkbox" id="calc-hostel" style="width: 18px; height: 18px; accent-color: var(--accent-gold);">
-              <span>Include Boarding & Hostel Facility (Ã¢â€šÂ¹95,000/yr)</span>
+              <span>Include Boarding & Hostel Facility (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹95,000/yr)</span>
             </label>
           </div>
         </div>
@@ -826,31 +897,31 @@
             <tbody>
               <tr>
                 <td style="color: var(--text-light);">Admission Fee (One-Time)</td>
-                <td style="text-align: right; color: white; font-weight: 600;">Ã¢â€šÂ¹25,000</td>
+                <td style="text-align: right; color: white; font-weight: 600;">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹25,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Annual Tuition Fee</td>
-                <td id="fee-tuition" style="text-align: right; color: white; font-weight: 600;">Ã¢â€šÂ¹65,000</td>
+                <td id="fee-tuition" style="text-align: right; color: white; font-weight: 600;">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹65,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">STEM & Digital Science Lab Fee</td>
-                <td id="fee-lab" style="text-align: right; color: white; font-weight: 600;">Ã¢â€šÂ¹8,000</td>
+                <td id="fee-lab" style="text-align: right; color: white; font-weight: 600;">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹8,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Co-Curricular & Sports Fee</td>
-                <td id="fee-activity" style="text-align: right; color: white; font-weight: 600;">Ã¢â€šÂ¹12,000</td>
+                <td id="fee-activity" style="text-align: right; color: white; font-weight: 600;">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹12,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Transport Fleet Fee</td>
-                <td id="fee-transport" style="text-align: right; color: white; font-weight: 600;">Ã¢â€šÂ¹12,000</td>
+                <td id="fee-transport" style="text-align: right; color: white; font-weight: 600;">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹12,000</td>
               </tr>
               <tr>
                 <td style="color: var(--text-light);">Hostel & Dining Charges</td>
-                <td id="fee-hostel" style="text-align: right; color: white; font-weight: 600;">Ã¢â€šÂ¹0</td>
+                <td id="fee-hostel" style="text-align: right; color: white; font-weight: 600;">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹0</td>
               </tr>
               <tr class="fee-total-row">
                 <td style="color: var(--accent-gold);">Total Estimated Fee</td>
-                <td id="fee-total" style="text-align: right; color: var(--accent-gold);">Ã¢â€šÂ¹1,22,000</td>
+                <td id="fee-total" style="text-align: right; color: var(--accent-gold);">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹1,22,000</td>
               </tr>
             </tbody>
           </table>
@@ -1376,7 +1447,7 @@
               
               <!-- Job 1 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time Ã¢â‚¬Â¢ Senior Wing</span>
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Senior Wing</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">PGT Physics & JEE Foundation Mentor</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat & Delhi Campuses | M.Sc. Physics required</p>
                 <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics & JEE Mentor" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1386,7 +1457,7 @@
 
               <!-- Job 2 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time Ã¢â‚¬Â¢ STEM Lab</span>
+                <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ STEM Lab</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">AI & Robotics STEM Coach</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | B.Tech / M.Tech in CS/Robotics</p>
                 <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI & Robotics STEM Coach" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1406,7 +1477,7 @@
 
               <!-- Job 4 -->
               <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time Ã¢â‚¬Â¢ Sports Wing</span>
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Sports Wing</span>
                 <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">Head Aquatics & Swimming Coach</h4>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | Certified NIS Coach</p>
                 <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
@@ -1495,7 +1566,7 @@
     <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
       <div class="container text-center">
         <span class="badge badge-gold"><i class="fa-solid fa-building-columns"></i> Premier Eco-Green Campus</span>
-        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School Ã¢â‚¬â€ Gujarat</h1>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Gujarat</h1>
         <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
           Sprawling 25-acre smart eco-campus located in the Vadodara Tech Corridor, designed for academic excellence, sports development, and residential care.
         </p>
@@ -1541,7 +1612,7 @@
           <div>
             <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Gujarat Campus Contact</span>
             <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Gujarat Campus</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat Ã¢â‚¬â€ 390001</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 390001</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (0265) 2980-100 / +91 98795 11000</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> gujarat@brioworldschool.edu.in</p>
             <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
@@ -1559,7 +1630,7 @@
     <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
       <div class="container text-center">
         <span class="badge badge-navy"><i class="fa-solid fa-building-columns"></i> Institutional Hub Campus</span>
-        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School Ã¢â‚¬â€ Delhi NCR</h1>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Delhi NCR</h1>
         <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
           18-acre ultra-modern green campus located in South Delhi / Gurgaon Hub, equipped with IB & CBSE accreditation and Apple Mac innovation suites.
         </p>
@@ -1605,7 +1676,7 @@
           <div>
             <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Delhi NCR Campus Contact</span>
             <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Delhi NCR Campus</h3>
-            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Institutional Area, South Delhi / Gurgaon Hub, New Delhi Ã¢â‚¬â€ 110070</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Institutional Area, South Delhi / Gurgaon Hub, New Delhi ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 110070</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (011) 4980-200 / +91 98112 44000</p>
             <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> delhi@brioworldschool.edu.in</p>
             <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
@@ -1700,7 +1771,7 @@
   </main>
 
   <!-- Brio AI Bot Widget -->
-  <div class="brio-bot-trigger" title="Chat with Brio AI Assistant">
+  <div class="brio-bot-trigger" title="Chat with Brio AI Assistant" onclick="if(window.toggleBrioBot) window.toggleBrioBot();">
     <i class="fa-solid fa-robot"></i>
   </div>
 
@@ -1713,14 +1784,14 @@
           <p>Instant School Help Desk</p>
         </div>
       </div>
-      <button class="chat-close" style="background: transparent; color: white; font-size: 1.2rem;">
+      <button class="chat-close" onclick="var chat=document.querySelector('.chat-widget'); if(chat) chat.classList.remove('active');" style="background: transparent; color: white; font-size: 1.2rem; border: none; cursor: pointer;">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
 
     <div class="chat-body">
       <div class="chat-msg chat-msg-bot">
-        Hello! Ã°Å¸â€˜â€¹ Welcome to BRIO World School. How can I assist you today?
+        Hello! ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ¢â‚¬Â¹ Welcome to BRIO World School. How can I assist you today?
         <div class="chat-quick-options">
           <span class="chat-chip">Admission Fee Structure</span>
           <span class="chat-chip">Apply for 2026-27</span>
@@ -1788,7 +1859,7 @@
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <span style="color: var(--text-muted);">Amount Paid:</span>
-          <strong id="receipt-amount" style="color: var(--accent-emerald);">Ã¢â€šÂ¹32,500</strong>
+          <strong id="receipt-amount" style="color: var(--accent-emerald);">ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¹32,500</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <span style="color: var(--text-muted);">Installment:</span>
@@ -1830,7 +1901,7 @@
             Empowering minds, shaping futures. A community dedicated to academic excellence across our Gujarat & Delhi NCR campuses.
           </p>
           <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
-            Ã‚Â© 2026 BRIO World School. All rights reserved.
+            Ãƒâ€šÃ‚Â© 2026 BRIO World School. All rights reserved.
           </p>
         </div>
 
@@ -1963,7 +2034,7 @@
         </div>
         <div class="form-group">
           <label>Password *</label>
-          <input type="password" name="password" id="login-password" class="form-control" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required>
+          <input type="password" name="password" id="login-password" class="form-control" placeholder="Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢" required>
         </div>
         <div style="display: flex; justify-content: flex-end; align-items: center; font-size: 0.82rem; margin-bottom: 1.25rem;">
           <a href="#" id="open-forgot-link" style="color: #D97706; font-weight: 600;">Forgot Password?</a>
@@ -2150,9 +2221,10 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=8000.0"></script>
+  <script src="app.js?v=9000.0"></script>
 </body>
 </html>
+
 
 
 

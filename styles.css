@@ -970,6 +970,8 @@ img {
   font-size: 1.8rem;
   box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: var(--transition);
 }
 .brio-bot-trigger:hover {
