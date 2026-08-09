@@ -109,24 +109,21 @@ function initRouter() {
 
 
 function setupMobileNav() {
-  const toggleBtn = document.querySelector('.mobile-nav-toggle');
   const navMenu = document.querySelector('.nav-menu');
 
-  if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      navMenu.classList.toggle('mobile-active');
-    });
-
+  if (navMenu) {
     document.addEventListener('click', (e) => {
-      if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
-        navMenu.classList.remove('mobile-active');
+      if (navMenu.classList.contains('mobile-active')) {
+        const toggle = document.querySelector('.mobile-nav-toggle');
+        if (!navMenu.contains(e.target) && toggle && !toggle.contains(e.target)) {
+          navMenu.classList.remove('mobile-active');
+        }
       }
     });
 
-    document.querySelectorAll('.nav-link, .btn').forEach(link => {
+    document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 992) {
           navMenu.classList.remove('mobile-active');
         }
       });

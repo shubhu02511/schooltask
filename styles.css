@@ -1342,6 +1342,11 @@ img {
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    z-index: 10001;
+  }
+  .mobile-nav-toggle * {
+    pointer-events: none !important;
   }
 
   /* Mobile Nav Drawer */
@@ -1356,13 +1361,15 @@ img {
     background: #0F172A !important;
     padding: 1rem 1.25rem 1.5rem !important;
     box-shadow: 0 20px 40px rgba(0,0,0,0.55) !important;
-    z-index: 9999 !important;
+    z-index: 99999 !important;
     border-bottom: 3px solid #F59E0B !important;
     list-style: none !important;
     margin: 0 !important;
   }
   .nav-menu.mobile-active {
     display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   .nav-menu .nav-item {
     width: 100% !important;

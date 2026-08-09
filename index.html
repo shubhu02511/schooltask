@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=35000.0">
+  <link rel="stylesheet" href="styles.css?v=36000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -102,6 +102,20 @@
       };
 
       // ============================================
+      // TOGGLE MOBILE NAV (3 Lines Hamburger Engine)
+      // ============================================
+      window.toggleMobileNav = function(e) {
+        if (e) {
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopPropagation) e.stopPropagation();
+        }
+        var navMenu = document.querySelector('.nav-menu');
+        if (navMenu) {
+          navMenu.classList.toggle('mobile-active');
+        }
+      };
+
+      // ============================================
       // GLOBAL CLICK HANDLER (catches routing links)
       // ============================================
       document.addEventListener('click', function(e) {
@@ -133,17 +147,13 @@
           var hash = window.location.hash.substring(1);
           window.navigateTo(hash || 'home');
 
-          // Mobile hamburger
-          var toggleBtn = document.querySelector('.mobile-nav-toggle');
+          // Mobile hamburger setup (Click outside to close)
           var navMenu = document.querySelector('.nav-menu');
-          if (toggleBtn && navMenu) {
-            toggleBtn.addEventListener('click', function(e) {
-              e.stopPropagation();
-              navMenu.classList.toggle('mobile-active');
-            });
+          var toggleBtn = document.querySelector('.mobile-nav-toggle');
+          if (navMenu) {
             document.addEventListener('click', function(e) {
               if (navMenu.classList.contains('mobile-active')) {
-                if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                if (!navMenu.contains(e.target) && toggleBtn && !toggleBtn.contains(e.target)) {
                   navMenu.classList.remove('mobile-active');
                 }
               }
@@ -385,8 +395,8 @@
         </li>
       </ul>
 
-      <!-- Mobile Nav Toggle -->
-      <button class="mobile-nav-toggle" aria-label="Toggle Navigation">
+      <!-- Mobile Nav Toggle (3 Lines) -->
+      <button type="button" class="mobile-nav-toggle" onclick="window.toggleMobileNav(event); return false;" aria-label="Toggle Navigation">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
@@ -2449,7 +2459,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=35000.0"></script>
+  <script src="app.js?v=36000.0"></script>
 </body>
 </html>
 
