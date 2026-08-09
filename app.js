@@ -930,12 +930,12 @@ function initHeroCarousel() {
     }
   }
 
-  // Auto-slide timer
+  // Auto-slide timer (5.5 seconds per slide)
   function startAutoSlide() {
     stopAutoSlide();
     carouselTimer = setInterval(() => {
       goToSlide(currentSlide + 1);
-    }, 4500);
+    }, 5500);
   }
 
   function stopAutoSlide() {
@@ -971,11 +971,21 @@ function initHeroCarousel() {
     });
   }
 
-  // Pause on hover
+  // Dot Indicator click listeners
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+      goToSlide(idx);
+      startAutoSlide();
+    });
+  });
+
+  // Pause on hover & keyboard focus
   const heroSection = document.querySelector('.hero-carousel-section');
   if (heroSection) {
     heroSection.addEventListener('mouseenter', stopAutoSlide);
     heroSection.addEventListener('mouseleave', startAutoSlide);
+    heroSection.addEventListener('focusin', stopAutoSlide);
+    heroSection.addEventListener('focusout', startAutoSlide);
   }
 
   // Keyboard accessibility
