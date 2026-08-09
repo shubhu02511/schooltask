@@ -30,46 +30,58 @@ document.addEventListener('DOMContentLoaded', () => {
    1. SPA Navigation & Router
    ========================================================================== */
 function initRouter() {
-  // Define navigateTo with full DOMContentLoaded context
+  // Define navigateTo with full SPA page-view router context
   window.navigateTo = function(targetId) {
-    if (!targetId || targetId === '' || targetId === '#') {
-      targetId = 'home';
-    }
-    if (targetId.startsWith('#')) {
-      targetId = targetId.substring(1);
-    }
+    try {
+      if (!targetId || targetId === '' || targetId === '#') {
+        targetId = 'home';
+      }
+      if (targetId.startsWith('#')) {
+        targetId = targetId.substring(1);
+      }
 
-    let targetElement = document.getElementById(targetId);
-    if (!targetElement) {
-      targetId = 'home';
-      targetElement = document.getElementById('home');
-    }
+      let targetElement = document.getElementById(targetId);
+      if (!targetElement) {
+        targetId = 'home';
+        targetElement = document.getElementById('home');
+      }
 
-    if (targetElement) {
-      const headerOffset = 70;
-      const elementPosition = targetElement.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      // Hide all page views and show target page view
+      const pages = document.querySelectorAll('.page-view');
+      pages.forEach(page => {
+        page.classList.remove('active');
+        page.style.setProperty('display', 'none', 'important');
+      });
 
+      const activePage = document.getElementById(targetId);
+      if (activePage) {
+        activePage.classList.add('active');
+        activePage.style.setProperty('display', 'block', 'important');
+      }
+
+      // Smooth scroll to top of window for new page
       window.scrollTo({
-        top: offsetPosition,
+        top: 0,
         behavior: 'smooth'
       });
-    }
 
-    // Update Nav Active State
-    document.querySelectorAll('.nav-link').forEach(link => {
-      const href = link.getAttribute('href');
-      if (href === `#${targetId}` || (href === '#home' && targetId === 'home')) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
+      // Update Nav Active State
+      document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === `#${targetId}` || (href === '#home' && targetId === 'home')) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // Close Mobile Nav menu if open
+      const navMenu = document.querySelector('.nav-menu');
+      if (navMenu) {
+        navMenu.classList.remove('mobile-active');
       }
-    });
-
-    // Close Mobile Nav menu if open
-    const navMenu = document.querySelector('.nav-menu');
-    if (navMenu) {
-      navMenu.classList.remove('mobile-active');
+    } catch(e) {
+      console.warn('navigateTo error:', e);
     }
   };
 

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=30000.0">
+  <link rel="stylesheet" href="styles.css?v=31000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -72,7 +72,7 @@
       };
 
       // ============================================
-      // GLOBAL CLICK HANDLER (catches ALL buttons/links)
+      // GLOBAL CLICK HANDLER (catches routing links)
       // ============================================
       document.addEventListener('click', function(e) {
         try {
@@ -81,9 +81,8 @@
           while (target && target !== document && depth < 6) {
             if (target.tagName === 'A') {
               var href = target.getAttribute('href') || '';
-              if (href.startsWith('#') && href.length > 1) {
+              if (href.startsWith('#') && href.length > 1 && !target.classList.contains('modal-trigger')) {
                 e.preventDefault();
-                e.stopPropagation();
                 window.navigateTo(href.substring(1));
                 return;
               }
@@ -93,7 +92,7 @@
             depth++;
           }
         } catch(e) {}
-      }, true);
+      }, false);
 
       // ============================================
       // MOBILE NAV TOGGLE
@@ -2246,7 +2245,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=30000.0"></script>
+  <script src="app.js?v=31000.0"></script>
 </body>
 </html>
 
