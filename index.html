@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=14000.0">
+  <link rel="stylesheet" href="styles.css?v=15000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -448,7 +448,7 @@
       <button type="button" class="carousel-control next-slide" id="hero-next-btn" onclick="if(window.heroSlideNext) window.heroSlideNext(); return false;" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
 
       <!-- Scroll to Explore Indicator Overlay -->
-      <div class="scroll-explore-container" onclick="var sec = document.getElementById('home-pillars'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll to Pillars">
+      <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll to Leadership Team">
         <div class="scroll-explore-line"></div>
         <div class="scroll-explore-text">SCROLL TO EXPLORE</div>
         <div class="scroll-explore-arrow"><i class="fa-solid fa-angles-down text-gold"></i></div>
@@ -506,57 +506,7 @@
       </div>
     </section>
 
-    <!-- 2. 6 Pillars of World-Class Learning Section -->
-    <section id="home-pillars" class="section-padding bg-light">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-navy">The BRIO Distinction</span>
-          <h2>6 Pillars of World-Class Learning</h2>
-          <p>We blend tradition with futuristic pedagogy to foster lifelong curiosity, leadership, and emotional intelligence.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-microchip"></i></div>
-            <h3>1. STEM &amp; AI Innovation Labs</h3>
-            <p>Robotics, 3D printing, coding, and hands-on scientific discovery from primary wing onwards.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
-            <h3>2. Dual Global Curriculum</h3>
-            <p>Affiliated with CBSE Board along with IB Diploma and Cambridge International Pathways.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
-            <h3>3. Olympic Sports Complex</h3>
-            <p>5-acre indoor and outdoor sports academy with professional coaches for cricket, tennis, and swimming.</p>
-            <a href="#facilities" class="router-link text-gold" onclick="window.navigateTo('facilities'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-user-graduate"></i></div>
-            <h3>4. Ivy League University Cell</h3>
-            <p>Dedicated career counseling guiding 100% placement into top global &amp; national universities.</p>
-            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-masks-theater"></i></div>
-            <h3>5. Visual &amp; Performing Arts</h3>
-            <p>1,200-seater auditorium, music conservatories, dance studios, and theater societies.</p>
-            <a href="#cocurricular" class="router-link text-gold" onclick="window.navigateTo('cocurricular'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h3>6. Safe &amp; Residential Campus</h3>
-            <p>24/7 CCTV security, air-conditioned eco-hostels, medical infirmary, and GPS-tracked bus transport.</p>
-            <a href="#facilities" class="router-link text-gold" onclick="window.navigateTo('facilities'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Interactive Leadership Team Carousel Slider -->
+    <!-- 2. Interactive Leadership Team Carousel Slider (Immediately After Hero) -->
     <section id="leadership" class="section-padding" style="position: relative; overflow: hidden;">
       <div class="container" style="position: relative;">
         
@@ -636,6 +586,56 @@
 
           </div>
 
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 6 Pillars of World-Class Learning Section -->
+    <section id="home-pillars" class="section-padding bg-light">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-navy">The BRIO Distinction</span>
+          <h2>6 Pillars of World-Class Learning</h2>
+          <p>We blend tradition with futuristic pedagogy to foster lifelong curiosity, leadership, and emotional intelligence.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-microchip"></i></div>
+            <h3>1. STEM &amp; AI Innovation Labs</h3>
+            <p>Robotics, 3D printing, coding, and hands-on scientific discovery from primary wing onwards.</p>
+            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+            <h3>2. Dual Global Curriculum</h3>
+            <p>Affiliated with CBSE Board along with IB Diploma and Cambridge International Pathways.</p>
+            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h3>3. Olympic Sports Complex</h3>
+            <p>5-acre indoor and outdoor sports academy with professional coaches for cricket, tennis, and swimming.</p>
+            <a href="#facilities" class="router-link text-gold" onclick="window.navigateTo('facilities'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-user-graduate"></i></div>
+            <h3>4. Ivy League University Cell</h3>
+            <p>Dedicated career counseling guiding 100% placement into top global &amp; national universities.</p>
+            <a href="#academics" class="router-link text-gold" onclick="window.navigateTo('academics'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-masks-theater"></i></div>
+            <h3>5. Visual &amp; Performing Arts</h3>
+            <p>1,200-seater auditorium, music conservatories, dance studios, and theater societies.</p>
+            <a href="#cocurricular" class="router-link text-gold" onclick="window.navigateTo('cocurricular'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3>6. Safe &amp; Residential Campus</h3>
+            <p>24/7 CCTV security, air-conditioned eco-hostels, medical infirmary, and GPS-tracked bus transport.</p>
+            <a href="#facilities" class="router-link text-gold" onclick="window.navigateTo('facilities'); return false;" style="font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block;">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
         </div>
       </div>
     </section>
@@ -2246,7 +2246,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=14000.0"></script>
+  <script src="app.js?v=15000.0"></script>
 </body>
 </html>
 
