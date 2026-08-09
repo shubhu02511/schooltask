@@ -1,8 +1,8 @@
 <?php
+@ob_start();
 if (function_exists('opcache_reset')) { @opcache_reset(); }
 if (function_exists('clearstatcache')) { @clearstatcache(true); }
 header('Content-Type: application/json');
-header('X-API-Version: v99-hex-debug');
 error_reporting(0);
 // ---- Parse input - handles base64, hex, raw input and form data ----
 function parseInput() {

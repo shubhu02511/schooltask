@@ -104,8 +104,7 @@ class AuthController {
             echo json_encode([
                 'success' => true,
                 'message' => 'Registration OTP sent to your email (' . $email . '). Please verify.',
-                'email' => $email,
-                'otp_demo' => $otp
+                'email' => $email
             ]);
             exit;
         } catch (Throwable $t) {
@@ -137,9 +136,9 @@ class AuthController {
             exit;
         }
 
-        // Check OTP match (allow generated OTP, session OTP, or master demo OTP 123456)
+        // Strict OTP verification: Match database generated OTP or session OTP only
         $sessionOTP = $_SESSION['latest_otp_' . $email]['code'] ?? null;
-        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp && $otp !== '123456') {
+        if ($user['otp_code'] !== $otp && $sessionOTP !== $otp) {
             echo json_encode(['success' => false, 'message' => 'Invalid OTP code entered']);
             exit;
         }

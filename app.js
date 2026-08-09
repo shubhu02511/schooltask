@@ -1140,33 +1140,27 @@ function initAuthSystem() {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ d: hexData })
-        });
-        const data = await res.json();
+        const rawText = await res.text();
+        let data;
+        try {
+          data = JSON.parse(rawText.trim());
+        } catch (e) {
+          data = { success: false, message: 'Server response: ' + (rawText || 'Empty response') };
+        }
 
         if (data.success) {
           document.getElementById('otp-hidden-email').value = data.email;
           document.getElementById('otp-target-email').innerText = data.email;
-          
-          if (data.otp_demo) {
-            document.getElementById('otp-demo-code').innerText = data.otp_demo;
-            document.getElementById('otp-demo-alert').style.display = 'block';
-          }
+          const demoAlert = document.getElementById('otp-demo-alert');
+          if (demoAlert) demoAlert.style.display = 'none';
 
           registerModal.classList.remove('active');
           otpModal.classList.add('active');
         } else {
-          alert(data.message);
+          alert(data.message || 'Registration failed');
         }
       } catch (err) {
-        // Fallback for standalone demo mode
-        const emailVal = document.getElementById('reg-email').value;
-        document.getElementById('otp-hidden-email').value = emailVal;
-        document.getElementById('otp-target-email').innerText = emailVal;
-        document.getElementById('otp-demo-code').innerText = '123456';
-        document.getElementById('otp-demo-alert').style.display = 'block';
-
-        registerModal.classList.remove('active');
-        otpModal.classList.add('active');
+        alert('Registration request failed: ' + (err.message || 'Server error'));
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Register & Send OTP';
@@ -1248,10 +1242,8 @@ function initAuthSystem() {
           alert(data.message);
           document.getElementById('otp-hidden-email').value = data.email;
           document.getElementById('otp-target-email').innerText = data.email;
-          if (data.otp_demo) {
-            document.getElementById('otp-demo-code').innerText = data.otp_demo;
-            document.getElementById('otp-demo-alert').style.display = 'block';
-          }
+          const demoAlert = document.getElementById('otp-demo-alert');
+          if (demoAlert) demoAlert.style.display = 'none';
           loginModal.classList.remove('active');
           otpModal.classList.add('active');
         } else {
