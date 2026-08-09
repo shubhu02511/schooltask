@@ -706,10 +706,17 @@ img {
   background: linear-gradient(135deg, #091224 0%, #1E293B 60%, #0F172A 100%) !important;
   color: #FFFFFF !important;
   padding: 4.5rem 1.5rem !important;
-  text-align: center !important;
+  text-align: left !important;
   position: relative !important;
   border-bottom: 3px solid var(--accent-gold) !important;
   box-shadow: 0 8px 24px rgba(9, 18, 36, 0.25) !important;
+}
+
+.hero-section .container,
+.page-banner .container {
+  max-width: 1180px !important;
+  margin: 0 auto !important;
+  text-align: left !important;
 }
 
 .hero-section h1,
