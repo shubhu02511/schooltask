@@ -1,4 +1,4 @@
-name: Auto Deploy to Server via FTP
+name: Auto Deploy to cPanel via FTP
 
 on:
   push:
@@ -7,24 +7,16 @@ on:
 
 jobs:
   web-deploy:
-    name: Deploy Website
+    name: Deploy to cPanel public_html
     runs-on: ubuntu-latest
     steps:
       - name: Get latest code
         uses: actions/checkout@v4
 
-      - name: Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
-
-      - name: Deploy via LFTP to all potential cPanel roots
-        run: |
-          lftp -c "
-          set ftp:ssl-allow no;
-          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_SERVER }}';
-          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ ./;
-          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ public_html/;
-          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ syonra.life/;
-          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ schooltask/;
-          mirror --reverse --verbose --exclude-glob .git* --exclude-glob .git*/** ./ public_html/schooltask/;
-          quit;
-          "
+      - name: Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./
