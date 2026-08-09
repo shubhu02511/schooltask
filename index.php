@@ -283,8 +283,9 @@ if ($method === 'POST' && $uri === '/api/auth/login') {
 
     $user = dbGet($email);
     $hash = hash('sha256', $pass . 'brio2026salt');
+    $storedHash = $user['pw_hash'] ?? $user['password'] ?? '';
 
-    if (!$user || $user['password'] !== $hash) {
+    if (!$user || $storedHash !== $hash) {
         echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
         exit;
     }
