@@ -61,11 +61,13 @@ function initRouter() {
     // Hide all page views
     document.querySelectorAll('.page-view').forEach(page => {
       page.classList.remove('active-page');
+      page.style.display = 'none';
     });
 
     // Show target page
     if (pageToActivate) {
       pageToActivate.classList.add('active-page');
+      pageToActivate.style.display = 'block';
     }
 
     // Update Nav Active State
@@ -77,6 +79,12 @@ function initRouter() {
         link.classList.remove('active');
       }
     });
+
+    // Close Mobile Nav menu if open
+    const navMenu = document.querySelector('.nav-menu');
+    if (navMenu) {
+      navMenu.classList.remove('mobile-active');
+    }
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
