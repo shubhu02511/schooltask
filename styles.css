@@ -712,7 +712,7 @@ img {
 
 .carousel-indicators {
   position: absolute;
-  bottom: 4.6rem;
+  bottom: 4.2rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -812,7 +812,7 @@ img {
 /* Scroll To Explore Indicator Overlay */
 .scroll-explore-container {
   position: absolute;
-  bottom: 3.5rem;
+  bottom: 7.2rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 12;
@@ -2092,7 +2092,7 @@ img {
 
   /* Scroll Explore */
   .scroll-explore-container {
-    bottom: 2.5rem !important;
+    bottom: 4.8rem !important;
     z-index: 150 !important;
     cursor: pointer !important;
     touch-action: manipulation !important;
@@ -2102,7 +2102,7 @@ img {
 
   /* Carousel Dots */
   .carousel-indicators {
-    bottom: 0.6rem !important;
+    bottom: 2.8rem !important;
     z-index: 150 !important;
     gap: 0.4rem !important;
   }
