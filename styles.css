@@ -672,40 +672,45 @@ img {
 .admission-sidebar-tab {
   position: fixed !important;
   top: 50% !important;
-  right: 0 !important;
+  right: 0.75rem !important;
   left: auto !important;
   transform: translateY(-50%) !important;
-  transform-origin: right center !important;
+  transform-origin: center center !important;
   writing-mode: vertical-rl !important;
   text-orientation: mixed !important;
   z-index: 99999 !important;
   background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
   color: #0F172A !important;
-  padding: 1.15rem 0.55rem !important;
-  border-radius: 10px 0 0 10px !important;
+  padding: 1.15rem 0.6rem !important;
+  border-radius: 14px !important;
   font-weight: 800 !important;
+  font-size: 0.78rem !important;
   letter-spacing: 1px !important;
   text-transform: uppercase !important;
-  box-shadow: -4px 4px 15px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25), 0 4px 15px rgba(245, 158, 11, 0.45) !important;
   text-decoration: none !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 0.5rem !important;
   cursor: pointer !important;
+  margin: 0 !important;
+  width: auto !important;
+  max-width: none !important;
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
   animation: applyTabEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both, applyTabFloatPulse 4s ease-in-out 1.3s infinite alternate !important;
 }
 .admission-sidebar-tab:hover {
   background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%) !important;
-  transform: translateY(-50%) scale(1.05) !important;
-  box-shadow: -8px 8px 25px rgba(245, 158, 11, 0.6), -2px 2px 10px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-50%) scale(1.08) !important;
+  box-shadow: 0 14px 35px rgba(245, 158, 11, 0.65), 0 6px 20px rgba(15, 23, 42, 0.3) !important;
   color: #0F172A !important;
 }
 
 @keyframes applyTabEntrance {
   from {
     opacity: 0;
-    transform: translateY(-50%) translateX(100%);
+    transform: translateY(-50%) translateX(60px);
   }
   to {
     opacity: 1;
@@ -716,15 +721,15 @@ img {
 @keyframes applyTabFloatPulse {
   0% {
     transform: translateY(-50%) translateY(0);
-    box-shadow: -4px 4px 15px rgba(245, 158, 11, 0.35), -2px 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25), 0 4px 15px rgba(245, 158, 11, 0.4);
   }
   50% {
-    transform: translateY(-50%) translateY(-5px);
-    box-shadow: -6px 6px 20px rgba(245, 158, 11, 0.65), -2px 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-50%) translateY(-6px);
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.35), 0 6px 22px rgba(245, 158, 11, 0.7);
   }
   100% {
     transform: translateY(-50%) translateY(3px);
-    box-shadow: -4px 4px 16px rgba(245, 158, 11, 0.45), -2px 2px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28), 0 4px 16px rgba(245, 158, 11, 0.5);
   }
 }
 
@@ -2064,16 +2069,16 @@ img {
   /* Floating Vertical Admission Sidebar Tab */
   .admission-sidebar-tab {
     position: fixed !important;
-    top: 45% !important;
-    right: 0 !important;
+    top: 50% !important;
+    right: 0.4rem !important;
     left: auto !important;
     transform: translateY(-50%) !important;
     writing-mode: vertical-rl !important;
     text-orientation: mixed !important;
     z-index: 99998 !important;
-    padding: 0.95rem 0.5rem !important;
-    font-size: 0.72rem !important;
-    border-radius: 8px 0 0 8px !important;
+    padding: 0.9rem 0.45rem !important;
+    font-size: 0.7rem !important;
+    border-radius: 12px !important;
     touch-action: manipulation !important;
   }
 
