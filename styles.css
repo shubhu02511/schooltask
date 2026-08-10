@@ -692,9 +692,27 @@ img {
 .carousel-control.prev-slide { left: 1.25rem !important; }
 .carousel-control.next-slide { right: 1.25rem !important; }
 
+/* Smooth Repeating Wave Divider at Bottom of Hero Section */
+.hero-wave-divider {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.hero-wave-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 55px;
+}
+
 .carousel-indicators {
   position: absolute;
-  bottom: 2rem;
+  bottom: 4.6rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
