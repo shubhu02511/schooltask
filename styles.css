@@ -449,7 +449,7 @@ img {
   }
 }
 
-/* Hero 5-Slide Carousel */
+/* /* Hero 5-Slide Carousel - Premium Animated Section */
 .hero-carousel-section {
   position: relative;
   overflow: hidden;
@@ -470,12 +470,23 @@ img {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s ease;
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   z-index: 1;
+}
+.hero-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transition: transform 8s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: scale(1);
 }
 .hero-slide.active {
   opacity: 1;
@@ -483,10 +494,19 @@ img {
   pointer-events: auto;
   z-index: 2;
 }
-.hero-slide.active .hero-slide-content {
-  animation: slideInFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.hero-slide.active::before {
+  animation: kenBurnsSmooth 12s ease-out infinite alternate;
 }
+
+@keyframes kenBurnsSmooth {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.05) translate(-0.3%, -0.3%); }
+  100% { transform: scale(1.03) translate(0.3%, 0.3%); }
+}
+
 .hero-slide-content {
+  position: relative;
+  z-index: 3;
   max-width: 1080px;
   margin: 0 auto;
   width: 100%;
@@ -494,6 +514,8 @@ img {
   padding: 0 2.5rem;
   text-align: left !important;
 }
+
+/* Staggered Entrance Animations for Active Slide */
 .hero-slide-content .badge,
 .hero-slide-content .hero-title,
 .hero-slide-content .hero-subtitle,
@@ -501,7 +523,44 @@ img {
   text-align: left !important;
   margin-left: 0 !important;
   justify-content: flex-start !important;
+  opacity: 0;
 }
+
+.hero-slide.active .hero-slide-content .badge {
+  animation: heroFadeDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+.hero-slide.active .hero-slide-content .hero-title {
+  animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+.hero-slide.active .hero-slide-content .hero-subtitle {
+  animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+.hero-slide.active .hero-slide-content .hero-ctas {
+  animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .hero-title {
   font-size: 3.2rem;
   color: #FFFFFF;
@@ -525,6 +584,20 @@ img {
   justify-content: flex-start !important;
   align-items: center;
 }
+.hero-ctas .btn {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.hero-ctas .btn:hover {
+  transform: translateY(-3px) scale(1.03) !important;
+}
+.hero-ctas .btn-gold:hover {
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.45), 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+.hero-ctas .btn-outline-white:hover {
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+}
+
 .carousel-control {
   position: absolute;
   top: 50%;
@@ -541,11 +614,22 @@ img {
   justify-content: center;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .carousel-control:hover {
   background: var(--accent-gold);
   color: #0F172A;
+  border-color: var(--accent-gold);
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+}
+.carousel-control.prev-slide:hover i {
+  transform: translateX(-2px);
+  transition: transform 0.2s ease;
+}
+.carousel-control.next-slide:hover i {
+  transform: translateX(2px);
+  transition: transform 0.2s ease;
 }
 .carousel-control.prev-slide { left: 1.25rem !important; }
 .carousel-control.next-slide { right: 1.25rem !important; }
@@ -565,12 +649,23 @@ img {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.4);
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .carousel-indicators .dot.active {
   background: var(--accent-gold);
   width: 36px;
   border-radius: 8px;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+  animation: dotPulseGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes dotPulseGlow {
+  0% {
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.95), 0 0 4px #FFFFFF;
+  }
 }
 
 /* Floating Admission Tab (Vertical RL) */
@@ -616,16 +711,7 @@ img {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .scroll-explore-container:hover {
-  transform: translateX(-50%) translateY(4px);
-}
-.scroll-explore-arrow {
-  margin-top: 0.25rem;
-  animation: bounceDown 1.8s infinite;
-}
-@keyframes bounceDown {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(6px); }
-  60% { transform: translateY(3px); }
+  transform: translateX(-50%) translateY(3px);
 }
 .scroll-explore-line {
   width: 140px;
@@ -657,16 +743,42 @@ img {
   text-transform: uppercase;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   margin-bottom: 0.2rem;
+  transition: color 0.3s ease, letter-spacing 0.3s ease;
 }
 .scroll-explore-arrow {
   font-size: 1.1rem;
   color: var(--accent-gold);
-  animation: bounceDown 1.8s infinite;
+  animation: gentleBounce 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
-@keyframes bounceDown {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(6px); }
-  60% { transform: translateY(3px); }
+
+.scroll-explore-container:hover .scroll-explore-text {
+  color: #F59E0B;
+  letter-spacing: 2.8px;
+}
+.scroll-explore-container:hover .scroll-explore-arrow {
+  color: #FBBF24;
+  transform: translateY(4px) scale(1.12);
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide::before,
+  .hero-slide.active::before,
+  .hero-slide.active .hero-slide-content .badge,
+  .hero-slide.active .hero-slide-content .hero-title,
+  .hero-slide.active .hero-slide-content .hero-subtitle,
+  .hero-slide.active .hero-slide-content .hero-ctas,
+  .carousel-indicators .dot.active,
+  .scroll-explore-arrow {
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+    transform: none !important;
+  }
 }
 
 /* Leadership Carousel Navigation Buttons */
