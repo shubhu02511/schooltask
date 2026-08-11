@@ -11,19 +11,39 @@ AuthHelper::requireAdmin();
 
 $db = getCoreDB();
 
-// Fetch Summary Stats safely
-$userCount = 0; $admCount = 0; $carCount = 0; $conCount = 0;
-$recentAdmissions = [];
-
-try {
-    $userCount = (int)$db->query("SELECT COUNT(*) FROM users")->fetchColumn();
-    $admCount = (int)$db->query("SELECT COUNT(*) FROM admissions")->fetchColumn();
-    $carCount = (int)$db->query("SELECT COUNT(*) FROM careers")->fetchColumn();
-    $conCount = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
-    $recentAdmissions = $db->query("SELECT * FROM admissions ORDER BY id DESC LIMIT 5")->fetchAll();
-} catch (Exception $e) {
-    // Fallback if table queries vary
+function safeCount($db, $table) {
+    if (!$db) return 0;
+    try {
+        if (method_exists($db, 'query')) {
+            $res = $db->query("SELECT COUNT(*) FROM {$table}");
+            return $res ? (int)$res->fetchColumn() : 0;
+        } else {
+            $stmt = $db->prepare("SELECT * FROM {$table}");
+            $stmt->execute();
+            return count($stmt->fetchAll() ?: []);
+        }
+    } catch (Exception $e) {
+        return 0;
+    }
 }
+
+function safeFetchRecent($db, $sql) {
+    if (!$db) return [];
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll() ?: [];
+    } catch (Exception $e) {
+        return [];
+    }
+}
+
+$userCount = safeCount($db, 'users');
+$admCount = safeCount($db, 'admissions');
+$carCount = safeCount($db, 'careers');
+$conCount = safeCount($db, 'contacts');
+
+$recentAdmissions = safeFetchRecent($db, "SELECT * FROM admissions ORDER BY id DESC LIMIT 5");
 ?>
 <!DOCTYPE html>
 <html lang="en">

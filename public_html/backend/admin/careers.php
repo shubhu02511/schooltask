@@ -10,13 +10,19 @@ require_once __DIR__ . '/../includes/auth_helper.php';
 AuthHelper::requireAdmin();
 
 $db = getCoreDB();
-$careers = [];
 
-try {
-    $careers = $db->query("SELECT * FROM careers ORDER BY id DESC")->fetchAll();
-} catch (Exception $e) {
-    // Handle error
+function safeFetchAll($db, $sql) {
+    if (!$db) return [];
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll() ?: [];
+    } catch (Exception $e) {
+        return [];
+    }
 }
+
+$careers = safeFetchAll($db, "SELECT * FROM careers ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
 <html lang="en">
