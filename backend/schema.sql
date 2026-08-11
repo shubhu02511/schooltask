@@ -4,6 +4,7 @@
 -- ==========================================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `transfer_certificates`;
 DROP TABLE IF EXISTS `news_events`;
 DROP TABLE IF EXISTS `vacancies`;
 DROP TABLE IF EXISTS `contacts`;
@@ -114,3 +115,23 @@ INSERT INTO `news_events` (`title`, `description`, `category`, `event_date`, `im
 ('Annual Cultural Fest & Musical Gala', 'Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.', 'Arts & Culture', '2026-07-18', 'https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80', 'published'),
 ('NASA Stargazing & Astronomy Camp', 'Overnight celestial observation using optical computerized telescopes with astrophysics guides.', 'Space & Astronomy', '2026-05-14', 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80', 'published'),
 ('Fine Arts & Clay Sculpting Expo', 'Canvas paintings, pottery masterpieces, and digital art created by student artists.', 'Fine Arts & Design', '2026-04-22', 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80', 'published');
+
+-- 7. TRANSFER CERTIFICATES TABLE (TC Verification & Downloads)
+CREATE TABLE `transfer_certificates` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `student_name` VARCHAR(150) NOT NULL,
+  `tc_number` VARCHAR(50) NOT NULL UNIQUE,
+  `admission_no` VARCHAR(50) NOT NULL,
+  `class_name` VARCHAR(50) NOT NULL,
+  `issue_date` DATE NOT NULL,
+  `campus` VARCHAR(100) DEFAULT 'Gujarat Campus',
+  `verification_status` ENUM('verified', 'pending', 'revoked') DEFAULT 'verified',
+  `pdf_filename` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Seed Initial Verified Transfer Certificates
+INSERT INTO `transfer_certificates` (`student_name`, `tc_number`, `admission_no`, `class_name`, `issue_date`, `campus`, `verification_status`, `pdf_filename`) VALUES
+('Aarav Sharma', 'TC2026/001', 'ADM9821', 'Grade 10', '2026-06-15', 'Gujarat Campus', 'verified', 'TC2026_001.pdf'),
+('Ananya Verma', 'TC2026/002', 'ADM9822', 'Grade 12', '2026-06-20', 'Delhi NCR Campus', 'verified', 'TC2026_002.pdf');
