@@ -1,8 +1,8 @@
 <?php
 // Authentication Controller handling user registration, login, and OTP verification
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../db.php';
-require_once __DIR__ . '/../mail_helper.php';
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../helpers/mail_helper.php';
 
 class AuthController {
 

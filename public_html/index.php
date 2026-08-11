@@ -3,16 +3,17 @@
 if (function_exists('opcache_reset')) { @opcache_reset(); }
 if (function_exists('clearstatcache')) { @clearstatcache(true); }
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/db.php';
-require_once __DIR__ . '/mail_helper.php';
-require_once __DIR__ . '/controllers/AuthController.php';
+// Production Security & Environment Settings
+ini_set('display_errors', 0);
+error_reporting(0);
+
+// Load Private Configuration & Dependencies from app/
+require_once __DIR__ . '/../app/config/config.php';
+require_once __DIR__ . '/../app/config/db.php';
+require_once __DIR__ . '/../app/helpers/mail_helper.php';
+require_once __DIR__ . '/../app/controllers/AuthController.php';
 
 header('Content-Type: application/json');
-
-// Disable error leakage in output
-error_reporting(0);
-ini_set('display_errors', 0);
 
 $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
 if (!empty($_POST) || !empty($GLOBALS['RAW_INPUT']) || !empty($_SERVER['CONTENT_LENGTH'])) {
