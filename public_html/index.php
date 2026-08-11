@@ -19,8 +19,8 @@ $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
 $rawUri = $_SERVER['REQUEST_URI'] ?? $_SERVER['REDIRECT_URL'] ?? '/';
 $uri = parse_url($rawUri, PHP_URL_PATH);
 
-// 1. FRONTEND WEB PAGE RENDERER (If NOT an API request)
-if (strpos($uri, '/api') !== 0) {
+// 1. FRONTEND WEB PAGE RENDERER (If NOT an API or Backend request)
+if (strpos($uri, '/api') !== 0 && strpos($uri, '/backend') !== 0) {
     $viewFile = $appDir . '/views/index.html';
     if (file_exists($viewFile)) {
         header('Content-Type: text/html; charset=UTF-8');

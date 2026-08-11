@@ -17,7 +17,11 @@ DirectoryIndex index.php
     RewriteRule ^app/ - [F,L]
     RewriteRule ^storage/ - [F,L]
 
-    # Serve real static files directly (like CSS & JS in assets/)
+    # Allow direct access to /backend/ and /assets/
+    RewriteRule ^backend/ - [L]
+    RewriteRule ^assets/ - [L]
+
+    # Serve real static files directly
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
