@@ -13,6 +13,10 @@ DirectoryIndex index.html
     RewriteEngine On
     RewriteBase /
 
+    # Block direct web access to private app and storage folders
+    RewriteRule ^app/ - [F,L]
+    RewriteRule ^storage/ - [F,L]
+
     # Never rewrite requests to actual PHP files
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteCond %{REQUEST_FILENAME} \.php$

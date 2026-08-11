@@ -8,10 +8,11 @@ ini_set('display_errors', 0);
 error_reporting(0);
 
 // Load Private Configuration & Dependencies from app/
-require_once __DIR__ . '/../app/config/config.php';
-require_once __DIR__ . '/../app/config/db.php';
-require_once __DIR__ . '/../app/helpers/mail_helper.php';
-require_once __DIR__ . '/../app/controllers/AuthController.php';
+$appDir = file_exists(__DIR__ . '/app/config/config.php') ? __DIR__ . '/app' : __DIR__ . '/../app';
+require_once $appDir . '/config/config.php';
+require_once $appDir . '/config/db.php';
+require_once $appDir . '/helpers/mail_helper.php';
+require_once $appDir . '/controllers/AuthController.php';
 
 header('Content-Type: application/json');
 
