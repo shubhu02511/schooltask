@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=67000.0">
+  <link rel="stylesheet" href="styles.css?v=68000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -764,112 +764,290 @@
 
   </main>
 
-  <!-- PAGE 2: ABOUT US -->
+  <!-- PAGE 2: ABOUT US (Redesigned matching Editorial Reference Image) -->
   <main id="about" class="page-view">
     
-    <!-- Hero Banner -->
-    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
-      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
-        <span class="badge badge-gold"><i class="fa-solid fa-award"></i> 25+ YEARS OF EXCELLENCE</span>
-        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">About BRIO World School</h1>
-        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
-          Founded with a commitment to holistic development, BRIO World School blends academic rigor, AI & STEM innovation, and moral values across our premier Gujarat and Delhi NCR campuses.
-        </p>
-      </div>
-    </div>
-
-    <!-- Legacy Quick Stats Row -->
-    <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
+    <!-- 1. Hero Section: Split Layout with Breadcrumb, Bold Headline & Overlapping Circular Badge Composition -->
+    <section class="section-padding" style="padding: 3.5rem 0 4.5rem; background: #FFFFFF;">
       <div class="container">
-        <div class="grid-4" style="text-align: center; gap: 1.5rem;">
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">25+</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Years of Educational Legacy</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">2</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Premier Eco-Green Campuses</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100%</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">CBSE & IB Board Result</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">15,000+</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Global Alumni Network</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Vision, Mission & Core Values Grid -->
-    <section class="section-padding">
-      <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-navy">Foundational Creed</span>
-          <h2>Vision, Mission & Guiding Principles</h2>
-          <p>Inspiring students to reach academic heights while remaining grounded in ethics and compassion.</p>
-        </div>
-
-        <div class="grid-3" style="gap: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3rem; align-items: center;">
           
-          <!-- Vision Card -->
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); border-top: 4px solid var(--accent-gold); box-shadow: var(--shadow-md);">
-            <div class="feature-icon" style="background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-eye"></i></div>
-            <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Our Vision</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-              To be a global benchmark in K-12 education by nurturing inquiring, knowledgeable, and caring young minds who build a more peaceful and sustainable world.
+          <!-- Left Content -->
+          <div style="grid-column: span 6;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-bottom: 1rem; letter-spacing: 0.5px;">
+              [ <a href="#home" onclick="window.navigateTo('home')" style="color: #64748B; text-decoration: none;">Home</a> / <span style="color: #F59E0B;">About</span> ]
+            </div>
+            <h1 style="font-size: 3.8rem; font-weight: 900; color: #0F172A; line-height: 1.08; letter-spacing: -2px; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif;">
+              Crafting Educational Excellence Together
+            </h1>
+            <p style="font-size: 1.05rem; color: #475569; line-height: 1.7; margin-bottom: 2rem; font-weight: 500;">
+              Founded with a commitment to holistic development, BRIO World School blends academic rigor, AI &amp; STEM innovation, and moral values across our premier Gujarat and Delhi NCR campuses.
             </p>
           </div>
 
-          <!-- Mission Card -->
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); border-top: 4px solid #2563EB; box-shadow: var(--shadow-md);">
-            <div class="feature-icon" style="background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-bullseye"></i></div>
-            <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Our Mission</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-              To provide experiential learning, integrated STEM & AI education, and sports academies that empower students to excel academically and ethically.
-            </p>
-          </div>
+          <!-- Right Overlapping Image Composition with Circular Badge Overlay -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 380px; box-shadow: 0 16px 40px rgba(15,23,42,0.12); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="About BRIO World School" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
 
-          <!-- Values Card -->
-          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); border-top: 4px solid #059669; box-shadow: var(--shadow-md);">
-            <div class="feature-icon" style="background: #D1FAE5; color: #059669;"><i class="fa-solid fa-heart"></i></div>
-            <h3 style="color: var(--primary-navy); margin-bottom: 0.5rem;">Core Values</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-              Integrity, Curiosity, Empathy, Innovation, and Respect for Diversity form the cornerstone of every academic and co-curricular endeavor at BRIO.
-            </p>
+            <!-- Inset Overlapping Image -->
+            <div style="position: absolute; bottom: -25px; right: -20px; width: 55%; height: 210px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 12px 30px rgba(15,23,42,0.15);">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Circular Badge Overlay (Matching Reference "Renovex" style) -->
+            <div style="position: absolute; bottom: 20px; left: -25px; width: 100px; height: 100px; background: white; border-radius: 50%; box-shadow: 0 10px 25px rgba(15,23,42,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #F59E0B; text-align: center; padding: 5px;">
+              <i class="fa-solid fa-award text-gold" style="font-size: 1.3rem; margin-bottom: 2px;"></i>
+              <span style="font-size: 0.65rem; font-weight: 900; color: #0F172A; text-transform: uppercase; line-height: 1.1;">25+ Yrs<br>Legacy</span>
+            </div>
+
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- Accreditations & Standards -->
-    <section class="section-padding bg-light">
+    <!-- 2. High-Impact Mission Statement & Statistics Section -->
+    <section style="padding: 4rem 0; background: #F8FAFC; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
       <div class="container">
-        <div class="section-header text-center">
-          <span class="badge badge-gold">Affiliations & Accreditations</span>
-          <h2>Recognized Globally & Nationally</h2>
-          <p>Our credentials reflect our commitment to world-class educational standards and student safety.</p>
+        
+        <!-- Big Centered Paragraph -->
+        <div style="max-width: 900px; margin: 0 auto 3.5rem; text-align: center;">
+          <h2 style="font-size: 1.85rem; font-weight: 800; color: #0F172A; line-height: 1.45; font-family: 'Outfit', sans-serif;">
+            At BRIO World School, we are committed to revolutionizing K-12 education with innovative, sustainable, and future-ready solutions. With a proven track record of academic excellence, we combine state-of-the-art STEM technology, skilled educator expertise, and student-centric pedagogy to bring visions to life.
+          </h2>
         </div>
 
-        <div class="grid-3" style="gap: 2rem;">
-          <div class="feature-card text-center" style="background: white; border: 1px solid var(--border-light);">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-building-columns"></i></div>
-            <h3 style="color: var(--primary-navy);">CBSE Affiliation</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">Affiliated with Central Board of Secondary Education, New Delhi (CBSE Affiliation No: 2130890).</p>
+        <!-- 4 Statistics Counters Row (Matching Reference) -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;" class="ref-about-stats">
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif; line-height: 1;">25+</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Years of Educational Legacy</div>
           </div>
-          <div class="feature-card text-center" style="background: white; border: 1px solid var(--border-light);">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-earth-americas"></i></div>
-            <h3 style="color: var(--primary-navy);">IB World School Candidate</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">Authorized International Baccalaureate (IB) World School for Senior High School Diploma Pathway.</p>
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #F59E0B; font-family: 'Outfit', sans-serif; line-height: 1;">2</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Premier Eco-Green Campuses</div>
           </div>
-          <div class="feature-card text-center" style="background: white; border: 1px solid var(--border-light);">
-            <div class="feature-icon" style="margin: 0 auto 1rem; background: #D1FAE5; color: #059669;"><i class="fa-solid fa-certificate"></i></div>
-            <h3 style="color: var(--primary-navy);">ISO 9001:2015 Certified</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">Certified for quality educational management, campus infrastructure, and child safety protocols.</p>
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif; line-height: 1;">100%</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">CBSE &amp; IB Board Pass Rate</div>
+          </div>
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #F59E0B; font-family: 'Outfit', sans-serif; line-height: 1;">15,000+</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Global Alumni Network</div>
           </div>
         </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Our Mission Section: Left Overlapping Image Composition + Right Text Block (Matching Reference) -->
+    <section class="section-padding" style="padding: 5rem 0; background: #FFFFFF;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3.5rem; align-items: center;">
+          
+          <!-- Left Overlapping Images (Matching Reference Left Block) -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 360px; box-shadow: 0 12px 35px rgba(15,23,42,0.08); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics &amp; AI Lab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <!-- Inset Image -->
+            <div style="position: absolute; top: 25%; right: -25px; width: 50%; height: 210px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 14px 35px rgba(15,23,42,0.14);">
+              <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Aquatics Center" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div style="grid-column: span 6;">
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-bullseye"></i> FOUNDATIONAL CREED</span>
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Our Mission
+            </h2>
+            <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1.75rem;">
+              To provide experiential learning, integrated STEM &amp; AI education, and sports academies that empower students to excel academically and ethically. We aim to build learning environments that inspire and improve young minds across all wings.
+            </p>
+
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Integrated STEM &amp; AI Education
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Experiential &amp; Inquiry-Based Pedagogy
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Comprehensive Sports &amp; Co-Curricular Academies
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Global Perspective &amp; Ethical Leadership
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Our Vision Section: Left Text Block + Right Overlapping Image Composition (Matching Reference) -->
+    <section class="section-padding" style="padding: 5rem 0; background: #F8FAFC; border-top: 1px solid #E2E8F0;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3.5rem; align-items: center;">
+          
+          <!-- Left Content -->
+          <div style="grid-column: span 6;">
+            <span class="badge badge-navy" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-eye"></i> GLOBAL BENCHMARK</span>
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Our Vision
+            </h2>
+            <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1.75rem;">
+              To be a global benchmark in K-12 education by nurturing inquiring, knowledgeable, and caring young minds who build a more peaceful and sustainable world. We embrace eco-friendly practices and modern architecture to transform lives.
+            </p>
+
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Global Benchmark in K-12 Education
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Nurturing Ethical &amp; Caring Young Leaders
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Sustainable &amp; Future-Ready Learning Environment
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Pioneering Educational Excellence Across Campuses
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right Overlapping Images (Matching Reference Right Block) -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 360px; box-shadow: 0 12px 35px rgba(15,23,42,0.08); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Central Digital Library" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <!-- Inset Image -->
+            <div style="position: absolute; bottom: -20px; left: -25px; width: 50%; height: 200px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 14px 35px rgba(15,23,42,0.14);">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Our History Section: Left Overlapping Image Composition + Right Text Block (Matching Reference) -->
+    <section class="section-padding" style="padding: 5rem 0; background: #FFFFFF;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3.5rem; align-items: center;">
+          
+          <!-- Left Overlapping Images (Matching Reference History Section) -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 360px; box-shadow: 0 12px 35px rgba(15,23,42,0.08); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Classroom Learning" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <!-- Inset Image -->
+            <div style="position: absolute; top: 15%; right: -25px; width: 48%; height: 210px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 14px 35px rgba(15,23,42,0.14);">
+              <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80" alt="Sports Arena" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div style="grid-column: span 6;">
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-clock-rotate-left"></i> HERITAGE &amp; MILESTONES</span>
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Our History
+            </h2>
+            <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1.75rem;">
+              Founded on a commitment to quality and innovation, BRIO World School began as a visionary team with a big goal. Over the years, we have grown into a trusted leader in K-12 education across Gujarat and Delhi NCR, driven by passion and dedication.
+            </p>
+
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Humble Beginnings &amp; Visionary Founding
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Milestones and Global Achievements
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Building a Legacy of Educational Trust
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Shaping the Future, Rooted in Core Values
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Video / Campus Showcase Section (Matching Center Play Banner in Reference Image) -->
+    <section class="section-padding" style="padding: 2rem 0 5rem; background: #FFFFFF;">
+      <div class="container">
+        
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem;">
+          <h2 style="font-size: 2.4rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif;">
+            How We Teach &amp; Inspire
+          </h2>
+          <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
+            We follow a collaborative, inquiry-based process, ensuring clear guidance and child development at every stage.
+          </p>
+        </div>
+
+        <div style="border-radius: 28px; overflow: hidden; height: 420px; position: relative; box-shadow: 0 16px 45px rgba(15,23,42,0.12); border: 2px solid #E2E8F0;">
+          <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=1600&q=80" alt="Grand Auditorium &amp; Campus Life" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,18,36,0.65), rgba(9,18,36,0.25)); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <a href="#gallery" onclick="window.navigateTo('facilities')" style="width: 80px; height: 80px; background: #F59E0B; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0F172A; font-size: 1.8rem; box-shadow: 0 0 30px rgba(245,158,11,0.6); transition: transform 0.3s ease; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+              <i class="fa-solid fa-play" style="margin-left: 5px;"></i>
+            </a>
+            <span style="color: white; font-weight: 800; font-size: 1.1rem; margin-top: 1.25rem; letter-spacing: 1px; font-family: 'Outfit', sans-serif;">EXPLORE VIRTUAL CAMPUS TOUR</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. Affiliations & Accreditations Cards -->
+    <section class="section-padding" style="padding: 4rem 0 5rem; background: #F8FAFC; border-top: 1px solid #E2E8F0;">
+      <div class="container">
+        
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 3rem;">
+          <span class="badge badge-gold" style="margin-bottom: 0.5rem;">AFFILIATIONS &amp; ACCREDITATIONS</span>
+          <h2 style="font-size: 2.5rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif;">
+            Recognized Globally &amp; Nationally
+          </h2>
+          <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
+            Our credentials reflect our commitment to world-class educational standards and student safety.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+          
+          <div style="background: white; padding: 2rem; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.05); text-align: center;">
+            <div style="width: 60px; height: 60px; background: #FEF3C7; color: #D97706; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">CBSE Affiliation</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Affiliated with Central Board of Secondary Education, New Delhi (CBSE Affiliation No: 2130890).</p>
+          </div>
+
+          <div style="background: white; padding: 2rem; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.05); text-align: center;">
+            <div style="width: 60px; height: 60px; background: #DBEAFE; color: #2563EB; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">IB World School Candidate</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Authorized International Baccalaureate (IB) World School for Senior High School Diploma Pathway.</p>
+          </div>
+
+          <div style="background: white; padding: 2rem; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.05); text-align: center;">
+            <div style="width: 60px; height: 60px; background: #D1FAE5; color: #059669; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-certificate"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">ISO 9001:2015 Certified</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Certified for quality educational management, campus infrastructure, and child safety protocols.</p>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
@@ -2447,7 +2625,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=67000.0"></script>
+  <script src="app.js?v=68000.0"></script>
 </body>
 </html>
 
