@@ -121,7 +121,8 @@ CREATE TABLE `transfer_certificates` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `student_name` VARCHAR(150) NOT NULL,
   `tc_number` VARCHAR(50) NOT NULL UNIQUE,
-  `admission_no` VARCHAR(50) NOT NULL,
+  `dob` DATE NOT NULL,
+  `admission_no` VARCHAR(50) DEFAULT NULL,
   `class_name` VARCHAR(50) NOT NULL,
   `issue_date` DATE NOT NULL,
   `campus` VARCHAR(100) DEFAULT 'Gujarat Campus',
@@ -131,7 +132,7 @@ CREATE TABLE `transfer_certificates` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Seed Initial Verified Transfer Certificates
-INSERT INTO `transfer_certificates` (`student_name`, `tc_number`, `admission_no`, `class_name`, `issue_date`, `campus`, `verification_status`, `pdf_filename`) VALUES
-('Aarav Sharma', 'TC2026/001', 'ADM9821', 'Grade 10', '2026-06-15', 'Gujarat Campus', 'verified', 'TC2026_001.pdf'),
-('Ananya Verma', 'TC2026/002', 'ADM9822', 'Grade 12', '2026-06-20', 'Delhi NCR Campus', 'verified', 'TC2026_002.pdf');
+-- Seed Initial Verified Transfer Certificates with Date of Birth (DOB)
+INSERT INTO `transfer_certificates` (`student_name`, `tc_number`, `dob`, `admission_no`, `class_name`, `issue_date`, `campus`, `verification_status`, `pdf_filename`) VALUES
+('Aarav Sharma', 'TC2026/001', '2010-05-15', 'ADM9821', 'Grade 10', '2026-06-15', 'Gujarat Campus', 'verified', 'TC2026_001.pdf'),
+('Ananya Verma', 'TC2026/002', '2008-11-20', 'ADM9822', 'Grade 12', '2026-06-20', 'Delhi NCR Campus', 'verified', 'TC2026_002.pdf');

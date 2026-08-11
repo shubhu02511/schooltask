@@ -1,7 +1,7 @@
 <?php
 // ==========================================================================
 // BRIO WORLD SCHOOL - Student Transfer Certificate (TC) Verification API
-// Security: Requires matching TC Number + Admission Number
+// Security: Requires matching TC Number + Date of Birth (DOB)
 // ==========================================================================
 
 require_once __DIR__ . '/../config/db.php';
@@ -16,21 +16,30 @@ if (session_status() === PHP_SESSION_NONE) {
 handleCORS();
 
 $input = getRequestInput();
-$tcNumber = strtoupper(cleanInput($input['tc_number'] ?? ''));
-$admissionNo = strtoupper(cleanInput($input['admission_no'] ?? ''));
+$tcNumber = strtoupper(cleanInput($input['tc_number'] ?? $_POST['tc_number'] ?? ''));
+$rawDob = cleanInput($input['dob'] ?? $_POST['dob'] ?? '');
 
-if (empty($tcNumber) || empty($admissionNo)) {
-    sendJSONResponse(false, 'Please enter both TC Number and Admission / Registration Number.', [], 400);
+// Format DOB to YYYY-MM-DD
+$dobFormatted = '';
+if (!empty($rawDob)) {
+    $time = strtotime($rawDob);
+    if ($time) {
+        $dobFormatted = date('Y-m-d', $time);
+    }
+}
+
+if (empty($tcNumber) || empty($dobFormatted)) {
+    sendJSONResponse(false, 'Please enter both TC Number and Student Date of Birth (DOB).', [], 400);
 }
 
 $tcRecord = null;
 
-// 1. Try MySQL Query
+// 1. Query MySQL Database
 try {
     $db = getCoreDB();
     if ($db) {
-        $stmt = $db->prepare("SELECT * FROM transfer_certificates WHERE UPPER(tc_number) = ? AND UPPER(admission_no) = ? AND verification_status = 'verified' LIMIT 1");
-        $stmt->execute([$tcNumber, $admissionNo]);
+        $stmt = $db->prepare("SELECT * FROM transfer_certificates WHERE UPPER(tc_number) = ? AND dob = ? AND verification_status = 'verified' LIMIT 1");
+        $stmt->execute([$tcNumber, $dobFormatted]);
         $tcRecord = $stmt->fetch();
     }
 } catch (Exception $e) {
@@ -43,8 +52,9 @@ if (!$tcRecord) {
     if (file_exists($jsonFile)) {
         $all = json_decode(file_get_contents($jsonFile), true) ?: [];
         foreach ($all as $item) {
+            $itemDob = !empty($item['dob']) ? date('Y-m-d', strtotime($item['dob'])) : '';
             if (strtoupper($item['tc_number'] ?? '') === $tcNumber && 
-                strtoupper($item['admission_no'] ?? '') === $admissionNo && 
+                $itemDob === $dobFormatted && 
                 ($item['verification_status'] ?? 'verified') === 'verified') {
                 $tcRecord = $item;
                 break;
@@ -55,11 +65,12 @@ if (!$tcRecord) {
 
 // 3. Fallback Initial Demo Seeds
 if (!$tcRecord) {
-    if ($tcNumber === 'TC2026/001' && $admissionNo === 'ADM9821') {
+    if ($tcNumber === 'TC2026/001' && $dobFormatted === '2010-05-15') {
         $tcRecord = [
             'id' => 1,
             'student_name' => 'Aarav Sharma',
             'tc_number' => 'TC2026/001',
+            'dob' => '2010-05-15',
             'admission_no' => 'ADM9821',
             'class_name' => 'Grade 10',
             'issue_date' => '2026-06-15',
@@ -67,11 +78,12 @@ if (!$tcRecord) {
             'verification_status' => 'verified',
             'pdf_filename' => 'TC2026_001.pdf'
         ];
-    } elseif ($tcNumber === 'TC2026/002' && $admissionNo === 'ADM9822') {
+    } elseif ($tcNumber === 'TC2026/002' && $dobFormatted === '2008-11-20') {
         $tcRecord = [
             'id' => 2,
             'student_name' => 'Ananya Verma',
             'tc_number' => 'TC2026/002',
+            'dob' => '2008-11-20',
             'admission_no' => 'ADM9822',
             'class_name' => 'Grade 12',
             'issue_date' => '2026-06-20',
@@ -84,7 +96,7 @@ if (!$tcRecord) {
 
 // If Verification Fails
 if (!$tcRecord) {
-    sendJSONResponse(false, 'TC not found or verification details are incorrect.', [], 404);
+    sendJSONResponse(false, 'TC not found or verification details (TC Number / Date of Birth) are incorrect.', [], 404);
 }
 
 // Generate Short-lived Secure Session Token for Download
@@ -92,6 +104,7 @@ $token = bin2hex(random_bytes(16));
 $_SESSION['tc_download_auth_' . md5($tcRecord['tc_number'])] = [
     'token' => $token,
     'tc_number' => $tcRecord['tc_number'],
+    'student_name' => $tcRecord['student_name'],
     'pdf_filename' => $tcRecord['pdf_filename'],
     'expires' => time() + 1800 // 30 minutes
 ];
@@ -100,7 +113,8 @@ sendJSONResponse(true, 'Transfer Certificate verified successfully!', [
     'tc' => [
         'student_name' => $tcRecord['student_name'],
         'tc_number' => $tcRecord['tc_number'],
-        'admission_no' => $tcRecord['admission_no'],
+        'dob' => date('d/m/Y', strtotime($tcRecord['dob'])),
+        'admission_no' => $tcRecord['admission_no'] ?? 'N/A',
         'class_name' => $tcRecord['class_name'],
         'issue_date' => date('M d, Y', strtotime($tcRecord['issue_date'])),
         'campus' => $tcRecord['campus'] ?? 'Gujarat Campus',

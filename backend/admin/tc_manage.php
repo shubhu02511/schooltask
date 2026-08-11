@@ -1,7 +1,7 @@
 <?php
 // ==========================================================================
 // BRIO WORLD SCHOOL - Core PHP Admin Transfer Certificate (TC) Management
-// Actions: Add TC, Upload PDF, Edit TC, Replace PDF, Delete TC, Verification Status
+// Actions: Add TC (with DOB), Upload PDF, Edit TC, Replace PDF, Delete TC
 // ==========================================================================
 
 require_once __DIR__ . '/../config/db.php';
@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'create') {
         $studentName = cleanInput($_POST['student_name'] ?? '');
         $tcNumber = strtoupper(cleanInput($_POST['tc_number'] ?? ''));
+        $dob = cleanInput($_POST['dob'] ?? '');
         $admissionNo = strtoupper(cleanInput($_POST['admission_no'] ?? ''));
         $className = cleanInput($_POST['class_name'] ?? '');
         $issueDate = cleanInput($_POST['issue_date'] ?? date('Y-m-d'));
@@ -32,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdfFilename = '';
 
-        // Validate PDF upload
         if (!empty($_FILES['tc_pdf']['name'])) {
             $fileExt = strtolower(pathinfo($_FILES['tc_pdf']['name'], PATHINFO_EXTENSION));
             if ($fileExt !== 'pdf') {
@@ -52,10 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($error)) {
-            if (empty($studentName) || empty($tcNumber) || empty($admissionNo) || empty($className)) {
-                $error = 'Student Name, TC Number, Admission Number, and Class are required.';
+            if (empty($studentName) || empty($tcNumber) || empty($dob) || empty($className)) {
+                $error = 'Student Name, TC Number, Date of Birth (DOB), and Class are required.';
             } else {
-                // Check unique TC Number
                 try {
                     if ($db) {
                         $check = $db->prepare("SELECT id FROM transfer_certificates WHERE UPPER(tc_number) = ?");
@@ -63,14 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($check->fetch()) {
                             $error = 'A Transfer Certificate with TC Number "' . $tcNumber . '" already exists.';
                         } else {
-                            $stmt = $db->prepare("INSERT INTO transfer_certificates (student_name, tc_number, admission_no, class_name, issue_date, campus, verification_status, pdf_filename) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                            $stmt->execute([$studentName, $tcNumber, $admissionNo, $className, $issueDate, $campus, $status, $pdfFilename]);
+                            $stmt = $db->prepare("INSERT INTO transfer_certificates (student_name, tc_number, dob, admission_no, class_name, issue_date, campus, verification_status, pdf_filename) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                            $stmt->execute([$studentName, $tcNumber, $dob, $admissionNo, $className, $issueDate, $campus, $status, $pdfFilename]);
                             $message = 'Transfer Certificate added successfully!';
                         }
                     }
                 } catch (Exception $e) {}
 
-                // Save to JSON Backup File
                 if (empty($error)) {
                     $jsonFile = __DIR__ . '/../../storage/database/transfer_certificates.json';
                     $existing = file_exists($jsonFile) ? (json_decode(file_get_contents($jsonFile), true) ?: []) : [];
@@ -78,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'id' => time(),
                         'student_name' => $studentName,
                         'tc_number' => $tcNumber,
+                        'dob' => $dob,
                         'admission_no' => $admissionNo,
                         'class_name' => $className,
                         'issue_date' => $issueDate,
@@ -99,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int)($_POST['id'] ?? 0);
         $studentName = cleanInput($_POST['student_name'] ?? '');
         $tcNumber = strtoupper(cleanInput($_POST['tc_number'] ?? ''));
+        $dob = cleanInput($_POST['dob'] ?? '');
         $admissionNo = strtoupper(cleanInput($_POST['admission_no'] ?? ''));
         $className = cleanInput($_POST['class_name'] ?? '');
         $issueDate = cleanInput($_POST['issue_date'] ?? date('Y-m-d'));
@@ -119,11 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 if ($db) {
                     if (!empty($newPdfFilename)) {
-                        $stmt = $db->prepare("UPDATE transfer_certificates SET student_name=?, tc_number=?, admission_no=?, class_name=?, issue_date=?, campus=?, verification_status=?, pdf_filename=? WHERE id=?");
-                        $stmt->execute([$studentName, $tcNumber, $admissionNo, $className, $issueDate, $campus, $status, $newPdfFilename, $id]);
+                        $stmt = $db->prepare("UPDATE transfer_certificates SET student_name=?, tc_number=?, dob=?, admission_no=?, class_name=?, issue_date=?, campus=?, verification_status=?, pdf_filename=? WHERE id=?");
+                        $stmt->execute([$studentName, $tcNumber, $dob, $admissionNo, $className, $issueDate, $campus, $status, $newPdfFilename, $id]);
                     } else {
-                        $stmt = $db->prepare("UPDATE transfer_certificates SET student_name=?, tc_number=?, admission_no=?, class_name=?, issue_date=?, campus=?, verification_status=? WHERE id=?");
-                        $stmt->execute([$studentName, $tcNumber, $admissionNo, $className, $issueDate, $campus, $status, $id]);
+                        $stmt = $db->prepare("UPDATE transfer_certificates SET student_name=?, tc_number=?, dob=?, admission_no=?, class_name=?, issue_date=?, campus=?, verification_status=? WHERE id=?");
+                        $stmt->execute([$studentName, $tcNumber, $dob, $admissionNo, $className, $issueDate, $campus, $status, $id]);
                     }
                 }
             } catch (Exception $e) {}
@@ -135,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if (($tc['id'] ?? 0) == $id) {
                         $tc['student_name'] = $studentName;
                         $tc['tc_number'] = $tcNumber;
+                        $tc['dob'] = $dob;
                         $tc['admission_no'] = $admissionNo;
                         $tc['class_name'] = $className;
                         $tc['issue_date'] = $issueDate;
@@ -173,9 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// --------------------------------------------------------------------------
-// FETCH TC LIST (MySQL + JSON Backup + Initial Seeds)
-// --------------------------------------------------------------------------
+// FETCH TC LIST
 $tcList = [];
 try {
     if ($db) {
@@ -192,8 +191,8 @@ if (empty($tcList) && file_exists($jsonFile)) {
 
 if (empty($tcList)) {
     $tcList = [
-        ['id' => 1, 'student_name' => 'Aarav Sharma', 'tc_number' => 'TC2026/001', 'admission_no' => 'ADM9821', 'class_name' => 'Grade 10', 'issue_date' => '2026-06-15', 'campus' => 'Gujarat Campus', 'verification_status' => 'verified', 'pdf_filename' => 'TC2026_001.pdf', 'created_at' => date('Y-m-d H:i:s')],
-        ['id' => 2, 'student_name' => 'Ananya Verma', 'tc_number' => 'TC2026/002', 'admission_no' => 'ADM9822', 'class_name' => 'Grade 12', 'issue_date' => '2026-06-20', 'campus' => 'Delhi NCR Campus', 'verification_status' => 'verified', 'pdf_filename' => 'TC2026_002.pdf', 'created_at' => date('Y-m-d H:i:s')]
+        ['id' => 1, 'student_name' => 'Aarav Sharma', 'tc_number' => 'TC2026/001', 'dob' => '2010-05-15', 'admission_no' => 'ADM9821', 'class_name' => 'Grade 10', 'issue_date' => '2026-06-15', 'campus' => 'Gujarat Campus', 'verification_status' => 'verified', 'pdf_filename' => 'TC2026_001.pdf', 'created_at' => date('Y-m-d H:i:s')],
+        ['id' => 2, 'student_name' => 'Ananya Verma', 'tc_number' => 'TC2026/002', 'dob' => '2008-11-20', 'admission_no' => 'ADM9822', 'class_name' => 'Grade 12', 'issue_date' => '2026-06-20', 'campus' => 'Delhi NCR Campus', 'verification_status' => 'verified', 'pdf_filename' => 'TC2026_002.pdf', 'created_at' => date('Y-m-d H:i:s')]
     ];
 }
 ?>
@@ -275,7 +274,7 @@ if (empty($tcList)) {
             <th>ID</th>
             <th>Student Name</th>
             <th>TC Number</th>
-            <th>Admission No</th>
+            <th>Date of Birth (DOB)</th>
             <th>Class</th>
             <th>Campus</th>
             <th>Issue Date</th>
@@ -289,7 +288,7 @@ if (empty($tcList)) {
               <td>#<?= $tc['id'] ?></td>
               <td><strong><?= htmlspecialchars($tc['student_name'] ?? '') ?></strong></td>
               <td><span style="color: #F59E0B; font-weight: 700;"><?= htmlspecialchars($tc['tc_number'] ?? '') ?></span></td>
-              <td><?= htmlspecialchars($tc['admission_no'] ?? '') ?></td>
+              <td><span style="color: #6EE7B7; font-weight: 600;"><?= !empty($tc['dob']) ? date('d/m/Y', strtotime($tc['dob'])) : 'N/A' ?></span></td>
               <td><?= htmlspecialchars($tc['class_name'] ?? '') ?></td>
               <td><?= htmlspecialchars($tc['campus'] ?? 'Gujarat Campus') ?></td>
               <td><?= date('M d, Y', strtotime($tc['issue_date'] ?? 'now')) ?></td>
@@ -334,28 +333,34 @@ if (empty($tcList)) {
             <input type="text" name="tc_number" required placeholder="e.g. TC2026/001">
           </div>
           <div class="form-group">
-            <label>Admission / Reg No. *</label>
-            <input type="text" name="admission_no" required placeholder="e.g. ADM9821">
+            <label>Date of Birth (DOB) *</label>
+            <input type="date" name="dob" required value="2010-01-01">
           </div>
         </div>
 
         <div class="grid-2">
           <div class="form-group">
+            <label>Admission / Reg No. (Optional)</label>
+            <input type="text" name="admission_no" placeholder="e.g. ADM9821">
+          </div>
+          <div class="form-group">
             <label>Class / Grade *</label>
             <input type="text" name="class_name" required placeholder="e.g. Grade 10">
           </div>
+        </div>
+
+        <div class="grid-2">
           <div class="form-group">
             <label>Issue Date *</label>
             <input type="date" name="issue_date" required value="<?= date('Y-m-d') ?>">
           </div>
-        </div>
-
-        <div class="form-group">
-          <label>Campus Location</label>
-          <select name="campus">
-            <option value="Gujarat Campus">Gujarat Campus (Vadodara)</option>
-            <option value="Delhi NCR Campus">Delhi NCR Campus (South Delhi)</option>
-          </select>
+          <div class="form-group">
+            <label>Campus Location</label>
+            <select name="campus">
+              <option value="Gujarat Campus">Gujarat Campus (Vadodara)</option>
+              <option value="Delhi NCR Campus">Delhi NCR Campus (South Delhi)</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
@@ -399,28 +404,34 @@ if (empty($tcList)) {
             <input type="text" name="tc_number" id="edit_tc_number" required>
           </div>
           <div class="form-group">
-            <label>Admission / Reg No. *</label>
-            <input type="text" name="admission_no" id="edit_admission_no" required>
+            <label>Date of Birth (DOB) *</label>
+            <input type="date" name="dob" id="edit_dob" required>
           </div>
         </div>
 
         <div class="grid-2">
           <div class="form-group">
+            <label>Admission No</label>
+            <input type="text" name="admission_no" id="edit_admission_no">
+          </div>
+          <div class="form-group">
             <label>Class / Grade *</label>
             <input type="text" name="class_name" id="edit_class_name" required>
           </div>
+        </div>
+
+        <div class="grid-2">
           <div class="form-group">
             <label>Issue Date *</label>
             <input type="date" name="issue_date" id="edit_issue_date" required>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label>Campus Location</label>
-          <select name="campus" id="edit_campus">
-            <option value="Gujarat Campus">Gujarat Campus (Vadodara)</option>
-            <option value="Delhi NCR Campus">Delhi NCR Campus (South Delhi)</option>
-          </select>
+          <div class="form-group">
+            <label>Campus Location</label>
+            <select name="campus" id="edit_campus">
+              <option value="Gujarat Campus">Gujarat Campus (Vadodara)</option>
+              <option value="Delhi NCR Campus">Delhi NCR Campus (South Delhi)</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
@@ -456,6 +467,7 @@ if (empty($tcList)) {
       document.getElementById('edit_id').value = tc.id || '';
       document.getElementById('edit_student_name').value = tc.student_name || '';
       document.getElementById('edit_tc_number').value = tc.tc_number || '';
+      document.getElementById('edit_dob').value = tc.dob || '2010-05-15';
       document.getElementById('edit_admission_no').value = tc.admission_no || '';
       document.getElementById('edit_class_name').value = tc.class_name || '';
       document.getElementById('edit_issue_date').value = tc.issue_date || '';
