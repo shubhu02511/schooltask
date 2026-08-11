@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=63000.0">
+  <link rel="stylesheet" href="styles.css?v=64000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -1009,71 +1009,130 @@
 
 
 
-  <!-- PAGE 5: GALLERY (Pure Photo Gallery) -->
+  <!-- PAGE 5: GALLERY (Artistic Masonry Photo Gallery) -->
   <main id="facilities" class="page-view">
-    <section class="section-padding bg-light" style="padding: 2.5rem 0 3.5rem 0;">
-      <div class="container">
+    <section class="section-padding" style="padding: 3.5rem 0 5rem; background: #F8FAFC; position: relative; overflow: hidden;">
+      
+      <!-- Giant Translucent Watermark "G" in Background (Matching Reference Image) -->
+      <div style="position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 32rem; font-weight: 900; color: rgba(15, 23, 42, 0.03); font-family: 'Outfit', sans-serif; pointer-events: none; user-select: none; z-index: 0; line-height: 1;">
+        G
+      </div>
+
+      <div class="container" style="position: relative; z-index: 1;">
         
-        <!-- Gallery Section Heading -->
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2.2rem;">
-          <h2 style="font-size: 2.4rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: 1.5px;">
-            GALLERY
-          </h2>
+        <!-- Gallery Header matching Reference Style -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 3.5rem; text-align: center;">
+          <span class="badge badge-gold" style="margin-bottom: 0.75rem; font-size: 0.75rem; letter-spacing: 2px;"><i class="fa-solid fa-camera"></i> VISUAL ARCHIVE</span>
+          <h1 style="font-size: 4.2rem; font-weight: 900; color: #0F172A; text-transform: lowercase; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -2px;">
+            gallery
+          </h1>
         </div>
 
-        <!-- Clean Responsive Photo Gallery Grid -->
-        <div class="photo-gallery-grid">
+        <!-- Artistic Staggered Masonry Photo Grid -->
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; align-items: start;">
           
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics & AI Innovation Lab">
+          <!-- Photo 1: Featured Hero Large Card (Col 1-7) -->
+          <div style="grid-column: span 7; background: white; padding: 12px; border-radius: 18px; border: 2px solid #E2E8F0; box-shadow: 0 12px 30px rgba(15,23,42,0.08); transition: all 0.4s ease;" class="artistic-photo-card">
+            <div style="border-radius: 12px; overflow: hidden; height: 420px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics &amp; AI Innovation Lab" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Robotics &amp; AI Lab</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Olympic Swimming Pool">
+          <!-- Photo 2: Medium Portrait Card (Col 8-12) -->
+          <div style="grid-column: span 5; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06); margin-top: 2rem;" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 380px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Olympic Swimming Pool" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-navy" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Aquatics Center</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Central Digital Library">
+          <!-- Photo 3: Landscape Wide Card (Col 1-5) -->
+          <div style="grid-column: span 5; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06);" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 280px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Central Digital Library" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-emerald" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Digital Library</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Air-Conditioned Residential Suites">
+          <!-- Photo 4: Square Card (Col 6-8) -->
+          <div style="grid-column: span 3; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06); margin-top: -1.5rem;" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 310px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Air-Conditioned Residential Suites" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Staff Suites</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" alt="FIFA Standard Football Turf">
+          <!-- Photo 5: Tall Card (Col 9-12) -->
+          <div style="grid-column: span 4; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06);" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 280px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" alt="FIFA Standard Football Turf" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-navy" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Football Arena</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=800&q=80" alt="1,200-Seater Grand Auditorium">
+          <!-- Photo 6: Large Featured Auditorium (Col 1-6) -->
+          <div style="grid-column: span 6; background: white; padding: 12px; border-radius: 18px; border: 2px solid #E2E8F0; box-shadow: 0 10px 30px rgba(15,23,42,0.08);" class="artistic-photo-card">
+            <div style="border-radius: 12px; overflow: hidden; height: 350px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=800&q=80" alt="1,200-Seater Grand Auditorium" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Grand Auditorium</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80" alt="Indoor Basketball & Badminton Arena">
+          <!-- Photo 7: Basketball (Col 7-12) -->
+          <div style="grid-column: span 6; background: white; padding: 12px; border-radius: 18px; border: 2px solid #E2E8F0; box-shadow: 0 10px 30px rgba(15,23,42,0.08);" class="artistic-photo-card">
+            <div style="border-radius: 12px; overflow: hidden; height: 350px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80" alt="Indoor Basketball &amp; Badminton Arena" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-emerald" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Sports Arena</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80" alt="Fine Arts & Pottery Studio">
+          <!-- Photo 8: Fine Arts Studio (Col 1-4) -->
+          <div style="grid-column: span 4; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06);" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 280px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80" alt="Fine Arts &amp; Pottery Studio" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Fine Arts Studio</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80" alt="Advanced Chemical Sciences Lab">
+          <!-- Photo 9: Chemistry Lab (Col 5-8) -->
+          <div style="grid-column: span 4; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06); margin-top: 1rem;" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 260px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80" alt="Advanced Chemical Sciences Lab" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-navy" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Science Lab</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" alt="High-Speed Apple Mac Coding Lab">
+          <!-- Photo 10: Mac Coding Lab (Col 9-12) -->
+          <div style="grid-column: span 4; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06);" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 280px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" alt="High-Speed Apple Mac Coding Lab" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-emerald" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Apple Mac Lab</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=800&q=80" alt="Organic Multi-Cuisine Eco Dining Hall">
+          <!-- Photo 11: Eco Dining (Col 1-5) -->
+          <div style="grid-column: span 5; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06);" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 300px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=800&q=80" alt="Organic Multi-Cuisine Eco Dining Hall" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Eco Dining Hall</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Vadodara, Gujarat Campus">
+          <!-- Photo 12: Gujarat Campus (Col 6-9) -->
+          <div style="grid-column: span 4; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06); margin-top: -1rem;" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 320px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Vadodara, Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-navy" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Gujarat Campus</span>
+            </div>
           </div>
 
-          <div class="photo-gallery-item">
-            <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="South Delhi, NCR Campus">
+          <!-- Photo 13: Delhi Campus (Col 10-12) -->
+          <div style="grid-column: span 3; background: white; padding: 10px; border-radius: 16px; border: 2px solid #E2E8F0; box-shadow: 0 8px 25px rgba(15,23,42,0.06);" class="artistic-photo-card">
+            <div style="border-radius: 10px; overflow: hidden; height: 300px; position: relative;">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="South Delhi, NCR Campus" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-emerald" style="position: absolute; bottom: 15px; left: 15px; font-weight: 800;">Delhi NCR Campus</span>
+            </div>
           </div>
 
         </div>
@@ -2459,7 +2518,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=63000.0"></script>
+  <script src="app.js?v=64000.0"></script>
 </body>
 </html>
 
