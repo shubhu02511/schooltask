@@ -1061,6 +1061,48 @@ img {
   }
 }
 
+/* Reference Layout Asymmetric Gallery Styles */
+.ref-gallery-item {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ref-gallery-item:hover {
+  transform: translateY(-6px);
+}
+
+.ref-gallery-item:hover .artistic-img {
+  transform: scale(1.08) !important;
+}
+
+@media (max-width: 992px) {
+  .ref-gallery-master {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+
+  .ref-gallery-title-box,
+  .ref-gallery-item {
+    grid-column: span 1 !important;
+    grid-column-start: auto !important;
+  }
+
+  .ref-gallery-title-box {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .ref-gallery-master {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .ref-gallery-title-box,
+  .ref-gallery-item {
+    grid-column: span 1 !important;
+  }
+}
+
 .quick-notice-item {
   display: flex;
   gap: 1rem;
