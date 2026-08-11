@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=62000.0">
+  <link rel="stylesheet" href="styles.css?v=63000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -1143,199 +1143,252 @@
     </section>
   </main>
 
-  <!-- PAGE 7: EVENTS -->
+  <!-- PAGE 7: EVENTS (Redesigned with Editorial Reference Style) -->
   <main id="events" class="page-view">
     
-    <!-- Hero Banner (Matching About Us Design) -->
-    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
-      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
-        <span class="badge badge-gold"><i class="fa-solid fa-newspaper"></i> CAMPUS HAPPENINGS</span>
-        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">News, Circulars &amp; Event Gallery</h1>
-        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
-          Stay updated with current circulars, upcoming sports trials, and academic calendars.
-        </p>
+    <!-- 1. Large "NEWS" Style Hero Banner -->
+    <div style="background: #F59E0B; padding: 4.5rem 0 5rem; position: relative; overflow: hidden; border-bottom: 3px solid #D97706;">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem;">
+          
+          <div>
+            <span style="font-size: 0.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #0F172A; display: block; margin-bottom: 0.5rem;">
+              <i class="fa-solid fa-newspaper"></i> CAMPUS HAPPENINGS
+            </span>
+            <h1 style="font-size: 5.5rem; font-weight: 900; color: #0F172A; line-height: 0.95; letter-spacing: -2.5px; margin: 0; font-family: 'Outfit', sans-serif; text-transform: lowercase;">
+              news &amp; events
+            </h1>
+          </div>
+
+          <div style="max-width: 420px;">
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">
+              Campus Announcements &amp; Media Highlights
+            </h3>
+            <p style="font-size: 0.95rem; color: #1E293B; line-height: 1.6; margin: 0; font-weight: 500;">
+              Providing the latest official circulars, academic handbooks, sports trials, and student achievements from BRIO World School.
+            </p>
+          </div>
+
+        </div>
       </div>
     </div>
 
-    <!-- Events Quick Highlights Strip (Matching About Us Design) -->
-    <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
+    <!-- 2. Highlights Strip -->
+    <section class="bg-navy" style="padding: 2rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
       <div class="container">
         <div class="grid-4" style="text-align: center; gap: 1.5rem;">
           <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Weekly</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Official Circulars</div>
+            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Weekly</div>
+            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Official Circulars</div>
           </div>
           <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">2026-27</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Academic Calendar</div>
+            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">2026-27</div>
+            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Academic Calendar</div>
           </div>
           <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Live</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Parent Portal Updates</div>
+            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Live</div>
+            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Parent Portal Updates</div>
           </div>
           <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100+</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Annual Campus Events</div>
+            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100+</div>
+            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Annual Campus Events</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section-padding">
+    <!-- 3. Editorial Featured Content: Circulars & Downloads Section -->
+    <section class="section-padding bg-light" style="padding: 3.5rem 0;">
       <div class="container">
-        <div class="grid-2">
+        
+        <div class="grid-2" style="gap: 3rem; align-items: flex-start;">
           
+          <!-- Column 1: Official Circulars -->
           <div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Official School Circulars</h3>
-            
-            <div style="background: white; border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border-light); margin-bottom: 1rem;">
-              <span class="badge badge-gold" style="margin-bottom: 0.4rem;">Circular #2026/08</span>
-              <h4 style="font-size: 1.05rem;">Schedule for Term 1 Mid-Year Examinations</h4>
-              <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">Date Posted: August 02, 2026 | For Grades 6 to 12</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border-light);">
+              <h3 style="font-size: 1.5rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
+                <i class="fa-solid fa-bullhorn text-gold" style="margin-right: 0.5rem;"></i> Official School Circulars
+              </h3>
+              <span class="badge badge-gold" style="font-size: 0.7rem;">Session 2026-27</span>
             </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- Circular 1 -->
+              <div style="background: white; border-radius: 14px; padding: 1.5rem; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+                <span class="badge badge-gold" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/08</span>
+                <h4 style="font-size: 1.15rem; color: var(--primary-navy); margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Schedule for Term 1 Mid-Year Examinations</h4>
+                <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> August 02, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> Grades 6 to 12</p>
+              </div>
 
-            <div style="background: white; border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border-light); margin-bottom: 1rem;">
-              <span class="badge badge-navy" style="margin-bottom: 0.4rem;">Circular #2026/07</span>
-              <h4 style="font-size: 1.05rem;">Inter-House Cultural Fest & Science Exhibition Registration</h4>
-              <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem;">Date Posted: July 28, 2026 | All Wings</p>
+              <!-- Circular 2 -->
+              <div style="background: white; border-radius: 14px; padding: 1.5rem; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+                <span class="badge badge-navy" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/07</span>
+                <h4 style="font-size: 1.15rem; color: var(--primary-navy); margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Inter-House Cultural Fest &amp; Science Exhibition Registration</h4>
+                <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> July 28, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> All Wings</p>
+              </div>
+
             </div>
           </div>
 
+          <!-- Column 2: Downloads & Official Handbooks -->
           <div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Downloads & Handbooks</h3>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border-light);">
+              <h3 style="font-size: 1.5rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
+                <i class="fa-solid fa-file-pdf text-gold" style="margin-right: 0.5rem;"></i> Downloads &amp; Handbooks
+              </h3>
+              <span class="badge badge-navy" style="font-size: 0.7rem;">Official Docs</span>
+            </div>
             
-            <!-- Prospectus Document Card -->
-            <div style="background: var(--primary-navy); color: white; padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1rem; border: 1px solid rgba(245,158,11,0.3);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <div>
-                  <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Official PDF</span>
-                  <h4 style="color: white; margin-bottom: 0.4rem;"><i class="fa-solid fa-file-pdf text-gold"></i> Student Prospectus 2026-27</h4>
-                  <p style="color: var(--text-light); font-size: 0.85rem; margin-bottom: 1rem;">Complete guide on curriculum, STEM labs, board affiliations, and code of conduct.</p>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              
+              <!-- Prospectus Document Card -->
+              <div style="background: var(--primary-navy); color: white; padding: 1.5rem; border-radius: 14px; border: 1.5px solid rgba(245,158,11,0.4); box-shadow: 0 6px 20px rgba(9,18,36,0.15);">
+                <div style="margin-bottom: 0.75rem;">
+                  <span class="badge badge-gold" style="margin-bottom: 0.4rem; display: inline-block;">Official PDF</span>
+                  <h4 style="color: white; margin: 0.25rem 0 0.35rem; font-size: 1.15rem; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-file-pdf text-gold"></i> Student Prospectus 2026-27</h4>
+                  <p style="color: var(--text-light); font-size: 0.85rem; margin: 0; line-height: 1.5;">Complete guide on curriculum, STEM labs, board affiliations, and code of conduct.</p>
                 </div>
+                <button class="btn btn-gold doc-view-trigger" data-doc="prospectus" style="width: 100%; font-weight: 700; padding: 0.6rem; border-radius: 8px;">
+                  <i class="fa-solid fa-eye"></i> View &amp; Download Prospectus (PDF)
+                </button>
               </div>
-              <button class="btn btn-gold doc-view-trigger" data-doc="prospectus" style="width: 100%;">
-                <i class="fa-solid fa-eye"></i> View & Download Prospectus (PDF)
-              </button>
-            </div>
 
-            <!-- Academic Calendar Card -->
-            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 1rem;">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <div>
-                  <span class="badge badge-navy" style="margin-bottom: 0.4rem;">Calendar 2026-27</span>
-                  <h4 style="font-size: 1.05rem; color: var(--primary-navy);"><i class="fa-solid fa-calendar-days text-gold"></i> Academic Calendar & Holiday List</h4>
-                </div>
+              <!-- Academic Calendar Card -->
+              <div style="background: white; padding: 1.25rem; border-radius: 14px; border: 1.5px solid var(--border-light);">
+                <span class="badge badge-navy" style="margin-bottom: 0.4rem; display: inline-block;">Calendar 2026-27</span>
+                <h4 style="font-size: 1.05rem; color: var(--primary-navy); margin: 0.2rem 0 0.35rem; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-calendar-days text-gold"></i> Academic Calendar &amp; Holiday List</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.85rem;">Term dates, examination schedules, sports meets, and national holidays.</p>
+                <button class="btn btn-outline doc-view-trigger" data-doc="calendar" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: 100%; border-radius: 8px; font-weight: 700;">
+                  <i class="fa-solid fa-file-arrow-down"></i> View &amp; Download Calendar
+                </button>
               </div>
-              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.85rem;">Term dates, examination schedules, sports meets, and national holidays.</p>
-              <button class="btn btn-outline doc-view-trigger" data-doc="calendar" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: 100%;">
-                <i class="fa-solid fa-file-arrow-down"></i> View & Download Calendar
-              </button>
-            </div>
 
-            <!-- Fee & Transport Policy Card -->
-            <div style="background: white; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <div>
-                  <span class="badge badge-emerald" style="margin-bottom: 0.4rem;">Policy Handbook</span>
-                  <h4 style="font-size: 1.05rem; color: var(--primary-navy);"><i class="fa-solid fa-shield-halved text-emerald"></i> Fee & Transport Rulebook</h4>
-                </div>
+              <!-- Fee & Transport Policy Card -->
+              <div style="background: white; padding: 1.25rem; border-radius: 14px; border: 1.5px solid var(--border-light);">
+                <span class="badge badge-emerald" style="margin-bottom: 0.4rem; display: inline-block;">Policy Handbook</span>
+                <h4 style="font-size: 1.05rem; color: var(--primary-navy); margin: 0.2rem 0 0.35rem; font-family: 'Outfit', sans-serif;"><i class="fa-solid fa-shield-halved text-emerald"></i> Fee &amp; Transport Rulebook</h4>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.85rem;">Installment timelines, scholarship criteria, bus safety, and hostel rules.</p>
+                <button class="btn btn-outline doc-view-trigger" data-doc="policy" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: 100%; border-radius: 8px; font-weight: 700;">
+                  <i class="fa-solid fa-file-arrow-down"></i> View &amp; Download Rulebook
+                </button>
               </div>
-              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.85rem;">Installment timelines, scholarship criteria, bus safety, and hostel rules.</p>
-              <button class="btn btn-outline doc-view-trigger" data-doc="policy" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: 100%;">
-                <i class="fa-solid fa-file-arrow-down"></i> View & Download Rulebook
-              </button>
-            </div>
 
+            </div>
           </div>
 
         </div>
 
-        <!-- Recent Events Photo Showcase Grid -->
-        <div style="margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border-light);">
-          <div class="section-header">
-            <span class="badge badge-emerald">Media Highlights</span>
-            <h2>Recent Campus Event Gallery</h2>
-            <p>Snapshots of student achievements, inter-school tournaments, tech expos, and cultural galas.</p>
-          </div>
-
-          <div class="grid-3">
-            
-            <!-- Event 1: Tech Hackathon -->
-            <div class="wing-card">
-              <div class="wing-img" style="height: 200px;">
-                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Tech Hackathon">
-              </div>
-              <div class="wing-content">
-                <span class="badge badge-gold" style="margin-bottom: 0.4rem;">August 12, 2026</span>
-                <h4>National AI & Robotics Hackathon</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Grades 6 to 12 showcased 45+ IoT and AI prototype projects to industry mentors.</p>
-              </div>
-            </div>
-
-            <!-- Event 2: Sports Meet -->
-            <div class="wing-card">
-              <div class="wing-img" style="height: 200px;">
-                <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80" alt="Sports Meet">
-              </div>
-              <div class="wing-content">
-                <span class="badge badge-navy" style="margin-bottom: 0.4rem;">July 25, 2026</span>
-                <h4>Inter-School Athletics & Aquatics Meet</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Over 500 athletes competed in track events, 50m swimming trials, and football finals.</p>
-              </div>
-            </div>
-
-            <!-- Event 3: Cultural Fest -->
-            <div class="wing-card">
-              <div class="wing-img" style="height: 200px;">
-                <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="Cultural Fest">
-              </div>
-              <div class="wing-content">
-                <span class="badge badge-emerald" style="margin-bottom: 0.4rem;">July 18, 2026</span>
-                <h4>Annual Cultural Fest & Musical Gala</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.</p>
-              </div>
-            </div>
-
-            <!-- Event 4: Science Fair -->
-            <div class="wing-card">
-              <div class="wing-img" style="height: 200px;">
-                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80" alt="Science Expo">
-              </div>
-              <div class="wing-content">
-                <span class="badge badge-gold" style="margin-bottom: 0.4rem;">June 30, 2026</span>
-                <h4>Young Innovators Science Expo</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Primary & Middle wing students presented renewable energy and eco-sustainability models.</p>
-              </div>
-            </div>
-
-            <!-- Event 5: Stargazing Camp -->
-            <div class="wing-card">
-              <div class="wing-img" style="height: 200px;">
-                <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80" alt="Stargazing Camp">
-              </div>
-              <div class="wing-content">
-                <span class="badge badge-navy" style="margin-bottom: 0.4rem;">May 14, 2026</span>
-                <h4>NASA Stargazing & Astronomy Camp</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Overnight celestial observation using optical computerized telescopes.</p>
-              </div>
-            </div>
-
-            <!-- Event 6: Fine Arts Gala -->
-            <div class="wing-card">
-              <div class="wing-img" style="height: 200px;">
-                <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Art Exhibition">
-              </div>
-              <div class="wing-content">
-                <span class="badge badge-emerald" style="margin-bottom: 0.4rem;">April 22, 2026</span>
-                <h4>Fine Arts & Clay Sculpting Expo</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Canvas paintings, pottery masterpieces, and digital art created by student artists.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
       </div>
     </section>
+
+    <!-- 4. Editorial Campus Event Gallery (Matching Reference Card Layout) -->
+    <section class="section-padding" style="padding: 4rem 0; background: white;">
+      <div class="container">
+        
+        <div class="section-header text-center" style="margin-bottom: 3rem;">
+          <span class="badge badge-emerald"><i class="fa-solid fa-camera"></i> MEDIA HIGHLIGHTS</span>
+          <h2 style="font-size: 2.3rem; color: #0F172A; margin-top: 0.5rem; font-family: 'Outfit', sans-serif;">Recent Campus Event Gallery</h2>
+          <p style="color: #475569; max-width: 700px; margin: 0.5rem auto 0;">Editorial snapshots of student achievements, inter-school tournaments, tech expos, and cultural galas.</p>
+        </div>
+
+        <div class="grid-3" style="gap: 2rem;">
+          
+          <!-- Event 1: Tech Hackathon -->
+          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
+            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Tech Hackathon" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+              <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">August 12, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">National AI &amp; Robotics Hackathon</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Grades 6 to 12 showcased 45+ IoT and AI prototype projects to industry mentors.</p>
+              </div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.5px;">STEM &amp; Innovation &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Event 2: Sports Meet -->
+          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
+            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80" alt="Sports Meet" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+              <span class="badge badge-navy" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">July 25, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Inter-School Athletics &amp; Aquatics Meet</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Over 500 athletes competed in track events, 50m swimming trials, and football finals.</p>
+              </div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">Sports &amp; Athletics &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Event 3: Cultural Fest -->
+          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
+            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="Cultural Fest" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+              <span class="badge badge-emerald" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">July 18, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Annual Cultural Fest &amp; Musical Gala</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.</p>
+              </div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Arts &amp; Culture &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Event 4: Science Fair -->
+          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
+            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80" alt="Science Expo" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+              <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">June 30, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Young Innovators Science Expo</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Primary &amp; Middle wing students presented renewable energy and eco-sustainability models.</p>
+              </div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.5px;">Science &amp; Eco Expo &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Event 5: Stargazing Camp -->
+          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
+            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80" alt="Stargazing Camp" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+              <span class="badge badge-navy" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">May 14, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">NASA Stargazing &amp; Astronomy Camp</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Overnight celestial observation using optical computerized telescopes.</p>
+              </div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">Space &amp; Astronomy &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Event 6: Fine Arts Gala -->
+          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
+            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Art Exhibition" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+              <span class="badge badge-emerald" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">April 22, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Fine Arts &amp; Clay Sculpting Expo</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Canvas paintings, pottery masterpieces, and digital art created by student artists.</p>
+              </div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Fine Arts &amp; Design &rarr;</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
 
@@ -2406,7 +2459,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=62000.0"></script>
+  <script src="app.js?v=63000.0"></script>
 </body>
 </html>
 
