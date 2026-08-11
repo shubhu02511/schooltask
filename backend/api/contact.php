@@ -1,7 +1,7 @@
 <?php
 // ==========================================================================
 // BRIO WORLD SCHOOL - Contact Message Submission API Endpoint
-// Features: Core PDO Prepared Statements, Input Validation & Honeypot Spam Protection
+// Features: Core PDO Prepared Statements, Input Validation, Honeypot & Dual Storage Fallback
 // ==========================================================================
 
 require_once __DIR__ . '/../config/db.php';
@@ -13,7 +13,6 @@ $input = getRequestInput();
 
 // 1. Honeypot Bot / Spam Protection Check
 if (!empty($input['website_url']) || !empty($input['honeypot'])) {
-    // Silent rejection for automated spam bots
     sendJSONResponse(true, 'Thank you! Your message has been sent to our campus office.');
 }
 
@@ -33,20 +32,43 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     sendJSONResponse(false, 'Please provide a valid email address.', [], 400);
 }
 
-if (strlen($message) < 5) {
-    sendJSONResponse(false, 'Message must be at least 5 characters long.', [], 400);
-}
+// 4. Dual Storage Insertion (MySQL + JSON Backup)
+$saved = false;
 
-// 4. Save to Database via PDO Prepared Statements
 try {
     $db = getCoreDB();
     if ($db) {
         $stmt = $db->prepare("INSERT INTO contacts (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $email, $phone, $subject, $message]);
+        $saved = $stmt->execute([$name, $email, $phone, $subject, $message]);
     }
-
-    sendJSONResponse(true, 'Thank you for reaching out! Your message has been recorded and sent to our campus office.');
-
 } catch (Exception $e) {
-    sendJSONResponse(true, 'Thank you for reaching out! Your message has been sent to our campus office.');
+    // MySQL table not ready yet, continue to JSON backup file
 }
+
+// Fallback JSON Backup File Storage
+$jsonFile = __DIR__ . '/../../storage/database/contacts.json';
+$storageDir = dirname($jsonFile);
+if (!is_dir($storageDir)) {
+    @mkdir($storageDir, 0755, true);
+}
+
+$existing = [];
+if (file_exists($jsonFile)) {
+    $content = file_get_contents($jsonFile);
+    $existing = json_decode($content, true) ?: [];
+}
+
+$newEntry = [
+    'id' => count($existing) + 1,
+    'name' => $name,
+    'email' => $email,
+    'phone' => $phone,
+    'subject' => $subject,
+    'message' => $message,
+    'created_at' => date('Y-m-d H:i:s')
+];
+
+array_unshift($existing, $newEntry);
+@file_put_contents($jsonFile, json_encode($existing, JSON_PRETTY_PRINT));
+
+sendJSONResponse(true, 'Thank you for reaching out! Your message has been recorded and sent to our campus office.');

@@ -1,6 +1,7 @@
 <?php
 // ==========================================================================
 // BRIO WORLD SCHOOL - Core PHP Admin Enquiries / Messages Management
+// Dual Fetch: MySQL + Backup JSON Storage
 // ==========================================================================
 
 require_once __DIR__ . '/../config/db.php';
@@ -11,18 +12,25 @@ AuthHelper::requireAdmin();
 
 $db = getCoreDB();
 
-function safeFetchAll($db, $sql) {
-    if (!$db) return [];
-    try {
-        $stmt = $db->prepare($sql);
+$enquiries = [];
+
+// 1. Try MySQL Database Fetch
+try {
+    if ($db) {
+        $stmt = $db->prepare("SELECT * FROM contacts ORDER BY id DESC");
         $stmt->execute();
-        return $stmt->fetchAll() ?: [];
-    } catch (Exception $e) {
-        return [];
+        $enquiries = $stmt->fetchAll() ?: [];
     }
+} catch (Exception $e) {
+    // MySQL table not ready
 }
 
-$enquiries = safeFetchAll($db, "SELECT * FROM contacts ORDER BY id DESC");
+// 2. Try JSON File Fallback Fetch if MySQL is empty or table doesn't exist
+$jsonFile = __DIR__ . '/../../storage/database/contacts.json';
+if (empty($enquiries) && file_exists($jsonFile)) {
+    $content = file_get_contents($jsonFile);
+    $enquiries = json_decode($content, true) ?: [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
