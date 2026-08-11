@@ -2267,13 +2267,33 @@ img {
   }
   .carousel-indicators .dot.active { width: 28px !important; }
 
-  /* Grids & Containers */
+  /* Grids & Containers Adaptations */
   .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr !important; }
   .hero-stats-row { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
   .stat-num { font-size: 1.8rem !important; }
   .section-padding { padding: 3rem 0 !important; }
   .section-header h2 { font-size: 1.75rem !important; }
   .section-header p { font-size: 0.9rem !important; }
+
+  /* Page-Specific Grid Responsiveness */
+  #home-about > div > div { grid-column: span 12 !important; }
+  .ref-about-hero-grid > div { grid-column: span 12 !important; }
+  .ref-about-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+  .ref-about-block-grid > div { grid-column: span 12 !important; }
+  .pyramid-hero-grid > div { grid-column: span 12 !important; }
+  .pyramid-base-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  #more-news-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1.25rem !important; }
+  #events .news-story-card { grid-template-columns: 1fr !important; }
+  #events .news-story-card > div { grid-column: span 12 !important; padding: 1.5rem 1rem !important; }
+
+  /* Table & Form Horizontal Overflow Fix */
+  table, .vacancy-table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .form-control, select, input, textarea { max-width: 100% !important; box-sizing: border-box !important; }
 
   /* Leadership Section Responsive */
   #leadership-slider-container { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
@@ -2295,7 +2315,6 @@ img {
   .wizard-steps { flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
   .wizard-steps::before { display: none; }
   .fee-breakdown-table { display: block !important; width: 100% !important; overflow-x: auto !important; }
-  .form-control, select, input, textarea { max-width: 100% !important; box-sizing: border-box !important; }
 
   /* Chat & Floating Widgets */
   .chat-widget { width: calc(100vw - 2rem) !important; right: 1rem !important; bottom: 4.8rem !important; height: calc(100vh - 6rem) !important; max-height: 500px !important; z-index: 99999 !important; }
@@ -2306,14 +2325,14 @@ img {
   .admission-sidebar-tab {
     position: fixed !important;
     top: 50% !important;
-    right: 0.4rem !important;
+    right: 0.3rem !important;
     left: auto !important;
     transform: translateY(-50%) !important;
     writing-mode: vertical-rl !important;
     text-orientation: mixed !important;
     z-index: 99998 !important;
-    padding: 0.9rem 0.45rem !important;
-    font-size: 0.7rem !important;
+    padding: 0.85rem 0.4rem !important;
+    font-size: 0.68rem !important;
     border-radius: 12px !important;
     touch-action: manipulation !important;
   }
@@ -2328,13 +2347,17 @@ img {
   .footer-bottom { flex-direction: column !important; gap: 1rem !important; text-align: center !important; }
 }
 
-/* ==================== EXTRA SMALL PHONES (480px & below) ==================== */
+/* ==================== EXTRA SMALL PHONES (480px & below - 320px, 375px, 390px, 430px) ==================== */
 @media (max-width: 480px) {
   .container { padding: 0 0.85rem !important; }
-  .hero-title { font-size: 1.4rem !important; }
+  .hero-title { font-size: 1.35rem !important; }
   .hero-subtitle { font-size: 0.82rem !important; }
   .hero-ctas .btn { width: 100% !important; max-width: 100% !important; }
-  .brand-text h1 { font-size: 0.9rem !important; }
-  .brand-text p { font-size: 0.5rem !important; }
+  .brand-text h1 { font-size: 0.82rem !important; }
+  .brand-text p { font-size: 0.48rem !important; }
   #lead-cards-grid { grid-template-columns: 1fr !important; }
+  .ref-about-stats { grid-template-columns: 1fr !important; }
+  .pyramid-base-grid { grid-template-columns: 1fr !important; }
+  #more-news-grid { grid-template-columns: 1fr !important; }
+  .admission-sidebar-tab { padding: 0.75rem 0.35rem !important; font-size: 0.65rem !important; right: 0.2rem !important; }
 }
