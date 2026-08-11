@@ -1103,6 +1103,38 @@ img {
   }
 }
 
+/* Clean Pyramid & Stepped Gallery Styles */
+.pyramid-card {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pyramid-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.14), 0 4px 15px rgba(245, 158, 11, 0.2) !important;
+}
+
+.pyramid-card:hover .artistic-img {
+  transform: scale(1.08) !important;
+}
+
+@media (max-width: 992px) {
+  .pyramid-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .pyramid-hero-grid > div {
+    grid-column: span 1 !important;
+  }
+  .pyramid-base-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .pyramid-base-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 .quick-notice-item {
   display: flex;
   gap: 1rem;
