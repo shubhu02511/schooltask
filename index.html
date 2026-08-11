@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=55000.0">
+  <link rel="stylesheet" href="styles.css?v=56000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -383,8 +383,7 @@
         <li class="nav-item"><a href="#home" class="nav-link active" onclick="window.navigateTo('home'); return false;">Home</a></li>
         <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About Us</a></li>
         <li class="nav-item"><a href="#academics" class="nav-link" onclick="window.navigateTo('academics'); return false;">Academics</a></li>
-        <li class="nav-item"><a href="#admissions" class="nav-link" onclick="window.navigateTo('admissions'); return false;">Admissions & Fees</a></li>
-        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Campus Life</a></li>
+        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Gallery</a></li>
         <li class="nav-item"><a href="#events" class="nav-link" onclick="window.navigateTo('events'); return false;">News & Events</a></li>
         <li class="nav-item"><a href="#careers" class="nav-link" onclick="window.navigateTo('careers'); return false;">Careers</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link" onclick="window.navigateTo('contact'); return false;">Contact</a></li>
@@ -920,284 +919,20 @@
     </section>
   </main>
 
-  <!-- PAGE 4: ADMISSIONS -->
-  <main id="admissions" class="page-view">
-    
-    <!-- Hero Banner (Matching About Us Design) -->
-    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
-      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
-        <span class="badge badge-gold"><i class="fa-solid fa-file-signature"></i> SESSION 2026-27</span>
-        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">Admissions &amp; Fee Structure</h1>
-        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
-          Join the BRIO family. Transparent fee structure, merit scholarships, and simple online application process.
-        </p>
-      </div>
-    </div>
 
-    <!-- Admissions Quick Highlights Strip (Matching About Us Design) -->
-    <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
-      <div class="container">
-        <div class="grid-4" style="text-align: center; gap: 1.5rem;">
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100%</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Transparent Fee Policy</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">₹50 Lakh</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Annual Merit Scholarships</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">B-SAT</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Scholarship Aptitude Test</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">24 hrs</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Admission Desk Response</div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Interactive Fee Calculator Section -->
-    <section class="section-padding">
-      <div class="container grid-2" style="gap: 3rem; align-items: flex-start;">
-        
-        <!-- Calculator Inputs -->
-        <div class="calculator-box">
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-light);">
-            <i class="fa-solid fa-calculator" style="font-size: 1.8rem; color: var(--accent-gold);"></i>
-            <div>
-              <h3 style="font-size: 1.3rem;">Interactive Fee Estimator</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem;">Customize parameters to view live term fee estimate.</p>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="calc-grade"><i class="fa-solid fa-graduation-cap"></i> Select Academic Grade</label>
-            <select id="calc-grade" class="form-control">
-              <option value="pre-k">Pre-Primary (Nursery, LKG, HKG)</option>
-              <option value="primary" selected>Primary Wing (Grades 1 to 5)</option>
-              <option value="middle">Middle Wing (Grades 6 to 8)</option>
-              <option value="senior">Senior Secondary (Grades 9 to 12)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="calc-transport"><i class="fa-solid fa-bus"></i> Transport Route Zone</label>
-            <select id="calc-transport" class="form-control">
-              <option value="none">Self Transport / No Bus Needed</option>
-              <option value="zone1" selected>Zone 1 (Within 5 km radius) - ₹12,000/yr</option>
-              <option value="zone2">Zone 2 (5 km to 12 km radius) - ₹18,000/yr</option>
-              <option value="zone3">Zone 3 (12 km to 20 km radius) - ₹24,000/yr</option>
-            </select>
-          </div>
-
-          <div class="form-group" style="margin-top: 1.5rem;">
-            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" id="calc-hostel" style="width: 18px; height: 18px; accent-color: var(--accent-gold);">
-              <span>Include Boarding & Hostel Facility (₹95,000/yr)</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Calculated Fee Output Table -->
-        <div class="calculator-box" style="background: var(--primary-navy); color: white;">
-          <h3 style="color: white; font-size: 1.3rem; margin-bottom: 0.5rem;">Estimated Fee Breakdown</h3>
-          <p style="color: var(--text-light); font-size: 0.85rem; margin-bottom: 1.5rem;">Annual Academic Session 2026-27</p>
-
-          <table class="fee-breakdown-table">
-            <tbody>
-              <tr>
-                <td style="color: var(--text-light);">Admission Fee (One-Time)</td>
-                <td style="text-align: right; color: white; font-weight: 600;">₹25,000</td>
-              </tr>
-              <tr>
-                <td style="color: var(--text-light);">Annual Tuition Fee</td>
-                <td id="fee-tuition" style="text-align: right; color: white; font-weight: 600;">₹65,000</td>
-              </tr>
-              <tr>
-                <td style="color: var(--text-light);">STEM & Digital Science Lab Fee</td>
-                <td id="fee-lab" style="text-align: right; color: white; font-weight: 600;">₹8,000</td>
-              </tr>
-              <tr>
-                <td style="color: var(--text-light);">Co-Curricular & Sports Fee</td>
-                <td id="fee-activity" style="text-align: right; color: white; font-weight: 600;">₹12,000</td>
-              </tr>
-              <tr>
-                <td style="color: var(--text-light);">Transport Fleet Fee</td>
-                <td id="fee-transport" style="text-align: right; color: white; font-weight: 600;">₹12,000</td>
-              </tr>
-              <tr>
-                <td style="color: var(--text-light);">Hostel & Dining Charges</td>
-                <td id="fee-hostel" style="text-align: right; color: white; font-weight: 600;">₹0</td>
-              </tr>
-              <tr class="fee-total-row">
-                <td style="color: var(--accent-gold);">Total Estimated Fee</td>
-                <td id="fee-total" style="text-align: right; color: var(--accent-gold);">₹1,22,000</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div style="margin-top: 1.5rem; text-align: center;">
-            <p style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">
-              * Payable in 3 flexible term installments. Merit scholarships available up to 50%.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Admission Wizard Form -->
-    <section class="section-padding bg-light">
-      <div class="container">
-        <div class="section-header">
-          <span class="badge badge-gold">Online Registration</span>
-          <h2>Application Form 2026-27</h2>
-          <p>Fill out the multi-step form to register your child for the Entrance Assessment.</p>
-        </div>
-
-        <div class="calculator-box" style="max-width: 900px; margin: 0 auto;">
-          
-          <!-- Wizard Step Indicators -->
-          <div class="wizard-steps">
-            <div class="step-item active" data-step="1">
-              <div class="step-circle">1</div>
-              <div class="step-title">Student Info</div>
-            </div>
-            <div class="step-item" data-step="2">
-              <div class="step-circle">2</div>
-              <div class="step-title">Parent Contact</div>
-            </div>
-            <div class="step-item" data-step="3">
-              <div class="step-circle">3</div>
-              <div class="step-title">Academic Record</div>
-            </div>
-            <div class="step-item" data-step="4">
-              <div class="step-circle">4</div>
-              <div class="step-title">Review & Submit</div>
-            </div>
-          </div>
-
-          <!-- Wizard Form Container -->
-          <form id="admission-application-form">
-            
-            <!-- Step 1 Content -->
-            <div class="wizard-content-step active-step" id="step-1">
-              <h3 style="margin-bottom: 1.25rem;">Step 1: Student Information</h3>
-              <div class="grid-2">
-                <div class="form-group">
-                  <label for="adm-student-name">Student Full Name *</label>
-                  <input type="text" id="adm-student-name" class="form-control" placeholder="e.g. Aarav Sharma" required>
-                </div>
-                <div class="form-group">
-                  <label for="adm-apply-grade">Applying For Grade *</label>
-                  <select id="adm-apply-grade" class="form-control" required>
-                    <option value="">-- Select Grade --</option>
-                    <option value="Nursery">Nursery / Playgroup</option>
-                    <option value="Grade 1">Grade 1</option>
-                    <option value="Grade 5">Grade 5</option>
-                    <option value="Grade 8">Grade 8</option>
-                    <option value="Grade 11 Science">Grade 11 (Science Stream)</option>
-                    <option value="Grade 11 Commerce">Grade 11 (Commerce Stream)</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="adm-dob">Date of Birth *</label>
-                  <input type="date" id="adm-dob" class="form-control" required>
-                </div>
-                <div class="form-group">
-                  <label for="adm-gender">Gender *</label>
-                  <select id="adm-gender" class="form-control" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <!-- Step 2 Content -->
-            <div class="wizard-content-step" id="step-2">
-              <h3 style="margin-bottom: 1.25rem;">Step 2: Parent / Guardian Details</h3>
-              <div class="grid-2">
-                <div class="form-group">
-                  <label for="adm-parent-name">Father / Mother / Guardian Name *</label>
-                  <input type="text" id="adm-parent-name" class="form-control" placeholder="e.g. Vikram Sharma" required>
-                </div>
-                <div class="form-group">
-                  <label for="adm-parent-phone">Contact Mobile Number *</label>
-                  <input type="tel" id="adm-parent-phone" class="form-control" placeholder="+91 98765 43210" required>
-                </div>
-                <div class="form-group">
-                  <label for="adm-parent-email">Email Address *</label>
-                  <input type="email" id="adm-parent-email" class="form-control" placeholder="parent@example.com" required>
-                </div>
-                <div class="form-group">
-                  <label for="adm-city">City & State *</label>
-                  <input type="text" id="adm-city" class="form-control" placeholder="e.g. Varanasi, Uttar Pradesh" required>
-                </div>
-              </div>
-            </div>
-
-            <!-- Step 3 Content -->
-            <div class="wizard-content-step" id="step-3">
-              <h3 style="margin-bottom: 1.25rem;">Step 3: Previous Schooling & Documents</h3>
-              <div class="grid-2">
-                <div class="form-group">
-                  <label for="adm-prev-school">Previous School Attended</label>
-                  <input type="text" id="adm-prev-school" class="form-control" placeholder="Name of previous institution">
-                </div>
-                <div class="form-group">
-                  <label for="adm-last-percentage">Last Grade Percentage / Grade</label>
-                  <input type="text" id="adm-last-percentage" class="form-control" placeholder="e.g. 92% or A1">
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Upload Birth Certificate / Report Card (Optional Preview)</label>
-                <input type="file" class="form-control">
-              </div>
-            </div>
-
-            <!-- Step 4 Content -->
-            <div class="wizard-content-step" id="step-4">
-              <h3 style="margin-bottom: 1.25rem;">Step 4: Declaration & Confirmation</h3>
-              <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
-                <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
-                  I hereby declare that all information provided in this admission form is authentic. I agree to abide by the rules and regulations of BRIO World School.
-                </p>
-              </div>
-              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                <input type="checkbox" required style="width: 18px; height: 18px; accent-color: var(--accent-gold);">
-                <span style="font-weight: 600;">I accept the terms and conditions for Session 2026-27.</span>
-              </label>
-            </div>
-
-            <!-- Controls -->
-            <div style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-light);">
-              <button type="button" id="wizard-prev-btn" class="btn btn-outline" style="display: none;">
-                <i class="fa-solid fa-arrow-left"></i> Previous
-              </button>
-              <div></div>
-              <button type="button" id="wizard-next-btn" class="btn btn-gold">
-                Next Step <i class="fa-solid fa-arrow-right"></i>
-              </button>
-              <button type="submit" id="wizard-submit-btn" class="btn btn-navy" style="display: none;">
-                <i class="fa-solid fa-paper-plane"></i> Submit Application
-              </button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- PAGE 5: CAMPUS LIFE (Pure Photo Gallery) -->
+  <!-- PAGE 5: GALLERY (Pure Photo Gallery) -->
   <main id="facilities" class="page-view">
-    <section class="section-padding bg-light" style="padding: 2.5rem 0;">
+    <section class="section-padding bg-light" style="padding: 2.5rem 0 3.5rem 0;">
       <div class="container">
         
+        <!-- Gallery Section Heading -->
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2.2rem;">
+          <h2 style="font-size: 2.4rem; font-weight: 800; color: #0F172A; text-transform: uppercase; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: 1.5px;">
+            GALLERY
+          </h2>
+        </div>
+
         <!-- Clean Responsive Photo Gallery Grid -->
         <div class="photo-gallery-grid">
           
@@ -2372,7 +2107,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=55000.0"></script>
+  <script src="app.js?v=56000.0"></script>
 </body>
 </html>
 
