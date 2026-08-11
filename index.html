@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=57000.0">
+  <link rel="stylesheet" href="styles.css?v=58000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -1343,24 +1343,32 @@
   <!-- PAGE 8: CAREERS -->
   <main id="careers" class="page-view">
     
-    <!-- Hero Banner (Matching About Us Design) -->
-    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
-      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
-        <span class="badge badge-gold"><i class="fa-solid fa-briefcase"></i> FACULTY RECRUITMENT</span>
-        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">Careers at BRIO World School</h1>
-        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
-          Join an inspiring educator community. We offer competitive remuneration, research grants, and global training across our Gujarat and Delhi NCR campuses.
+    <!-- 1. Careers Hero Section -->
+    <div class="hero-section" style="padding: 5.5rem 0 4.5rem; background: linear-gradient(to right, rgba(9, 18, 36, 0.92), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center" style="max-width: 900px; margin: 0 auto;">
+        <span class="badge badge-gold"><i class="fa-solid fa-user-tie"></i> SHAPE THE FUTURE OF EDUCATION</span>
+        <h1 class="hero-title" style="font-size: 3.4rem; margin-top: 0.85rem; color: #FFFFFF; font-family: 'Outfit', sans-serif; font-weight: 800;">Build Your Career at BRIO World School</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 2.2rem; color: #F1F5F9; font-size: 1.2rem; line-height: 1.7; max-width: 780px;">
+          Join a visionary community of world-class educators, innovators, and leaders. We empower faculty with competitive remuneration, global training, research grants, and state-of-the-art STEM infrastructure.
         </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="#open-positions" class="btn btn-gold" onclick="var el = document.getElementById('open-positions'); if(el) el.scrollIntoView({behavior:'smooth'}); return false;">
+            <i class="fa-solid fa-briefcase"></i> View Open Vacancies
+          </a>
+          <a href="#career-form-section" class="btn btn-outline-white" onclick="var el = document.getElementById('career-form-section'); if(el) el.scrollIntoView({behavior:'smooth'}); return false;">
+            <i class="fa-solid fa-paper-plane"></i> Direct Application
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- Careers Quick Highlights Strip (Matching About Us Design) -->
+    <!-- 2. Quick Highlights Strip -->
     <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
       <div class="container">
         <div class="grid-4" style="text-align: center; gap: 1.5rem;">
           <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100+</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Expert Educators</div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">150+</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Expert Faculty Members</div>
           </div>
           <div>
             <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">7th CPC</div>
@@ -1372,79 +1380,216 @@
           </div>
           <div>
             <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Global</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">IB & CBSE Training</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">IB &amp; CBSE Training Cell</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section-padding">
+    <!-- 3. Why Join Us / Benefits Section -->
+    <section class="section-padding bg-light">
       <div class="container">
-        
-        <div class="grid-2" style="gap: 3rem; align-items: flex-start;">
-          
-          <!-- Left Column: Openings -->
-          <div>
-            <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
-              <span class="badge badge-gold">Current Openings</span>
-              <h2 style="font-size: 2rem; margin: 0.5rem 0;">Faculty & Leadership Openings</h2>
-              <p style="font-size: 0.95rem;">Explore full-time educator opportunities across Senior, Middle, and STEM innovation wings.</p>
+        <div class="section-header text-center" style="margin-bottom: 3rem;">
+          <span class="badge badge-navy"><i class="fa-solid fa-star"></i> FACULTY ADVANTAGE</span>
+          <h2 style="font-size: 2.2rem; color: #0F172A; margin-top: 0.5rem;">Why Teach &amp; Lead at BRIO World School?</h2>
+          <p style="color: #475569; max-width: 750px; margin: 0.5rem auto 0;">We invest deeply in our educators, providing an environment where professional brilliance meets personal fulfillment.</p>
+        </div>
+
+        <div class="grid-3" style="gap: 1.75rem;">
+          <div class="feature-card" style="background: white; padding: 2rem; border-radius: 14px; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+            <div class="feature-icon" style="background: #FEF3C7; color: #D97706; width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <i class="fa-solid fa-coins"></i>
             </div>
-
-            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-              
-              <!-- Job 1 -->
-              <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time  &bull;  Senior Wing</span>
-                <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">PGT Physics & JEE Foundation Mentor</h4>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat & Delhi Campuses | M.Sc. Physics required</p>
-                <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics & JEE Mentor" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                  <i class="fa-solid fa-paper-plane"></i> Quick Apply for Position
-                </button>
-              </div>
-
-              <!-- Job 2 -->
-              <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Full-Time  &bull;  STEM Lab</span>
-                <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">AI & Robotics STEM Coach</h4>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | B.Tech / M.Tech in CS/Robotics</p>
-                <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI & Robotics STEM Coach" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                  <i class="fa-solid fa-paper-plane"></i> Quick Apply for Position
-                </button>
-              </div>
-
-              <!-- Job 3 -->
-              <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Full-Time &bull; Middle Wing</span>
-                <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">TGT English & Drama Facilitator</h4>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Delhi NCR Campus | M.A. English & B.Ed. required</p>
-                <button type="button" class="btn btn-emerald career-apply-trigger" data-job="TGT English & Drama Facilitator" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                  <i class="fa-solid fa-paper-plane"></i> Quick Apply for Position
-                </button>
-              </div>
-
-              <!-- Job 4 -->
-              <div class="feature-card" style="background: white; border: 1px solid var(--border-light); padding: 1.5rem;">
-                <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Full-Time  &bull;  Sports Wing</span>
-                <h4 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.3rem;">Head Aquatics & Swimming Coach</h4>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;"><strong>Location:</strong> Gujarat Campus | Certified NIS Coach</p>
-                <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-                  <i class="fa-solid fa-paper-plane"></i> Quick Apply for Position
-                </button>
-              </div>
-
-            </div>
+            <h3 style="font-size: 1.25rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">7th Pay Commission Scale</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Industry-leading remuneration packages aligned with 7th CPC standards, annual performance incentives, and comprehensive Provident Fund benefits.</p>
           </div>
 
-          <!-- Right Column: Embedded Job Application Form with Resume Upload -->
-          <div style="background: white; padding: 2.2rem; border-radius: var(--radius-lg); border: 2px solid var(--border-light); box-shadow: var(--shadow-lg); position: sticky; top: 100px;">
+          <div class="feature-card" style="background: white; padding: 2rem; border-radius: 14px; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+            <div class="feature-icon" style="background: #DBEAFE; color: #2563EB; width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <i class="fa-solid fa-globe"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Global IB &amp; CBSE Workshops</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Continuous professional learning with fully funded certifications, international teacher exchange programs, and IB/Cambridge masterclasses.</p>
+          </div>
+
+          <div class="feature-card" style="background: white; padding: 2rem; border-radius: 14px; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+            <div class="feature-icon" style="background: #D1FAE5; color: #059669; width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Faculty Innovation Fund</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Annual research grants for educators pioneering new STEM experiments, digital pedagogy tools, or publishing academic research papers.</p>
+          </div>
+
+          <div class="feature-card" style="background: white; padding: 2rem; border-radius: 14px; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+            <div class="feature-icon" style="background: #F3E8FF; color: #9333EA; width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Smart Eco-Green Campuses</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Work in 25-acre smart campuses featuring Apple Mac coding labs, AI incubators, digital smartboards, and ergonomic faculty lounges.</p>
+          </div>
+
+          <div class="feature-card" style="background: white; padding: 2rem; border-radius: 14px; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+            <div class="feature-icon" style="background: #FEE2E2; color: #DC2626; width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Staff Housing &amp; Health Cover</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Subsidized air-conditioned residential staff suites, free subsidized education for faculty children, and cashless medical insurance.</p>
+          </div>
+
+          <div class="feature-card" style="background: white; padding: 2rem; border-radius: 14px; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
+            <div class="feature-icon" style="background: #E0F2FE; color: #0284C7; width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Rapid Leadership Pathways</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Structured career progression from Subject Educator to Department Head, Curriculum Coordinator, and Campus Vice-Principal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Life at BRIO / Work Culture Section -->
+    <section class="section-padding" style="background: #0F172A; color: white;">
+      <div class="container grid-2" style="gap: 3rem; align-items: center;">
+        <div>
+          <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-heart"></i> WORK CULTURE</span>
+          <h2 style="font-size: 2.3rem; color: white; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">Life &amp; Culture at BRIO</h2>
+          <p style="font-size: 1rem; color: #94A3B8; line-height: 1.7; margin-bottom: 1.5rem;">
+            At BRIO World School, we believe that inspired teachers inspire students. Our work culture is built on mutual respect, academic autonomy, collaborative lesson planning, and celebrating educator achievements.
+          </p>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+            <li style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: #E2E8F0;">
+              <i class="fa-solid fa-circle-check text-gold" style="font-size: 1.1rem;"></i> Academic autonomy &amp; innovative lesson planning freedom
+            </li>
+            <li style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: #E2E8F0;">
+              <i class="fa-solid fa-circle-check text-gold" style="font-size: 1.1rem;"></i> Collaborative inter-disciplinary subject circles &amp; peer mentoring
+            </li>
+            <li style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: #E2E8F0;">
+              <i class="fa-solid fa-circle-check text-gold" style="font-size: 1.1rem;"></i> Annual Teacher Excellence Awards with cash honors &amp; citations
+            </li>
+          </ul>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+          <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Educator Collaboration" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(245, 158, 11, 0.4);">
+          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80" alt="Smart Classroom Mentorship" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(245, 158, 11, 0.4);">
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Open Vacancies & Application Section -->
+    <section id="open-positions" class="section-padding bg-light">
+      <div class="container">
+        
+        <div class="section-header text-center" style="margin-bottom: 3rem;">
+          <span class="badge badge-gold"><i class="fa-solid fa-briefcase"></i> CURRENT OPPORTUNITIES</span>
+          <h2 style="font-size: 2.2rem; color: #0F172A; margin-top: 0.5rem;">Open Faculty &amp; Leadership Vacancies</h2>
+          <p style="color: #475569; max-width: 750px; margin: 0.5rem auto 0;">Select an open position below and click 'Apply Now' to submit your educator application directly to our HR Cell.</p>
+        </div>
+
+        <div class="grid-2" style="gap: 3rem; align-items: flex-start;">
+          
+          <!-- Left Column: Open Job Vacancy Cards -->
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <!-- Job Card 1 -->
+            <div class="feature-card" style="background: white; border-radius: 14px; border: 1.5px solid var(--border-light); padding: 1.75rem; box-shadow: 0 6px 20px rgba(15,23,42,0.06);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem;">
+                <div>
+                  <span class="badge badge-gold" style="margin-bottom: 0.4rem; display: inline-block;">Senior Secondary Wing</span>
+                  <h3 style="color: var(--primary-navy); font-size: 1.25rem; margin: 0; font-family: 'Outfit', sans-serif;">PGT Physics &amp; JEE Foundation Lead</h3>
+                </div>
+                <span style="background: #FEF3C7; color: #92400E; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; white-space: nowrap;">Full-Time</span>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 1rem 0 1.25rem; padding: 0.85rem 1rem; background: #F8FAFC; border-radius: 10px; font-size: 0.85rem; color: #475569;">
+                <div><i class="fa-solid fa-briefcase text-gold" style="margin-right: 0.4rem;"></i> <strong>Experience:</strong> 5+ Years</div>
+                <div><i class="fa-solid fa-location-dot text-gold" style="margin-right: 0.4rem;"></i> <strong>Campus:</strong> Gujarat &amp; Delhi</div>
+                <div><i class="fa-solid fa-graduation-cap text-gold" style="margin-right: 0.4rem;"></i> <strong>Qualification:</strong> M.Sc. Physics &amp; B.Ed</div>
+                <div><i class="fa-solid fa-clock text-gold" style="margin-right: 0.4rem;"></i> <strong>Job Type:</strong> Permanent</div>
+              </div>
+
+              <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics &amp; JEE Foundation Lead" style="width: 100%; font-size: 0.9rem; font-weight: 800; padding: 0.65rem 1.25rem; border-radius: 25px;">
+                <i class="fa-solid fa-paper-plane"></i> Apply Now for Position
+              </button>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="feature-card" style="background: white; border-radius: 14px; border: 1.5px solid var(--border-light); padding: 1.75rem; box-shadow: 0 6px 20px rgba(15,23,42,0.06);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem;">
+                <div>
+                  <span class="badge badge-navy" style="margin-bottom: 0.4rem; display: inline-block;">STEM &amp; AI Innovation</span>
+                  <h3 style="color: var(--primary-navy); font-size: 1.25rem; margin: 0; font-family: 'Outfit', sans-serif;">AI &amp; Robotics STEM Coach</h3>
+                </div>
+                <span style="background: #DBEAFE; color: #1E40AF; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; white-space: nowrap;">Full-Time</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 1rem 0 1.25rem; padding: 0.85rem 1rem; background: #F8FAFC; border-radius: 10px; font-size: 0.85rem; color: #475569;">
+                <div><i class="fa-solid fa-briefcase text-gold" style="margin-right: 0.4rem;"></i> <strong>Experience:</strong> 3+ Years</div>
+                <div><i class="fa-solid fa-location-dot text-gold" style="margin-right: 0.4rem;"></i> <strong>Campus:</strong> Vadodara, Gujarat</div>
+                <div><i class="fa-solid fa-graduation-cap text-gold" style="margin-right: 0.4rem;"></i> <strong>Qualification:</strong> B.Tech / M.Tech (CS/Robotics)</div>
+                <div><i class="fa-solid fa-clock text-gold" style="margin-right: 0.4rem;"></i> <strong>Job Type:</strong> Permanent</div>
+              </div>
+
+              <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI &amp; Robotics STEM Coach" style="width: 100%; font-size: 0.9rem; font-weight: 800; padding: 0.65rem 1.25rem; border-radius: 25px;">
+                <i class="fa-solid fa-paper-plane"></i> Apply Now for Position
+              </button>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="feature-card" style="background: white; border-radius: 14px; border: 1.5px solid var(--border-light); padding: 1.75rem; box-shadow: 0 6px 20px rgba(15,23,42,0.06);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem;">
+                <div>
+                  <span class="badge badge-emerald" style="margin-bottom: 0.4rem; display: inline-block;">Middle Wing</span>
+                  <h3 style="color: var(--primary-navy); font-size: 1.25rem; margin: 0; font-family: 'Outfit', sans-serif;">TGT English &amp; Drama Facilitator</h3>
+                </div>
+                <span style="background: #D1FAE5; color: #065F46; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; white-space: nowrap;">Full-Time</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 1rem 0 1.25rem; padding: 0.85rem 1rem; background: #F8FAFC; border-radius: 10px; font-size: 0.85rem; color: #475569;">
+                <div><i class="fa-solid fa-briefcase text-gold" style="margin-right: 0.4rem;"></i> <strong>Experience:</strong> 4+ Years</div>
+                <div><i class="fa-solid fa-location-dot text-gold" style="margin-right: 0.4rem;"></i> <strong>Campus:</strong> South Delhi, NCR</div>
+                <div><i class="fa-solid fa-graduation-cap text-gold" style="margin-right: 0.4rem;"></i> <strong>Qualification:</strong> M.A. English &amp; B.Ed</div>
+                <div><i class="fa-solid fa-clock text-gold" style="margin-right: 0.4rem;"></i> <strong>Job Type:</strong> Permanent</div>
+              </div>
+
+              <button type="button" class="btn btn-emerald career-apply-trigger" data-job="TGT English &amp; Drama Facilitator" style="width: 100%; font-size: 0.9rem; font-weight: 800; padding: 0.65rem 1.25rem; border-radius: 25px;">
+                <i class="fa-solid fa-paper-plane"></i> Apply Now for Position
+              </button>
+            </div>
+
+            <!-- Job Card 4 -->
+            <div class="feature-card" style="background: white; border-radius: 14px; border: 1.5px solid var(--border-light); padding: 1.75rem; box-shadow: 0 6px 20px rgba(15,23,42,0.06);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem;">
+                <div>
+                  <span class="badge badge-gold" style="margin-bottom: 0.4rem; display: inline-block;">Sports Academy</span>
+                  <h3 style="color: var(--primary-navy); font-size: 1.25rem; margin: 0; font-family: 'Outfit', sans-serif;">Head Aquatics &amp; Swimming Coach</h3>
+                </div>
+                <span style="background: #FEF3C7; color: #92400E; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; white-space: nowrap;">Full-Time</span>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin: 1rem 0 1.25rem; padding: 0.85rem 1rem; background: #F8FAFC; border-radius: 10px; font-size: 0.85rem; color: #475569;">
+                <div><i class="fa-solid fa-briefcase text-gold" style="margin-right: 0.4rem;"></i> <strong>Experience:</strong> 5+ Years</div>
+                <div><i class="fa-solid fa-location-dot text-gold" style="margin-right: 0.4rem;"></i> <strong>Campus:</strong> Vadodara, Gujarat</div>
+                <div><i class="fa-solid fa-graduation-cap text-gold" style="margin-right: 0.4rem;"></i> <strong>Qualification:</strong> Certified NIS Coach</div>
+                <div><i class="fa-solid fa-clock text-gold" style="margin-right: 0.4rem;"></i> <strong>Job Type:</strong> Permanent</div>
+              </div>
+
+              <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="width: 100%; font-size: 0.9rem; font-weight: 800; padding: 0.65rem 1.25rem; border-radius: 25px;">
+                <i class="fa-solid fa-paper-plane"></i> Apply Now for Position
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Right Column: EXACT Existing Job Application Form (Preserved 100%) -->
+          <div id="career-form-section" style="background: white; padding: 2.2rem; border-radius: 16px; border: 2px solid var(--border-light); box-shadow: 0 10px 30px rgba(15,23,42,0.1); position: sticky; top: 100px;">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-light);">
               <div style="width: 46px; height: 46px; border-radius: 12px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
                 <i class="fa-solid fa-briefcase"></i>
               </div>
               <div>
-                <h3 style="font-size: 1.35rem; color: var(--primary-navy); margin: 0;">Online Educator Application</h3>
-                <p style="font-size: 0.82rem; color: var(--text-muted);">Direct Submission to BRIO HR Cell</p>
+                <h3 style="font-size: 1.35rem; color: var(--primary-navy); margin: 0; font-family: 'Outfit', sans-serif;">Online Educator Application</h3>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">Direct Submission to BRIO HR Cell</p>
               </div>
             </div>
 
@@ -1498,7 +1643,7 @@
               </div>
 
               <button type="submit" id="page-career-submit-btn" class="btn btn-gold" style="width: 100%; margin-top: 1.25rem; font-weight: 800;">
-                <i class="fa-solid fa-paper-plane"></i> Submit Educator Application & Resume
+                <i class="fa-solid fa-paper-plane"></i> Submit Educator Application &amp; Resume
               </button>
             </form>
           </div>
@@ -2339,7 +2484,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=57000.0"></script>
+  <script src="app.js?v=58000.0"></script>
 </body>
 </html>
 
