@@ -24,6 +24,10 @@ $subject = cleanInput($input['subject'] ?? 'General Inquiry');
 $message = cleanInput($input['message'] ?? '');
 
 // 3. Strict Input Validations
+if (empty($input['human_verification'])) {
+    sendJSONResponse(false, 'Please check the "I am not a robot" box before submitting.', [], 400);
+}
+
 if (empty($name) || empty($email) || empty($phone) || empty($message)) {
     sendJSONResponse(false, 'Full name, email address, phone number, and message are required fields.', [], 400);
 }

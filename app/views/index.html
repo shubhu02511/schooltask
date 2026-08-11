@@ -2220,9 +2220,21 @@
                   </div>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 1.75rem;">
+                <div class="form-group" style="margin-bottom: 1.25rem;">
                   <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Tell us about your inquiry *</label>
                   <textarea name="message" class="form-control" rows="4" placeholder="Write your message here..." required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;"></textarea>
+                </div>
+
+                <!-- Anti-Bot Verification Checkbox -->
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+                  <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; user-select: none; margin: 0; color: #CBD5E1; font-size: 0.9rem; font-weight: 600;">
+                    <input type="checkbox" name="human_verification" id="contact-human-check" value="verified" required style="width: 20px; height: 20px; accent-color: #F59E0B; cursor: pointer;">
+                    <span>I am not a robot</span>
+                  </label>
+                  <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end;">
+                    <i class="fa-solid fa-shield-halved" style="color: #F59E0B; font-size: 1.2rem;"></i>
+                    <span style="font-size: 0.65rem; color: #94A3B8; margin-top: 2px;">CAPTCHA Protection</span>
+                  </div>
                 </div>
 
                 <button type="submit" id="contact-submit-btn" class="btn btn-gold" style="width: 100%; padding: 0.95rem; font-size: 0.95rem; font-weight: 800; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);">
@@ -2242,6 +2254,15 @@
                     e.preventDefault();
                     const btn = document.getElementById('contact-submit-btn');
                     const statusDiv = document.getElementById('contact-form-status');
+                    const captchaCheck = document.getElementById('contact-human-check');
+
+                    if (captchaCheck && !captchaCheck.checked) {
+                      if (statusDiv) {
+                        statusDiv.style.display = 'block';
+                        statusDiv.innerHTML = '<div style="color: #FCA5A5; padding: 0.75rem 1rem; background: rgba(239,68,68,0.15); border-radius: 8px; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-shield-cat"></i> Please check the "I am not a robot" box before sending your message.</div>';
+                      }
+                      return;
+                    }
 
                     if (btn) {
                       btn.disabled = true;
