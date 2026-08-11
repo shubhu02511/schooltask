@@ -1,0 +1,2843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIO WORLD SCHOOL | Inspiring Excellence, Shaping Tomorrow</title>
+  <meta name="description" content="Brio World School is a premier international school offering CBSE & IB Diploma curriculum, state-of-the-art STEM labs, sports academies, and holistic education.">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
+  <!-- Google Fonts Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=72000.0">
+
+
+  <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
+  <script>
+    (function() {
+      // ============================================
+      // NAVIGATION ENGINE
+      // ============================================
+      window.navigateTo = function(targetId) {
+        try {
+          if (!targetId || targetId === '' || targetId === '#') targetId = 'home';
+          if (targetId.startsWith && targetId.startsWith('#')) targetId = targetId.substring(1);
+          
+          var targetElem = document.getElementById(targetId);
+          if (!targetElem) targetId = 'home';
+
+          // Hide all page-view elements and show only the target page
+          var pages = document.querySelectorAll('.page-view');
+          for (var i = 0; i < pages.length; i++) {
+            pages[i].classList.remove('active');
+            pages[i].style.setProperty('display', 'none', 'important');
+          }
+          
+          var activePage = document.getElementById(targetId);
+          if (activePage) {
+            activePage.classList.add('active');
+            activePage.style.setProperty('display', 'block', 'important');
+          }
+
+          // Scroll to top of window for the new page
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+          
+          // Update nav active state
+          var navLinks = document.querySelectorAll('.nav-link');
+          for (var j = 0; j < navLinks.length; j++) {
+            var href = navLinks[j].getAttribute('href') || '';
+            if (href === '#' + targetId || (href === '#home' && targetId === 'home')) {
+              navLinks[j].classList.add('active');
+            } else {
+              navLinks[j].classList.remove('active');
+            }
+          }
+          
+          // Close mobile nav if open
+          var navMenu = document.querySelector('.nav-menu');
+          if (navMenu) navMenu.classList.remove('mobile-active');
+        } catch(e) {
+          console.warn('navigateTo error:', e);
+        }
+      };
+
+      // ============================================
+      // TOGGLE BRANCH DETAILS (Tap to Expand/Collapse)
+      // ============================================
+      window.toggleBranchDetails = function(detailsId, cardElem) {
+        try {
+          var details = document.getElementById(detailsId);
+          if (!details) return;
+          
+          var isHidden = details.style.display === 'none' || details.style.display === '';
+          
+          if (isHidden) {
+            details.style.display = 'block';
+            if (cardElem) {
+              var arrow = cardElem.querySelector('.branch-arrow');
+              var toggleText = cardElem.querySelector('.branch-toggle-btn span');
+              if (arrow) arrow.className = 'fa-solid fa-chevron-up branch-arrow';
+              if (toggleText) toggleText.innerText = 'Hide Details';
+            }
+          } else {
+            details.style.display = 'none';
+            if (cardElem) {
+              var arrow = cardElem.querySelector('.branch-arrow');
+              var toggleText = cardElem.querySelector('.branch-toggle-btn span');
+              if (arrow) arrow.className = 'fa-solid fa-chevron-down branch-arrow';
+              if (toggleText) toggleText.innerText = 'Tap for Details';
+            }
+          }
+        } catch(e) {}
+      };
+
+      // ============================================
+      // TOGGLE MOBILE NAV (3 Lines Hamburger Engine)
+      // ============================================
+      window.toggleMobileNav = function(e) {
+        if (e) {
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopPropagation) e.stopPropagation();
+        }
+        var navMenu = document.querySelector('.nav-menu');
+        if (navMenu) {
+          navMenu.classList.toggle('mobile-active');
+        }
+      };
+
+      // ============================================
+      // GLOBAL CLICK HANDLER (catches routing links)
+      // ============================================
+      document.addEventListener('click', function(e) {
+        try {
+          var target = e.target;
+          var depth = 0;
+          while (target && target !== document && depth < 6) {
+            if (target.tagName === 'A') {
+              var href = target.getAttribute('href') || '';
+              if (href.startsWith('#') && href.length > 1 && !target.classList.contains('modal-trigger')) {
+                e.preventDefault();
+                window.navigateTo(href.substring(1));
+                return;
+              }
+              break;
+            }
+            target = target.parentElement;
+            depth++;
+          }
+        } catch(e) {}
+      }, false);
+
+      // ============================================
+      // MOBILE NAV TOGGLE
+      // ============================================
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          // Initial route
+          var hash = window.location.hash.substring(1);
+          window.navigateTo(hash || 'home');
+
+          // Mobile hamburger setup (Click outside to close)
+          var navMenu = document.querySelector('.nav-menu');
+          var toggleBtn = document.querySelector('.mobile-nav-toggle');
+          if (navMenu) {
+            document.addEventListener('click', function(e) {
+              if (navMenu.classList.contains('mobile-active')) {
+                if (!navMenu.contains(e.target) && toggleBtn && !toggleBtn.contains(e.target)) {
+                  navMenu.classList.remove('mobile-active');
+                }
+              }
+            });
+          }
+
+          // Hero Carousel Setup
+          var slides = document.querySelectorAll('.hero-slide');
+          var dots = document.querySelectorAll('#hero-carousel-dots .dot');
+          var currentSlide = 0;
+          var timer = null;
+
+          function goToSlide(idx) {
+            try {
+              slides[currentSlide].classList.remove('active');
+              if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+              currentSlide = ((idx % slides.length) + slides.length) % slides.length;
+              slides[currentSlide].classList.add('active');
+              if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+            } catch(e) {}
+          }
+
+          function startAuto() {
+            clearInterval(timer);
+            timer = setInterval(function() { goToSlide(currentSlide + 1); }, 4500);
+          }
+
+          window.heroSlidePrev = function() { goToSlide(currentSlide - 1); startAuto(); };
+          window.heroSlideNext = function() { goToSlide(currentSlide + 1); startAuto(); };
+
+          var prevBtn = document.getElementById('hero-prev-btn');
+          var nextBtn = document.getElementById('hero-next-btn');
+          if (prevBtn) prevBtn.addEventListener('click', window.heroSlidePrev);
+          if (nextBtn) nextBtn.addEventListener('click', window.heroSlideNext);
+
+          dots.forEach(function(dot, idx) {
+            dot.addEventListener('click', function() { goToSlide(idx); startAuto(); });
+          });
+
+          // Touch swipe
+          var heroSec = document.querySelector('.hero-carousel-container');
+          if (heroSec) {
+            var touchX = 0;
+            heroSec.addEventListener('touchstart', function(e) {
+              touchX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            heroSec.addEventListener('touchend', function(e) {
+              var dx = e.changedTouches[0].screenX - touchX;
+              if (dx < -40) window.heroSlideNext();
+              else if (dx > 40) window.heroSlidePrev();
+            }, { passive: true });
+          }
+
+          startAuto();
+
+          // BrioBot Chat Toggle & Handlers
+          window.toggleBrioBot = function() {
+            var chat = document.querySelector('.chat-widget');
+            if (chat) chat.classList.toggle('active');
+          };
+
+          var botTriggerBtn = document.querySelector('.brio-bot-trigger');
+          if (botTriggerBtn) {
+            botTriggerBtn.addEventListener('click', window.toggleBrioBot);
+          }
+
+          var chatCloseBtn = document.querySelector('.chat-close');
+          if (chatCloseBtn) {
+            chatCloseBtn.addEventListener('click', function() {
+              var chat = document.querySelector('.chat-widget');
+              if (chat) chat.classList.remove('active');
+            });
+          }
+
+          // Chat send & quick chips
+          var chatSendBtn = document.getElementById('chat-send-btn');
+          var chatInput = document.getElementById('chat-input-field');
+          var chatBody = document.querySelector('.chat-body');
+
+          function sendBotMessage(userText) {
+            if (!chatBody || !userText) return;
+            var uDiv = document.createElement('div');
+            uDiv.className = 'chat-msg chat-msg-user';
+            uDiv.innerText = userText;
+            chatBody.appendChild(uDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(function() {
+              var lower = userText.toLowerCase();
+              var reply = "Thank you for reaching out to BRIO World School! You can contact our Admissions Cell directly at admissions@brioworldschool.edu.in or call +91 (0542) 2890-400.";
+              if (lower.indexOf('fee') !== -1 || lower.indexOf('cost') !== -1 || lower.indexOf('tuition') !== -1 || lower.indexOf('structure') !== -1) {
+                reply = "Our annual tuition ranges from ₹45,000 for Pre-Primary to ₹1,10,000 for Senior Secondary. You can use our interactive Fee Calculator in the Admissions tab for a complete breakdown!";
+              } else if (lower.indexOf('admission') !== -1 || lower.indexOf('apply') !== -1 || lower.indexOf('2026') !== -1) {
+                reply = "Admissions for Academic Session 2026-27 are live! Click 'Apply for Admissions' in the header or check the Admissions tab.";
+              } else if (lower.indexOf('cbse') !== -1 || lower.indexOf('ib') !== -1 || lower.indexOf('curriculum') !== -1) {
+                reply = "BRIO World School offers dual global accreditation: CBSE and the IB Diploma Pathway for Grades 11 & 12.";
+              } else if (lower.indexOf('bus') !== -1 || lower.indexOf('hostel') !== -1 || lower.indexOf('transport') !== -1 || lower.indexOf('facility') !== -1) {
+                reply = "We operate GPS-tracked AC buses and premium air-conditioned boarding facilities for Boys & Girls (Grades 5-12).";
+              }
+              var bDiv = document.createElement('div');
+              bDiv.className = 'chat-msg chat-msg-bot';
+              bDiv.innerText = reply;
+              chatBody.appendChild(bDiv);
+              chatBody.scrollTop = chatBody.scrollHeight;
+            }, 500);
+          }
+
+          if (chatSendBtn && chatInput) {
+            chatSendBtn.addEventListener('click', function() {
+              var val = chatInput.value.trim();
+              if (val) { sendBotMessage(val); chatInput.value = ''; }
+            });
+            chatInput.addEventListener('keypress', function(e) {
+              if (e.key === 'Enter') {
+                var val = chatInput.value.trim();
+                if (val) { sendBotMessage(val); chatInput.value = ''; }
+              }
+            });
+          }
+
+          // Open Application Form Modal
+          window.openApplyModal = function() {
+            var modal = document.getElementById('application-form-modal');
+            if (modal) modal.classList.add('active');
+          };
+
+          // News & Events Category Filters & Search Logic
+          document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.news-filter-btn');
+            if (btn) {
+              var cat = btn.getAttribute('data-category');
+              var chips = document.querySelectorAll('.news-filter-btn');
+              chips.forEach(function(c) {
+                c.classList.remove('active');
+                c.style.background = 'rgba(255,255,255,0.1)';
+                c.style.color = 'white';
+                c.style.border = '1px solid rgba(255,255,255,0.15)';
+              });
+              btn.classList.add('active');
+              btn.style.background = '#F59E0B';
+              btn.style.color = '#0F172A';
+              btn.style.border = 'none';
+
+              var stories = document.querySelectorAll('.news-story-card');
+              stories.forEach(function(card) {
+                var cardCat = card.getAttribute('data-category');
+                if (cat === 'all' || cardCat === cat) {
+                  card.style.display = '';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            }
+          });
+
+          var newsSearchInput = document.getElementById('news-search-input');
+          if (newsSearchInput) {
+            newsSearchInput.addEventListener('input', function() {
+              var q = this.value.toLowerCase().trim();
+              var stories = document.querySelectorAll('.news-story-card');
+              stories.forEach(function(card) {
+                var text = card.innerText.toLowerCase();
+                if (!q || text.indexOf(q) !== -1) {
+                  card.style.display = '';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            });
+          }
+
+          // Application Form Modal Wizard Logic
+          var mStep = 1;
+          var mNextBtn = document.getElementById('mwizard-next-btn');
+          var mPrevBtn = document.getElementById('mwizard-prev-btn');
+          var mSubmitBtn = document.getElementById('mwizard-submit-btn');
+
+          function updateMStep(step) {
+            mStep = step;
+            for (var i = 1; i <= 4; i++) {
+              var sElem = document.getElementById('mstep-' + i);
+              if (sElem) sElem.style.display = (i === step) ? 'block' : 'none';
+            }
+            var sItems = document.querySelectorAll('#application-form-modal .wizard-steps .step-item');
+            sItems.forEach(function(item, idx) {
+              if (idx + 1 === step) item.classList.add('active');
+              else item.classList.remove('active');
+            });
+            if (mPrevBtn) mPrevBtn.style.display = (step > 1) ? 'inline-block' : 'none';
+            if (mNextBtn) mNextBtn.style.display = (step < 4) ? 'inline-block' : 'none';
+            if (mSubmitBtn) mSubmitBtn.style.display = (step === 4) ? 'inline-block' : 'none';
+          }
+
+          if (mNextBtn) {
+            mNextBtn.addEventListener('click', function() {
+              if (mStep === 1) {
+                var sName = document.getElementById('madm-student-name');
+                var sGrade = document.getElementById('madm-apply-grade');
+                var sDob = document.getElementById('madm-dob');
+                if (!sName.value || !sGrade.value || !sDob.value) {
+                  alert('Please complete all required fields in Step 1.');
+                  return;
+                }
+              } else if (mStep === 2) {
+                var pName = document.getElementById('madm-parent-name');
+                var pPhone = document.getElementById('madm-parent-phone');
+                var pEmail = document.getElementById('madm-parent-email');
+                if (!pName.value || !pPhone.value || !pEmail.value) {
+                  alert('Please complete all required contact fields in Step 2.');
+                  return;
+                }
+              }
+              if (mStep < 4) updateMStep(mStep + 1);
+            });
+          }
+
+          if (mPrevBtn) {
+            mPrevBtn.addEventListener('click', function() {
+              if (mStep > 1) updateMStep(mStep - 1);
+            });
+          }
+
+          var mForm = document.getElementById('modal-admission-application-form');
+          if (mForm) {
+            mForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              var terms = document.getElementById('madm-terms');
+              if (terms && !terms.checked) {
+                alert('Please accept the terms and conditions.');
+                return;
+              }
+              var stName = document.getElementById('madm-student-name').value || 'Applicant';
+              var stGrade = document.getElementById('madm-apply-grade').value || 'Grade 1';
+              var refCode = 'BRIO-2026-' + Math.floor(100000 + Math.random() * 900000);
+
+              var refElem = document.getElementById('modal-ref-no');
+              var nameElem = document.getElementById('modal-student-name');
+              var gradeElem = document.getElementById('modal-applied-grade');
+              if (refElem) refElem.innerText = refCode;
+              if (nameElem) nameElem.innerText = stName;
+              if (gradeElem) gradeElem.innerText = stGrade;
+
+              var appM = document.getElementById('application-form-modal');
+              if (appM) appM.classList.remove('active');
+
+              var succM = document.getElementById('admission-modal-success');
+              if (succM) succM.classList.add('active');
+
+              mForm.reset();
+              updateMStep(1);
+            });
+          }
+
+          document.querySelectorAll('.chat-chip').forEach(function(chip) {
+            chip.addEventListener('click', function() {
+              sendBotMessage(chip.innerText);
+            });
+          });
+
+          // Auth button - Portal Login
+          var authBtn = document.getElementById('auth-nav-btn');
+          if (authBtn) {
+            authBtn.addEventListener('click', function() {
+              var modal = document.getElementById('login-modal');
+              if (modal) modal.classList.add('active');
+            });
+          }
+
+          // Inter-modal links
+          var forgotLink = document.getElementById('open-forgot-link');
+          if (forgotLink) {
+            forgotLink.addEventListener('click', function(e) {
+              e.preventDefault();
+              var loginM = document.getElementById('login-modal');
+              var forgotM = document.getElementById('forgot-modal');
+              if (loginM) loginM.classList.remove('active');
+              if (forgotM) forgotM.classList.add('active');
+            });
+          }
+
+          var loginFromForgot = document.getElementById('open-login-from-forgot');
+          if (loginFromForgot) {
+            loginFromForgot.addEventListener('click', function(e) {
+              e.preventDefault();
+              var loginM = document.getElementById('login-modal');
+              var forgotM = document.getElementById('forgot-modal');
+              if (forgotM) forgotM.classList.remove('active');
+              if (loginM) loginM.classList.add('active');
+            });
+          }
+
+          // Modal close on backdrop click
+          document.querySelectorAll('.modal-backdrop').forEach(function(modal) {
+            modal.addEventListener('click', function(e) {
+              if (e.target === modal) modal.classList.remove('active');
+            });
+          });
+          document.querySelectorAll('.modal-close-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var modal = btn.closest('.modal-backdrop');
+              if (modal) modal.classList.remove('active');
+            });
+          });
+
+          // Escape key closes modals
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+              document.querySelectorAll('.modal-backdrop.active').forEach(function(m) {
+                m.classList.remove('active');
+              });
+            }
+          });
+
+        } catch(e) {
+          console.warn('Init error:', e);
+        }
+      });
+
+      // Browser back/forward
+      window.addEventListener('popstate', function() {
+        var hash = window.location.hash.substring(1);
+        window.navigateTo(hash || 'home');
+      });
+    })();
+  </script>
+</head>
+<body>
+
+
+  <!-- Announcement Ticker Bar -->
+  <div class="top-ticker-bar">
+    <div class="container top-ticker-content">
+      <div class="ticker-left">
+        <div class="ticker-pulse">
+          <span class="ticker-dot"></span>
+          <span id="ticker-status-text">ADMISSIONS OPEN 2026-27</span>
+        </div>
+        <div style="font-size: 0.8rem; color: #CBD5E1;">
+          <i class="fa-solid fa-bullhorn text-gold" style="margin-right: 6px;"></i>
+          <span id="ticker-message-text">Entrance Assessment Registration for Pre-K to Grade 11 is now live!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sticky Header -->
+  <header class="main-header">
+    <div class="nav-container container">
+      <!-- Brand Logo -->
+      <a href="#home" class="brand-logo router-link" onclick="window.navigateTo('home'); return false;">
+        <div class="logo-icon">B</div>
+        <div class="brand-text">
+          <h1>BRIO WORLD SCHOOL</h1>
+          <p>Inspiring Excellence &bull; Global Campus</p>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="#home" class="nav-link active" onclick="window.navigateTo('home'); return false;">Home</a></li>
+        <li class="nav-item"><a href="#about" class="nav-link" onclick="window.navigateTo('about'); return false;">About Us</a></li>
+        <li class="nav-item"><a href="#academics" class="nav-link" onclick="window.navigateTo('academics'); return false;">Academics</a></li>
+        <li class="nav-item"><a href="#facilities" class="nav-link" onclick="window.navigateTo('facilities'); return false;">Gallery</a></li>
+        <li class="nav-item"><a href="#events" class="nav-link" onclick="window.navigateTo('events'); return false;">News & Events</a></li>
+        <li class="nav-item"><a href="#careers" class="nav-link" onclick="window.navigateTo('careers'); return false;">Careers</a></li>
+        <li class="nav-item"><a href="#contact" class="nav-link" onclick="window.navigateTo('contact'); return false;">Contact</a></li>
+        <li class="nav-item" style="margin-left: 0.5rem;">
+          <button type="button" id="auth-nav-btn" class="btn btn-gold" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; font-weight: 700;">
+            <i class="fa-solid fa-user-lock"></i> <span id="auth-nav-btn-text">Portal Login</span>
+          </button>
+        </li>
+      </ul>
+
+      <!-- Mobile Nav Toggle (3 Lines) -->
+      <button type="button" class="mobile-nav-toggle" onclick="window.toggleMobileNav(event); return false;" aria-label="Toggle Navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE 1: HOME -->
+  <main id="home" class="page-view active">
+    
+    <!-- 1. 5-Slide Hero Banner Carousel -->
+    <section class="hero-carousel-section">
+      <div class="hero-carousel-container">
+        
+        <!-- Slide 1 -->
+        <div class="hero-slide active" style="background-image: linear-gradient(to right, rgba(9,18,36,0.92) 0%, rgba(9,18,36,0.65) 55%, rgba(9,18,36,0.30) 100%), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-left">
+            <span class="badge badge-gold"><i class="fa-solid fa-award"></i> CBSE &amp; IB WORLD ACCREDITED</span>
+            <h1 class="hero-title">Nurturing Global Leaders with <br><span style="color:#FDE047;">Ethics &amp; Innovation</span></h1>
+            <p class="hero-subtitle">"Where every beat marches to the rhythm of pride."</p>
+            <div class="hero-ctas">
+              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply for Admissions 2026-27</a>
+              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-building-columns"></i> Explore Campuses</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.92) 0%, rgba(9,18,36,0.65) 55%, rgba(9,18,36,0.30) 100%), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-left">
+            <span class="badge badge-emerald"><i class="fa-solid fa-microchip"></i> FUTURISTIC STEM LABS</span>
+            <h1 class="hero-title">Robotics, Coding &amp; <br><span style="color:#FDE047;">AI Innovation Incubator</span></h1>
+            <p class="hero-subtitle">"Where hands-on curiosity shapes tomorrow's inventors."</p>
+            <div class="hero-ctas">
+              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-graduation-cap"></i> View Academic Wings</a>
+              <a href="#facilities" class="btn btn-outline-white router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-compass"></i> STEM Campus Tour</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.92) 0%, rgba(9,18,36,0.65) 55%, rgba(9,18,36,0.30) 100%), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-left">
+            <span class="badge badge-gold"><i class="fa-solid fa-trophy"></i> OLYMPIC SPORTS COMPLEX</span>
+            <h1 class="hero-title">Building Champions in <br><span style="color:#FDE047;">Sports &amp; Life</span></h1>
+            <p class="hero-subtitle">"Where discipline and teamwork define true victory."</p>
+            <div class="hero-ctas">
+              <a href="#facilities" class="btn btn-gold router-link" onclick="window.navigateTo('facilities'); return false;"><i class="fa-solid fa-person-swimming"></i> Sports Academies</a>
+              <a href="#admissions" class="btn btn-outline-white router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-file-pen"></i> Apply 2026-27</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.92) 0%, rgba(9,18,36,0.65) 55%, rgba(9,18,36,0.30) 100%), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-left">
+            <span class="badge badge-navy"><i class="fa-solid fa-book-open-reader"></i> SMART PEDAGOGY</span>
+            <h1 class="hero-title">Interactive Digital <br><span style="color:#FDE047;">Experiential Classrooms</span></h1>
+            <p class="hero-subtitle">"Where every mind discovers the passion for learning."</p>
+            <div class="hero-ctas">
+              <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;"><i class="fa-solid fa-chalkboard-user"></i> Curriculum Details</a>
+              <a href="#about" class="btn btn-outline-white router-link" onclick="window.navigateTo('about'); return false;"><i class="fa-solid fa-circle-info"></i> About BRIO</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="hero-slide" style="background-image: linear-gradient(to right, rgba(9,18,36,0.92) 0%, rgba(9,18,36,0.65) 55%, rgba(9,18,36,0.30) 100%), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80');">
+          <div class="container hero-slide-content text-left">
+            <span class="badge badge-gold"><i class="fa-solid fa-user-graduate"></i> GLOBAL PLACEMENTS</span>
+            <h1 class="hero-title">Guiding Scholars to <br><span style="color:#FDE047;">Ivy League &amp; Top Colleges</span></h1>
+            <p class="hero-subtitle">"Where ambition meets world-class mentorship."</p>
+            <div class="hero-ctas">
+              <a href="#admissions" class="btn btn-gold router-link" onclick="window.navigateTo('admissions'); return false;"><i class="fa-solid fa-paper-plane"></i> Scholarship Test (B-SAT)</a>
+              <a href="#contact" class="btn btn-outline-white router-link" onclick="window.navigateTo('contact'); return false;"><i class="fa-solid fa-headset"></i> Contact Helpline</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Carousel Navigation Controls -->
+      <button type="button" class="carousel-control prev-slide" id="hero-prev-btn" onclick="if(window.heroSlidePrev) window.heroSlidePrev(); return false;" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+      <button type="button" class="carousel-control next-slide" id="hero-next-btn" onclick="if(window.heroSlideNext) window.heroSlideNext(); return false;" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+
+      <!-- Scroll to Explore Indicator Overlay -->
+      <div class="scroll-explore-container" onclick="var sec = document.getElementById('leadership'); if(sec) sec.scrollIntoView({behavior:'smooth'}); return false;" style="cursor:pointer;" title="Click to scroll down">
+        <div class="scroll-explore-line"></div>
+        <div class="scroll-explore-text">SCROLL TO EXPLORE</div>
+        <div class="scroll-explore-arrow"><i class="fa-solid fa-angles-down text-gold"></i></div>
+      </div>
+
+      <!-- Carousel Indicators Dots -->
+      <div class="carousel-indicators" id="hero-carousel-dots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+        <span class="dot" data-slide="3"></span>
+        <span class="dot" data-slide="4"></span>
+      </div>
+
+      <!-- Smooth Repeating Wave Divider at Bottom of Hero -->
+      <div class="hero-wave-divider">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,45 C75,85 150,15 225,50 C300,85 375,15 450,50 C525,85 600,15 675,50 C750,85 825,15 900,50 C975,85 1050,15 1125,50 C1162,75 1185,25 1200,45 L1200,120 L0,120 Z" fill="#F8FAFC"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 2. ABOUT BRIO OVERVIEW -->
+    <section id="home-about" class="section-padding bg-white" style="border-bottom: 1px solid var(--border-light);">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3rem; align-items: center;">
+          <div style="grid-column: span 6;">
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-award"></i> ABOUT BRIO WORLD SCHOOL</span>
+            <h2 style="font-size: 2.6rem; font-weight: 900; color: #0F172A; line-height: 1.15; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Pioneering Holistic &amp; Future-Ready K-12 Education
+            </h2>
+            <p style="color: #475569; font-size: 1rem; line-height: 1.65; margin-bottom: 1.5rem;">
+              With a 25-year legacy of educational excellence, BRIO World School merges academic rigor with AI &amp; STEM innovation across our premier Gujarat and Delhi NCR campuses.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.75rem;">
+              <div style="background: #F8FAFC; padding: 1rem; border-radius: 12px; border: 1px solid #E2E8F0;">
+                <div style="font-size: 1.8rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif;">25+ Years</div>
+                <div style="font-size: 0.8rem; color: #64748B; font-weight: 600;">Educational Heritage</div>
+              </div>
+              <div style="background: #F8FAFC; padding: 1rem; border-radius: 12px; border: 1px solid #E2E8F0;">
+                <div style="font-size: 1.8rem; font-weight: 900; color: #F59E0B; font-family: 'Outfit', sans-serif;">100% Pass</div>
+                <div style="font-size: 0.8rem; color: #64748B; font-weight: 600;">CBSE &amp; IB Accreditation</div>
+              </div>
+            </div>
+            <a href="#about" class="btn btn-navy router-link" onclick="window.navigateTo('about'); return false;">
+              <i class="fa-solid fa-circle-info"></i> Learn More About Us
+            </a>
+          </div>
+
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 20px; overflow: hidden; height: 340px; box-shadow: 0 12px 30px rgba(15,23,42,0.1); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="About BRIO School" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ACADEMICS OVERVIEW -->
+    <section class="section-padding bg-light" style="border-bottom: 1px solid var(--border-light);">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-graduation-cap"></i> ACADEMIC WINGS &amp; CURRICULUM</span>
+            <h2 style="font-size: 2.4rem; font-weight: 900; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+              Comprehensive Grade Wings (Pre-K to 12)
+            </h2>
+          </div>
+          <a href="#academics" class="btn btn-gold router-link" onclick="window.navigateTo('academics'); return false;">
+            <i class="fa-solid fa-book-open"></i> Explore Academics &amp; Pedagogy
+          </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;">
+          <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="width: 46px; height: 46px; background: #FEF3C7; color: #D97706; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem;">
+              <i class="fa-solid fa-child-reaching"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; color: #0F172A; margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif;">Foundational Wing</h4>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">Nursery to Grade 2. Play-based &amp; sensory activity curriculum.</p>
+          </div>
+
+          <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="width: 46px; height: 46px; background: #DBEAFE; color: #2563EB; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem;">
+              <i class="fa-solid fa-shapes"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; color: #0F172A; margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif;">Preparatory Wing</h4>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">Grades 3 to 5. Inquiry-based learning &amp; introductory STEM labs.</p>
+          </div>
+
+          <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="width: 46px; height: 46px; background: #D1FAE5; color: #059669; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem;">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; color: #0F172A; margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif;">Middle Wing</h4>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">Grades 6 to 8. Advanced AI, coding &amp; experiential science projects.</p>
+          </div>
+
+          <div style="background: white; padding: 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="width: 46px; height: 46px; background: #F3E8FF; color: #9333EA; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem;">
+              <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; color: #0F172A; margin-bottom: 0.4rem; font-family: 'Outfit', sans-serif;">Senior Wing</h4>
+            <p style="font-size: 0.85rem; color: #64748B; margin: 0; line-height: 1.5;">Grades 9 to 12. CBSE &amp; IB Diploma preparation with university cell.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Leadership Team Section -->
+    <section id="leadership" class="section-padding bg-light" style="position: relative; overflow: hidden;">
+      <div class="container" style="position: relative;">
+        
+        <!-- Header with Vertical Divider -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 2.5rem;">
+          <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--primary-navy); text-transform: uppercase; margin: 0;">
+            <span style="color: #1E40AF;">EXEMPLARY</span> <span style="display: inline-block; width: 4px; height: 32px; background: var(--accent-gold); vertical-align: middle; margin: 0 0.5rem;"></span> LEADERSHIP TEAM
+          </h2>
+        </div>
+
+        <!-- Slider Side Navigation Buttons -->
+        <button class="leadership-nav-btn lead-prev-btn" id="lead-prev-btn" title="Previous Leader">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="leadership-nav-btn lead-next-btn" id="lead-next-btn" title="Next Leader">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <div style="display: grid; grid-template-columns: 1.3fr 2.7fr; gap: 1.5rem; align-items: stretch;" id="leadership-slider-container">
+          
+          <!-- Left Featured Chairman Spotlight Card -->
+          <div id="lead-spotlight-card" style="background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 6px 18px rgba(0,0,0,0.06);">
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; align-items: center; background: #FFFFFF; padding: 1rem;">
+              <img id="spotlight-img" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80" alt="Dr. Rajeshwar Roy" style="width: 100%; height: 260px; object-fit: cover; border-radius: 6px;">
+              <div style="padding: 1rem;">
+                <span id="spotlight-badge" style="background: #2563EB; color: white; padding: 0.35rem 0.65rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; display: inline-block; margin-bottom: 0.75rem; border-radius: 3px;">
+                  CHAIRPERSON | BRIO GROUP
+                </span>
+                <p id="spotlight-quote" style="font-size: 0.88rem; color: #1E293B; line-height: 1.6; font-style: italic; margin: 0;">
+                  "Every remarkable journey begins with a vision -  bold, clear, and driven by purpose. At BRIO, that vision has always been to build institutions where education transforms lives..."
+                </p>
+              </div>
+            </div>
+            <div id="spotlight-name" style="background: #F59E0B; color: #0F172A; padding: 0.75rem 1rem; font-weight: 800; font-size: 1rem; text-transform: uppercase;">
+              DR. RAJESHWAR ROY
+            </div>
+          </div>
+
+          <!-- Right 4 Executive Members Cards -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;" id="lead-cards-grid">
+            
+            <!-- Member 1 -->
+            <div class="lead-thumb-card active" data-index="1" style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s ease;">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" alt="Dr. Ananya Deshmukh" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">DR. ANANYA DESHMUKH</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">VICE-CHAIRPERSON</span>
+              </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="lead-thumb-card" data-index="2" style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s ease;">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80" alt="Mrs. Kavita Singhania" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MRS. KAVITA SINGHANIA</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">DIRECTOR</span>
+              </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="lead-thumb-card" data-index="3" style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s ease;">
+              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=500&q=80" alt="Mrs. Meenakshi Iyer" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MRS. MEENAKSHI IYER</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">ASSISTANT DIRECTOR</span>
+              </div>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="lead-thumb-card" data-index="4" style="background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s ease;">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80" alt="Mr. Arjun Vardhan" style="width: 100%; height: 220px; object-fit: cover;">
+              <div style="background: #F59E0B; color: #0F172A; padding: 0.6rem 0.5rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h5 style="margin: 0; font-size: 0.82rem; font-weight: 800; text-transform: uppercase;">MR. ARJUN VARDHAN</h5>
+                <span style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">HONORARY DIRECTOR</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Our Premier School Branches Section -->
+    <section id="home-branches" class="section-padding bg-white" style="border-bottom: 1px solid var(--border-light);">
+      <div class="container">
+        <div class="section-header text-center" style="margin-bottom: 2.5rem;">
+          <span class="badge badge-navy"><i class="fa-solid fa-location-dot"></i> Institutional Campuses</span>
+          <h2 style="font-size: 2.2rem; color: #0F172A; margin-top: 0.5rem;">Our Premier School Branches</h2>
+          <p style="color: #334155; margin-top: 0.5rem;">Click on any school branch below to view its full dedicated campus details.</p>
+        </div>
+
+        <div class="grid-2" style="gap: 2.5rem;">
+          
+          <!-- Branch 1: Gujarat Campus Card -->
+          <a href="#gujarat-campus" class="wing-card router-link" onclick="window.navigateTo('gujarat-campus'); return false;" style="display: block; text-decoration: none; background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <div style="position: relative; height: 300px;">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-gold" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                <i class="fa-solid fa-location-dot"></i> Vadodara, Gujarat
+              </span>
+            </div>
+            <div style="padding: 1.5rem; background: var(--primary-navy); color: white; display: flex; align-items: center; justify-content: space-between;">
+              <h3 style="font-size: 1.5rem; color: var(--accent-gold); margin: 0; font-family: 'Outfit', sans-serif;">BRIO World School - Gujarat</h3>
+              <i class="fa-solid fa-arrow-right" style="color: var(--accent-gold); font-size: 1.3rem;"></i>
+            </div>
+          </a>
+
+          <!-- Branch 2: Delhi NCR Campus Card -->
+          <a href="#delhi-campus" class="wing-card router-link" onclick="window.navigateTo('delhi-campus'); return false;" style="display: block; text-decoration: none; background: white; border-radius: var(--radius-lg); border: 2px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <div style="position: relative; height: 300px;">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-navy" style="position: absolute; top: 1rem; right: 1rem; z-index: 5; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                <i class="fa-solid fa-location-dot"></i> South Delhi, NCR
+              </span>
+            </div>
+            <div style="padding: 1.5rem; background: var(--primary-navy); color: white; display: flex; align-items: center; justify-content: space-between;">
+              <h3 style="font-size: 1.5rem; color: var(--accent-gold); margin: 0; font-family: 'Outfit', sans-serif;">BRIO World School - Delhi NCR</h3>
+              <i class="fa-solid fa-arrow-right" style="color: var(--accent-gold); font-size: 1.3rem;"></i>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CAMPUS & GALLERY OVERVIEW -->
+    <section class="section-padding bg-light" style="border-bottom: 1px solid var(--border-light);">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> CAMPUS FACILITIES &amp; LIFE</span>
+            <h2 style="font-size: 2.4rem; font-weight: 900; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+              World-Class Infrastructure &amp; Student Life
+            </h2>
+          </div>
+          <a href="#facilities" class="btn btn-navy router-link" onclick="window.navigateTo('facilities'); return false;">
+            <i class="fa-solid fa-images"></i> View Full Photo Gallery
+          </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;">
+          <div style="border-radius: 14px; overflow: hidden; height: 210px; position: relative; box-shadow: 0 4px 15px rgba(15,23,42,0.06); border: 1px solid #E2E8F0;">
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics Lab" style="width: 100%; height: 100%; object-fit: cover;">
+            <span class="badge badge-gold" style="position: absolute; bottom: 10px; left: 10px; font-weight: 800; font-size: 0.72rem;">Robotics &amp; AI Lab</span>
+          </div>
+          <div style="border-radius: 14px; overflow: hidden; height: 210px; position: relative; box-shadow: 0 4px 15px rgba(15,23,42,0.06); border: 1px solid #E2E8F0;">
+            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Olympic Pool" style="width: 100%; height: 100%; object-fit: cover;">
+            <span class="badge badge-navy" style="position: absolute; bottom: 10px; left: 10px; font-weight: 800; font-size: 0.72rem;">Olympic Swimming Pool</span>
+          </div>
+          <div style="border-radius: 14px; overflow: hidden; height: 210px; position: relative; box-shadow: 0 4px 15px rgba(15,23,42,0.06); border: 1px solid #E2E8F0;">
+            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Digital Library" style="width: 100%; height: 100%; object-fit: cover;">
+            <span class="badge badge-emerald" style="position: absolute; bottom: 10px; left: 10px; font-weight: 800; font-size: 0.72rem;">Central Digital Library</span>
+          </div>
+          <div style="border-radius: 14px; overflow: hidden; height: 210px; position: relative; box-shadow: 0 4px 15px rgba(15,23,42,0.06); border: 1px solid #E2E8F0;">
+            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" alt="Football Turf" style="width: 100%; height: 100%; object-fit: cover;">
+            <span class="badge badge-navy" style="position: absolute; bottom: 10px; left: 10px; font-weight: 800; font-size: 0.72rem;">FIFA Football Turf</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. NEWS & EVENTS PREVIEW -->
+    <section class="section-padding bg-white" style="border-bottom: 1px solid var(--border-light);">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-bullhorn"></i> LATEST CIRCULARS &amp; NEWS</span>
+            <h2 style="font-size: 2.4rem; font-weight: 900; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+              Campus Happenings &amp; Notices
+            </h2>
+          </div>
+          <a href="#events" class="btn btn-gold router-link" onclick="window.navigateTo('events'); return false;">
+            <i class="fa-solid fa-newspaper"></i> View All News &amp; Events
+          </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+          <div style="background: #F8FAFC; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/08</span>
+            <h4 style="font-size: 1.15rem; color: #0F172A; margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Schedule for Term 1 Mid-Year Examinations</h4>
+            <p style="color: #64748B; font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> August 02, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> Grades 6 to 12</p>
+          </div>
+
+          <div style="background: #F8FAFC; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/07</span>
+            <h4 style="font-size: 1.15rem; color: #0F172A; margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Inter-House Cultural Fest &amp; Science Exhibition Registration</h4>
+            <p style="color: #64748B; font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> July 28, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> All Wings</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CAREERS PREVIEW & CONTACT/ADMISSIONS DUAL BANNER -->
+    <section class="section-padding bg-light">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+          
+          <!-- Careers Card -->
+          <div style="background: #0F172A; color: white; border-radius: 20px; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid rgba(245,158,11,0.3);">
+            <div>
+              <span class="badge badge-gold" style="margin-bottom: 1rem;"><i class="fa-solid fa-briefcase"></i> JOIN OUR TEAM</span>
+              <h3 style="font-size: 2rem; color: white; font-weight: 900; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">
+                Build Your Career at BRIO World School
+              </h3>
+              <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
+                We are constantly looking for passionate educators, STEM lab mentors, and administrative leaders to shape the future of our scholars.
+              </p>
+            </div>
+            <a href="#careers" class="btn btn-gold router-link" onclick="window.navigateTo('careers'); return false;" style="align-self: flex-start;">
+              <i class="fa-solid fa-user-plus"></i> View Current Openings
+            </a>
+          </div>
+
+          <!-- Admissions & Contact CTA Card -->
+          <div style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: #0F172A; border-radius: 20px; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge" style="background: #0F172A; color: white; margin-bottom: 1rem;"><i class="fa-solid fa-file-pen"></i> ADMISSIONS 2026-27</span>
+              <h3 style="font-size: 2rem; color: #0F172A; font-weight: 900; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">
+                Begin Your Child's Academic Journey Today
+              </h3>
+              <p style="color: #1E293B; font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; font-weight: 500;">
+                Enrollments open for Pre-K through Grade 11. Schedule a personalized campus tour or submit your online application form.
+              </p>
+            </div>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button class="btn btn-navy" onclick="window.openApplyModal(); return false;">
+                <i class="fa-solid fa-paper-plane"></i> Apply Now
+              </button>
+              <a href="#contact" class="btn btn-outline-white router-link" onclick="window.navigateTo('contact'); return false;" style="border-color: #0F172A; color: #0F172A;">
+                <i class="fa-solid fa-headset"></i> Contact Us
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PAGE 2: ABOUT US (Redesigned matching Editorial Reference Image) -->
+  <main id="about" class="page-view">
+    
+    <!-- 1. Hero Section: Split Layout with Breadcrumb, Bold Headline & Overlapping Circular Badge Composition -->
+    <section class="section-padding" style="padding: 3.5rem 0 4.5rem; background: #FFFFFF;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3rem; align-items: center;">
+          
+          <!-- Left Content -->
+          <div style="grid-column: span 6;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #94A3B8; margin-bottom: 1rem; letter-spacing: 0.5px;">
+              [ <a href="#home" onclick="window.navigateTo('home')" style="color: #64748B; text-decoration: none;">Home</a> / <span style="color: #F59E0B;">About</span> ]
+            </div>
+            <h1 style="font-size: 3.8rem; font-weight: 900; color: #0F172A; line-height: 1.08; letter-spacing: -2px; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif;">
+              Crafting Educational Excellence Together
+            </h1>
+            <p style="font-size: 1.05rem; color: #475569; line-height: 1.7; margin-bottom: 2rem; font-weight: 500;">
+              Founded with a commitment to holistic development, BRIO World School blends academic rigor, AI &amp; STEM innovation, and moral values across our premier Gujarat and Delhi NCR campuses.
+            </p>
+          </div>
+
+          <!-- Right Overlapping Image Composition with Circular Badge Overlay -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 380px; box-shadow: 0 16px 40px rgba(15,23,42,0.12); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="About BRIO World School" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Inset Overlapping Image -->
+            <div style="position: absolute; bottom: -25px; right: -20px; width: 55%; height: 210px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 12px 30px rgba(15,23,42,0.15);">
+              <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <!-- Circular Badge Overlay (Matching Reference "Renovex" style) -->
+            <div style="position: absolute; bottom: 20px; left: -25px; width: 100px; height: 100px; background: white; border-radius: 50%; box-shadow: 0 10px 25px rgba(15,23,42,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #F59E0B; text-align: center; padding: 5px;">
+              <i class="fa-solid fa-award text-gold" style="font-size: 1.3rem; margin-bottom: 2px;"></i>
+              <span style="font-size: 0.65rem; font-weight: 900; color: #0F172A; text-transform: uppercase; line-height: 1.1;">25+ Yrs<br>Legacy</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. High-Impact Mission Statement & Statistics Section -->
+    <section style="padding: 4rem 0; background: #F8FAFC; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+      <div class="container">
+        
+        <!-- Big Centered Paragraph -->
+        <div style="max-width: 900px; margin: 0 auto 3.5rem; text-align: center;">
+          <h2 style="font-size: 1.85rem; font-weight: 800; color: #0F172A; line-height: 1.45; font-family: 'Outfit', sans-serif;">
+            At BRIO World School, we are committed to revolutionizing K-12 education with innovative, sustainable, and future-ready solutions. With a proven track record of academic excellence, we combine state-of-the-art STEM technology, skilled educator expertise, and student-centric pedagogy to bring visions to life.
+          </h2>
+        </div>
+
+        <!-- 4 Statistics Counters Row (Matching Reference) -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;" class="ref-about-stats">
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif; line-height: 1;">25+</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Years of Educational Legacy</div>
+          </div>
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #F59E0B; font-family: 'Outfit', sans-serif; line-height: 1;">2</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Premier Eco-Green Campuses</div>
+          </div>
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif; line-height: 1;">100%</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">CBSE &amp; IB Board Pass Rate</div>
+          </div>
+          <div style="background: white; padding: 2rem 1.5rem; border-radius: 16px; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <div style="font-size: 3rem; font-weight: 900; color: #F59E0B; font-family: 'Outfit', sans-serif; line-height: 1;">15,000+</div>
+            <div style="color: #64748B; font-size: 0.88rem; font-weight: 700; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Global Alumni Network</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Our Mission Section: Left Overlapping Image Composition + Right Text Block (Matching Reference) -->
+    <section class="section-padding" style="padding: 5rem 0; background: #FFFFFF;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3.5rem; align-items: center;">
+          
+          <!-- Left Overlapping Images (Matching Reference Left Block) -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 360px; box-shadow: 0 12px 35px rgba(15,23,42,0.08); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics &amp; AI Lab" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <!-- Inset Image -->
+            <div style="position: absolute; top: 25%; right: -25px; width: 50%; height: 210px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 14px 35px rgba(15,23,42,0.14);">
+              <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Aquatics Center" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div style="grid-column: span 6;">
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-bullseye"></i> FOUNDATIONAL CREED</span>
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Our Mission
+            </h2>
+            <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1.75rem;">
+              To provide experiential learning, integrated STEM &amp; AI education, and sports academies that empower students to excel academically and ethically. We aim to build learning environments that inspire and improve young minds across all wings.
+            </p>
+
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Integrated STEM &amp; AI Education
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Experiential &amp; Inquiry-Based Pedagogy
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Comprehensive Sports &amp; Co-Curricular Academies
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Global Perspective &amp; Ethical Leadership
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Our Vision Section: Left Text Block + Right Overlapping Image Composition (Matching Reference) -->
+    <section class="section-padding" style="padding: 5rem 0; background: #F8FAFC; border-top: 1px solid #E2E8F0;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3.5rem; align-items: center;">
+          
+          <!-- Left Content -->
+          <div style="grid-column: span 6;">
+            <span class="badge badge-navy" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-eye"></i> GLOBAL BENCHMARK</span>
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Our Vision
+            </h2>
+            <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1.75rem;">
+              To be a global benchmark in K-12 education by nurturing inquiring, knowledgeable, and caring young minds who build a more peaceful and sustainable world. We embrace eco-friendly practices and modern architecture to transform lives.
+            </p>
+
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Global Benchmark in K-12 Education
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Nurturing Ethical &amp; Caring Young Leaders
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Sustainable &amp; Future-Ready Learning Environment
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Pioneering Educational Excellence Across Campuses
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right Overlapping Images (Matching Reference Right Block) -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 360px; box-shadow: 0 12px 35px rgba(15,23,42,0.08); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Central Digital Library" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <!-- Inset Image -->
+            <div style="position: absolute; bottom: -20px; left: -25px; width: 50%; height: 200px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 14px 35px rgba(15,23,42,0.14);">
+              <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi NCR Campus" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Our History Section: Left Overlapping Image Composition + Right Text Block (Matching Reference) -->
+    <section class="section-padding" style="padding: 5rem 0; background: #FFFFFF;">
+      <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 3.5rem; align-items: center;">
+          
+          <!-- Left Overlapping Images (Matching Reference History Section) -->
+          <div style="grid-column: span 6; position: relative;">
+            <div style="border-radius: 24px; overflow: hidden; height: 360px; box-shadow: 0 12px 35px rgba(15,23,42,0.08); border: 2px solid #E2E8F0;">
+              <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Classroom Learning" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <!-- Inset Image -->
+            <div style="position: absolute; top: 15%; right: -25px; width: 48%; height: 210px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 14px 35px rgba(15,23,42,0.14);">
+              <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80" alt="Sports Arena" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Right Content -->
+          <div style="grid-column: span 6;">
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fa-solid fa-clock-rotate-left"></i> HERITAGE &amp; MILESTONES</span>
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              Our History
+            </h2>
+            <p style="font-size: 1rem; color: #475569; line-height: 1.7; margin-bottom: 1.75rem;">
+              Founded on a commitment to quality and innovation, BRIO World School began as a visionary team with a big goal. Over the years, we have grown into a trusted leader in K-12 education across Gujarat and Delhi NCR, driven by passion and dedication.
+            </p>
+
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.85rem;">
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Humble Beginnings &amp; Visionary Founding
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Milestones and Global Achievements
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Building a Legacy of Educational Trust
+              </li>
+              <li style="display: flex; align-items: center; font-weight: 700; color: #0F172A; font-size: 0.98rem;">
+                <i class="fa-solid fa-circle-check text-gold" style="margin-right: 0.75rem; font-size: 1.1rem;"></i> Shaping the Future, Rooted in Core Values
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Video / Campus Showcase Section (Matching Center Play Banner in Reference Image) -->
+    <section class="section-padding" style="padding: 2rem 0 5rem; background: #FFFFFF;">
+      <div class="container">
+        
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem;">
+          <h2 style="font-size: 2.4rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif;">
+            How We Teach &amp; Inspire
+          </h2>
+          <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
+            We follow a collaborative, inquiry-based process, ensuring clear guidance and child development at every stage.
+          </p>
+        </div>
+
+        <div style="border-radius: 28px; overflow: hidden; height: 420px; position: relative; box-shadow: 0 16px 45px rgba(15,23,42,0.12); border: 2px solid #E2E8F0;">
+          <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=1600&q=80" alt="Grand Auditorium &amp; Campus Life" style="width: 100%; height: 100%; object-fit: cover;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(9,18,36,0.65), rgba(9,18,36,0.25)); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <a href="#gallery" onclick="window.navigateTo('facilities')" style="width: 80px; height: 80px; background: #F59E0B; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0F172A; font-size: 1.8rem; box-shadow: 0 0 30px rgba(245,158,11,0.6); transition: transform 0.3s ease; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+              <i class="fa-solid fa-play" style="margin-left: 5px;"></i>
+            </a>
+            <span style="color: white; font-weight: 800; font-size: 1.1rem; margin-top: 1.25rem; letter-spacing: 1px; font-family: 'Outfit', sans-serif;">EXPLORE VIRTUAL CAMPUS TOUR</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. Affiliations & Accreditations Cards -->
+    <section class="section-padding" style="padding: 4rem 0 5rem; background: #F8FAFC; border-top: 1px solid #E2E8F0;">
+      <div class="container">
+        
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 3rem;">
+          <span class="badge badge-gold" style="margin-bottom: 0.5rem;">AFFILIATIONS &amp; ACCREDITATIONS</span>
+          <h2 style="font-size: 2.5rem; font-weight: 900; color: #0F172A; font-family: 'Outfit', sans-serif;">
+            Recognized Globally &amp; Nationally
+          </h2>
+          <p style="color: #64748B; font-size: 0.95rem; margin: 0;">
+            Our credentials reflect our commitment to world-class educational standards and student safety.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+          
+          <div style="background: white; padding: 2rem; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.05); text-align: center;">
+            <div style="width: 60px; height: 60px; background: #FEF3C7; color: #D97706; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">CBSE Affiliation</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Affiliated with Central Board of Secondary Education, New Delhi (CBSE Affiliation No: 2130890).</p>
+          </div>
+
+          <div style="background: white; padding: 2rem; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.05); text-align: center;">
+            <div style="width: 60px; height: 60px; background: #DBEAFE; color: #2563EB; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">IB World School Candidate</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Authorized International Baccalaureate (IB) World School for Senior High School Diploma Pathway.</p>
+          </div>
+
+          <div style="background: white; padding: 2rem; border-radius: 18px; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.05); text-align: center;">
+            <div style="width: 60px; height: 60px; background: #D1FAE5; color: #059669; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+              <i class="fa-solid fa-certificate"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">ISO 9001:2015 Certified</h3>
+            <p style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin: 0;">Certified for quality educational management, campus infrastructure, and child safety protocols.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PAGE 3: ACADEMICS -->
+  <main id="academics" class="page-view">
+    
+    <!-- Hero Banner (Matching About Us Design) -->
+    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
+        <span class="badge badge-gold"><i class="fa-solid fa-graduation-cap"></i> ACADEMIC EXCELLENCE</span>
+        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">Curriculum &amp; Pedagogy</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
+          An inquiry-driven academic framework designed to spur intellect, critical thinking, and practical problem-solving.
+        </p>
+      </div>
+    </div>
+
+    <!-- Academics Quick Highlights Strip (Matching About Us Design) -->
+    <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
+      <div class="container">
+        <div class="grid-4" style="text-align: center; gap: 1.5rem;">
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">15:1</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Teacher-Student Ratio</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">4</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Academic Wings (Pre-K to 12)</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100%</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Board Exam Pass Rate</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">50+</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">STEM & AI Projects</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="grid-2" style="gap: 3rem; align-items: center; margin-bottom: 4rem;">
+          <div>
+            <span class="badge badge-emerald">Integrated STEM & AI</span>
+            <h2 style="font-size: 2rem; margin: 0.5rem 0 1rem;">Future-Ready STEM Curriculum</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">
+              Starting from Grade 3, every BRIO student engages in hands-on coding, robotics, micro-electronics, and AI fundamentals in collaboration with leading tech mentors.
+            </p>
+            <ul style="list-style: none; color: var(--text-main); font-weight: 500;">
+              <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check text-emerald" style="margin-right: 8px;"></i> Python Programming & Data Science Basics</li>
+              <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check text-emerald" style="margin-right: 8px;"></i> Arduino, Raspberry Pi & IoT Innovation Projects</li>
+              <li style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check text-emerald" style="margin-right: 8px;"></i> Annual TechHackathon & National Competitions</li>
+            </ul>
+          </div>
+          <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg);">
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics Lab">
+          </div>
+        </div>
+
+        <!-- Grade-Wise Wings Grid -->
+        <div style="margin-top: 3rem;">
+          <div class="section-header">
+            <span class="badge badge-gold">Grade-Wise Framework</span>
+            <h2>Select Your Grade Level</h2>
+            <p>Click any wing to view specialized subjects, lab amenities, class timings, and teacher ratios.</p>
+          </div>
+
+          <div class="grid-4">
+            <!-- Early Years -->
+            <div class="wing-card wing-modal-trigger" data-wing="early-years" style="cursor: pointer;">
+              <div class="wing-img">
+                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80" alt="Pre-Primary">
+              </div>
+              <div class="wing-content">
+                <span class="badge badge-gold" style="margin-bottom: 0.4rem;">Pre-K to KG2</span>
+                <h3>Early Years Foundation</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Montessori stations, phonics immersion & sensory play.</p>
+                <button type="button" class="btn btn-gold" style="width: 100%; margin-top: 0.75rem; font-size: 0.82rem; padding: 0.5rem;">
+                  <i class="fa-solid fa-circle-info"></i> View Grade Details
+                </button>
+              </div>
+            </div>
+
+            <!-- Primary -->
+            <div class="wing-card wing-modal-trigger" data-wing="primary" style="cursor: pointer;">
+              <div class="wing-img">
+                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" alt="Primary Wing">
+              </div>
+              <div class="wing-content">
+                <span class="badge badge-navy" style="margin-bottom: 0.4rem;">Grades 1 to 5</span>
+                <h3>Primary School</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Speed Vedic Maths, EVS & Scratch coding.</p>
+                <button type="button" class="btn btn-gold" style="width: 100%; margin-top: 0.75rem; font-size: 0.82rem; padding: 0.5rem;">
+                  <i class="fa-solid fa-circle-info"></i> View Grade Details
+                </button>
+              </div>
+            </div>
+
+            <!-- Middle -->
+            <div class="wing-card wing-modal-trigger" data-wing="middle" style="cursor: pointer;">
+              <div class="wing-img">
+                <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Middle Wing">
+              </div>
+              <div class="wing-content">
+                <span class="badge badge-navy" style="margin-bottom: 0.4rem;">Grades 6 to 8</span>
+                <h3>Middle School</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Physics, Chemistry, Bio labs & Atal Robotics.</p>
+                <button type="button" class="btn btn-gold" style="width: 100%; margin-top: 0.75rem; font-size: 0.82rem; padding: 0.5rem;">
+                  <i class="fa-solid fa-circle-info"></i> View Grade Details
+                </button>
+              </div>
+            </div>
+
+            <!-- Senior Secondary -->
+            <div class="wing-card wing-modal-trigger" data-wing="senior" style="cursor: pointer;">
+              <div class="wing-img">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Senior Wing">
+              </div>
+              <div class="wing-content">
+                <span class="badge badge-emerald" style="margin-bottom: 0.4rem;">Grades 9 to 12</span>
+                <h3>Senior Secondary</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Science, Commerce & Humanities streams + JEE/NEET.</p>
+                <button type="button" class="btn btn-gold" style="width: 100%; margin-top: 0.75rem; font-size: 0.82rem; padding: 0.5rem;">
+                  <i class="fa-solid fa-circle-info"></i> View Grade Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+
+  <!-- PAGE 5: GALLERY (Clean Pyramid & Stepped Layout) -->
+  <main id="facilities" class="page-view">
+    <section class="section-padding" style="padding: 3.5rem 0 5rem; background: #FAFAFA;">
+      <div class="container">
+        
+        <!-- Gallery Title Block -->
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">
+          <span class="badge badge-gold" style="margin-bottom: 0.75rem; font-size: 0.75rem; letter-spacing: 2px;"><i class="fa-solid fa-camera"></i> VISUAL ARCHIVE</span>
+          <h1 style="font-size: 3.2rem; font-weight: 900; color: #0F172A; line-height: 1.1; letter-spacing: -1.5px; margin: 0 0 0.75rem 0; font-family: 'Outfit', sans-serif;">
+            A Photo Gallery of <span style="color: #F59E0B;">BRIO World</span>
+          </h1>
+          <p style="font-size: 0.98rem; color: #64748B; line-height: 1.6; margin: 0;">
+            Explore our smart eco-green campuses, robotics incubators, Olympic aquatics centers, and sports arenas.
+          </p>
+        </div>
+
+        <!-- 1. Hero Pyramid Feature Layout -->
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; align-items: stretch; margin-bottom: 1.5rem;" class="pyramid-hero-grid">
+          
+          <!-- Left Column (2 Stacked Cards: Library & Robotics) -->
+          <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- Card 1: Library -->
+            <div class="pyramid-card" style="flex: 1; border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); min-height: 220px;">
+              <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Central Digital Library" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-emerald" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Digital Library</span>
+            </div>
+            <!-- Card 2: Robotics -->
+            <div class="pyramid-card" style="flex: 1; border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); min-height: 220px;">
+              <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Robotics &amp; AI Innovation Lab" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Robotics &amp; AI Lab</span>
+            </div>
+          </div>
+
+          <!-- Center Column (Main Tall Pillar Feature: Swimming Pool) -->
+          <div style="grid-column: span 4;" class="pyramid-card">
+            <div style="border-radius: 20px; overflow: hidden; height: 100%; min-height: 460px; position: relative; background: white; border: 2.5px solid #F59E0B; box-shadow: 0 12px 35px rgba(245,158,11,0.2);">
+              <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Olympic Swimming Pool" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-navy" style="position: absolute; bottom: 15px; left: 15px; font-size: 0.82rem; font-weight: 800; padding: 0.4rem 0.85rem;">Olympic Swimming Pool</span>
+            </div>
+          </div>
+
+          <!-- Right Column (2 Stacked Cards: Staff Suites & Football) -->
+          <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- Card 3: Staff Suites -->
+            <div class="pyramid-card" style="flex: 1; border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); min-height: 220px;">
+              <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" alt="Air-Conditioned Residential Suites" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-gold" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Staff Suites</span>
+            </div>
+            <!-- Card 4: Football -->
+            <div class="pyramid-card" style="flex: 1; border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); min-height: 220px;">
+              <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80" alt="FIFA Standard Football Turf" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+              <span class="badge badge-navy" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Football Turf</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2. Perfectly Aligned Stepped Grid Base (4 Equal Columns per Row) -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;" class="pyramid-base-grid">
+          
+          <!-- Row 1 -->
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=800&q=80" alt="1,200-Seater Grand Auditorium" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-gold" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Grand Auditorium</span>
+          </div>
+
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80" alt="Indoor Basketball &amp; Badminton Arena" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-emerald" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Sports Arena</span>
+          </div>
+
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80" alt="Fine Arts &amp; Pottery Studio" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-gold" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Fine Arts Studio</span>
+          </div>
+
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80" alt="Advanced Chemical Sciences Lab" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-navy" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Science Lab</span>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" alt="High-Speed Apple Mac Coding Lab" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-emerald" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Apple Mac Lab</span>
+          </div>
+
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=800&q=80" alt="Organic Multi-Cuisine Eco Dining Hall" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-gold" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Eco Dining Hall</span>
+          </div>
+
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Vadodara, Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-navy" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Gujarat Campus</span>
+          </div>
+
+          <div class="pyramid-card" style="border-radius: 16px; overflow: hidden; position: relative; background: white; border: 1.5px solid #E2E8F0; box-shadow: 0 6px 20px rgba(15,23,42,0.06); height: 230px;">
+            <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="South Delhi, NCR Campus" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" class="artistic-img">
+            <span class="badge badge-emerald" style="position: absolute; bottom: 12px; left: 12px; font-size: 0.72rem; font-weight: 800;">Delhi NCR Campus</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 6: ACTIVITIES -->
+  <main id="cocurricular" class="page-view">
+    
+    <!-- Hero Banner (Matching About Us Design) -->
+    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
+        <span class="badge badge-gold"><i class="fa-solid fa-masks-theater"></i> HOLISTIC DEVELOPMENT</span>
+        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">Co-Curricular &amp; Student Clubs</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
+          Unlocking talents beyond books: Model UN, Dramatics, Music, Astronomy, and Leadership Expeditions.
+        </p>
+      </div>
+    </div>
+
+    <!-- Co-Curricular Quick Highlights Strip (Matching About Us Design) -->
+    <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
+      <div class="container">
+        <div class="grid-4" style="text-align: center; gap: 1.5rem;">
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">25+</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Active Student Clubs</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">1,200</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Seater Grand Theater</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">MUN</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Model United Nations Cell</div>
+          </div>
+          <div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100%</div>
+            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Student Participation</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="grid-3">
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-landmark-flag"></i></div>
+            <h3>BRIO Model United Nations (MUN)</h3>
+            <p>Students debate global policy, international diplomacy, and sustainability solutions.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-guitar"></i></div>
+            <h3>Symphony Music Conservatory</h3>
+            <p>Professional training in Indian classical, Western vocals, piano, drums, and violin.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-user-astronaut"></i></div>
+            <h3>Space Exploration & Astronomy Club</h3>
+            <p>Equipped with computerized optical telescopes for stargazing and NASA competition prep.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 7: NEWS & EVENTS (Redesigned with Editorial Reference Style) -->
+  <main id="events" class="page-view">
+    
+    <!-- 1. Editorial Header & Search / Filter Bar -->
+    <section style="background: #0F172A; color: white; padding: 4rem 0 3.5rem; position: relative; border-bottom: 3px solid #F59E0B;">
+      <div class="container">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.5rem;">
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem; letter-spacing: 2px;"><i class="fa-solid fa-newspaper"></i> CAMPUS HAPPENINGS &amp; MEDIA</span>
+            <h1 style="font-size: 4rem; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; margin: 0; font-family: 'Outfit', sans-serif;">
+              News &amp; Events
+            </h1>
+          </div>
+          
+          <div style="max-width: 450px; width: 100%;">
+            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin: 0 0 1rem 0;">
+              Official announcements, academic circulars, STEM expos, athletic tournaments, and campus highlights from BRIO World School.
+            </p>
+            
+            <!-- Search Option Box -->
+            <div style="position: relative;">
+              <input type="text" id="news-search-input" placeholder="Search news, circulars, or events..." style="width: 100%; padding: 0.8rem 1.2rem 0.8rem 2.8rem; border-radius: 30px; border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; font-size: 0.9rem; outline: none; transition: all 0.3s ease;">
+              <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); color: #F59E0B; font-size: 0.95rem;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Topic & Category Filters Bar -->
+        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);" id="news-filter-chips">
+          <button class="btn news-filter-btn active" data-category="all" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: #F59E0B; color: #0F172A; border: none;">All Stories</button>
+          <button class="btn news-filter-btn" data-category="circulars" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Official Circulars</button>
+          <button class="btn news-filter-btn" data-category="stem" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">STEM &amp; Innovation</button>
+          <button class="btn news-filter-btn" data-category="sports" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Sports &amp; Athletics</button>
+          <button class="btn news-filter-btn" data-category="arts" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Arts &amp; Culture</button>
+          <button class="btn news-filter-btn" data-category="space" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Space &amp; Astronomy</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. Featured / Latest Story at the Top -->
+    <section class="section-padding" style="padding: 3.5rem 0 2rem; background: #FFFFFF;">
+      <div class="container">
+        <span class="badge badge-gold" style="margin-bottom: 1rem;"><i class="fa-solid fa-star"></i> FEATURED STORY</span>
+        
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 2.5rem; background: #F8FAFC; border-radius: 20px; overflow: hidden; border: 1.5px solid #E2E8F0; box-shadow: 0 10px 30px rgba(15,23,42,0.06);" class="news-story-card" data-category="stem">
+          <div style="grid-column: span 7; min-height: 380px; position: relative;">
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80" alt="National AI &amp; Robotics Hackathon" style="width: 100%; height: 100%; object-fit: cover;">
+            <span class="badge badge-gold" style="position: absolute; top: 15px; left: 15px; font-size: 0.8rem; font-weight: 800;">August 12, 2026</span>
+          </div>
+
+          <div style="grid-column: span 5; padding: 2.5rem 2rem 2.5rem 0; display: flex; flex-direction: column; justify-content: center;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: #F59E0B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">STEM &amp; INNOVATION</span>
+            <h2 style="font-size: 2.2rem; font-weight: 900; color: #0F172A; line-height: 1.25; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              National AI &amp; Robotics Hackathon 2026
+            </h2>
+            <p style="color: #475569; font-size: 0.98rem; line-height: 1.65; margin-bottom: 1.75rem;">
+              Grades 6 to 12 showcased over 45+ IoT, automation, and artificial intelligence prototype projects to industry mentors, demonstrating world-class problem solving and scientific ingenuity.
+            </p>
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; color: #0F172A; font-size: 0.9rem;">
+              <span>Read Full Report</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Official Circulars Strip -->
+    <section class="section-padding" style="padding: 2rem 0; background: #FFFFFF;">
+      <div class="container">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #E2E8F0;">
+          <h3 style="font-size: 1.5rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
+            <i class="fa-solid fa-bullhorn text-gold" style="margin-right: 0.5rem;"></i> Official School Circulars
+          </h3>
+          <span class="badge badge-gold" style="font-size: 0.75rem;">Session 2026-27</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+          <div class="news-story-card" data-category="circulars" style="background: #F8FAFC; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/08</span>
+            <h4 style="font-size: 1.15rem; color: #0F172A; margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Schedule for Term 1 Mid-Year Examinations</h4>
+            <p style="color: #64748B; font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> August 02, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> Grades 6 to 12</p>
+          </div>
+
+          <div class="news-story-card" data-category="circulars" style="background: #F8FAFC; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/07</span>
+            <h4 style="font-size: 1.15rem; color: #0F172A; margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Inter-House Cultural Fest &amp; Science Exhibition Registration</h4>
+            <p style="color: #64748B; font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> July 28, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> All Wings</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. More News & Articles Grid -->
+    <section class="section-padding" style="padding: 2.5rem 0 5rem; background: #FFFFFF;">
+      <div class="container">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 0.75rem; border-bottom: 2px solid #E2E8F0;">
+          <h3 style="font-size: 1.6rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
+            More News &amp; Campus Highlights
+          </h3>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #64748B;">Showing All Stories</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;" id="more-news-grid">
+          
+          <!-- Article 1: Sports Meet -->
+          <div class="news-story-card" data-category="sports" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80" alt="Sports Meet" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-navy" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">July 25, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">SPORTS &amp; ATHLETICS</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Inter-School Athletics &amp; Aquatics Meet</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Over 500 athletes competed in track events, 50m swimming trials, and football finals across campuses.</p>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 2: Cultural Fest -->
+          <div class="news-story-card" data-category="arts" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="Cultural Fest" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-emerald" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">July 18, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">ARTS &amp; CULTURE</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Annual Cultural Fest &amp; Musical Gala</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.</p>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 3: Science Fair -->
+          <div class="news-story-card" data-category="stem" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80" alt="Science Expo" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">June 30, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #D97706; text-transform: uppercase; letter-spacing: 0.5px;">STEM &amp; INNOVATION</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Young Innovators Science Expo</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Primary &amp; Middle wing students presented renewable energy and eco-sustainability models.</p>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 4: Stargazing Camp -->
+          <div class="news-story-card" data-category="space" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80" alt="Stargazing Camp" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-navy" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">May 14, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">SPACE &amp; ASTRONOMY</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">NASA Stargazing &amp; Astronomy Camp</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Overnight celestial observation using optical computerized telescopes with astrophysics guides.</p>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 5: Fine Arts Gala -->
+          <div class="news-story-card" data-category="arts" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Art Exhibition" style="width: 100%; height: 100%; object-fit: cover;">
+              <span class="badge badge-emerald" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">April 22, 2026</span>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+              <div>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">FINE ARTS &amp; DESIGN</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Fine Arts &amp; Clay Sculpting Expo</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Canvas paintings, pottery masterpieces, and digital art created by student artists.</p>
+              </div>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+
+  <!-- PAGE 8: CAREERS -->
+  <main id="careers" class="page-view">
+    
+    <!-- 1. Careers / "Career With Us" Heading Banner -->
+    <div class="hero-section" style="padding: 4.5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.92), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
+        <span class="badge badge-gold" style="font-size: 0.8rem; letter-spacing: 1px;"><i class="fa-solid fa-user-tie"></i> RECRUITMENT CELL</span>
+        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF; font-family: 'Outfit', sans-serif; font-weight: 800;">Career With Us</h1>
+        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7; max-width: 750px;">
+          Build a rewarding career at BRIO World School. We invite passion-driven educators, subject experts, and school leaders to join our vibrant academic community.
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. Current Openings Section -->
+    <section class="section-padding bg-light" style="padding: 3.5rem 0;">
+      <div class="container">
+        
+        <div class="section-header text-center" style="margin-bottom: 2.5rem;">
+          <span class="badge badge-navy"><i class="fa-solid fa-briefcase"></i> JOIN OUR FACULTY</span>
+          <h2 style="font-size: 2.2rem; color: #0F172A; margin-top: 0.5rem; font-family: 'Outfit', sans-serif;">Current Openings</h2>
+          <p style="color: #475569; max-width: 700px; margin: 0.5rem auto 0;">Explore active faculty vacancies below and click 'Apply Now' to submit your application.</p>
+        </div>
+
+        <!-- 3. Clean Job / Vacancy List Table / Cards -->
+        <div style="background: white; border-radius: 16px; border: 1.5px solid var(--border-light); box-shadow: 0 8px 30px rgba(15,23,42,0.06); overflow: hidden; margin-bottom: 3.5rem;">
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+              <thead>
+                <tr style="background: #0F172A; color: white; font-family: 'Outfit', sans-serif; font-size: 0.95rem;">
+                  <th style="padding: 1.1rem 1.25rem;">Position</th>
+                  <th style="padding: 1.1rem 1.25rem;">Requirement / Wing</th>
+                  <th style="padding: 1.1rem 1.25rem;">Qualification</th>
+                  <th style="padding: 1.1rem 1.25rem;">Experience</th>
+                  <th style="padding: 1.1rem 1.25rem; text-align: center;">Action</th>
+                </tr>
+              </thead>
+              <tbody style="color: #334155;">
+                
+                <!-- Job Row 1 -->
+                <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
+                  <td style="padding: 1.25rem;">
+                    <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">PGT Physics &amp; JEE Foundation Lead</strong>
+                    <span style="font-size: 0.78rem; color: #64748B;"><i class="fa-solid fa-location-dot text-gold"></i> Gujarat &amp; Delhi Campuses</span>
+                  </td>
+                  <td style="padding: 1.25rem;">
+                    <span class="badge badge-gold" style="font-size: 0.75rem;">Senior Secondary Wing</span>
+                  </td>
+                  <td style="padding: 1.25rem; font-weight: 500;">M.Sc. Physics &amp; B.Ed</td>
+                  <td style="padding: 1.25rem; font-weight: 600; color: #0F172A;">5+ Years</td>
+                  <td style="padding: 1.25rem; text-align: center;">
+                    <button type="button" class="btn btn-gold career-apply-trigger" data-job="PGT Physics &amp; JEE Foundation Lead" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
+                      <i class="fa-solid fa-paper-plane"></i> Apply Now
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Job Row 2 -->
+                <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
+                  <td style="padding: 1.25rem;">
+                    <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">AI &amp; Robotics STEM Coach</strong>
+                    <span style="font-size: 0.78rem; color: #64748B;"><i class="fa-solid fa-location-dot text-gold"></i> Vadodara, Gujarat Campus</span>
+                  </td>
+                  <td style="padding: 1.25rem;">
+                    <span class="badge badge-navy" style="font-size: 0.75rem;">STEM &amp; AI Innovation</span>
+                  </td>
+                  <td style="padding: 1.25rem; font-weight: 500;">B.Tech / M.Tech (CS / Robotics)</td>
+                  <td style="padding: 1.25rem; font-weight: 600; color: #0F172A;">3+ Years</td>
+                  <td style="padding: 1.25rem; text-align: center;">
+                    <button type="button" class="btn btn-navy career-apply-trigger" data-job="AI &amp; Robotics STEM Coach" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
+                      <i class="fa-solid fa-paper-plane"></i> Apply Now
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Job Row 3 -->
+                <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
+                  <td style="padding: 1.25rem;">
+                    <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">TGT English &amp; Drama Facilitator</strong>
+                    <span style="font-size: 0.78rem; color: #64748B;"><i class="fa-solid fa-location-dot text-gold"></i> South Delhi, NCR Campus</span>
+                  </td>
+                  <td style="padding: 1.25rem;">
+                    <span class="badge badge-emerald" style="font-size: 0.75rem;">Middle School Wing</span>
+                  </td>
+                  <td style="padding: 1.25rem; font-weight: 500;">M.A. English &amp; B.Ed</td>
+                  <td style="padding: 1.25rem; font-weight: 600; color: #0F172A;">4+ Years</td>
+                  <td style="padding: 1.25rem; text-align: center;">
+                    <button type="button" class="btn btn-emerald career-apply-trigger" data-job="TGT English &amp; Drama Facilitator" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
+                      <i class="fa-solid fa-paper-plane"></i> Apply Now
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Job Row 4 -->
+                <tr style="transition: background 0.2s ease;">
+                  <td style="padding: 1.25rem;">
+                    <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">Head Aquatics &amp; Swimming Coach</strong>
+                    <span style="font-size: 0.78rem; color: #64748B;"><i class="fa-solid fa-location-dot text-gold"></i> Vadodara, Gujarat Campus</span>
+                  </td>
+                  <td style="padding: 1.25rem;">
+                    <span class="badge badge-gold" style="font-size: 0.75rem;">Sports Academy</span>
+                  </td>
+                  <td style="padding: 1.25rem; font-weight: 500;">Certified NIS Coach</td>
+                  <td style="padding: 1.25rem; font-weight: 600; color: #0F172A;">5+ Years</td>
+                  <td style="padding: 1.25rem; text-align: center;">
+                    <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
+                      <i class="fa-solid fa-paper-plane"></i> Apply Now
+                    </button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. Prominent Applicant Application Form Section -->
+        <div id="career-form-section" style="max-width: 850px; margin: 0 auto 3.5rem; background: white; padding: 2.5rem; border-radius: 18px; border: 2px solid var(--border-light); box-shadow: 0 12px 35px rgba(15,23,42,0.08);">
+          <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 2px solid var(--border-light);">
+            <div style="width: 52px; height: 52px; border-radius: 14px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);">
+              <i class="fa-solid fa-file-pen"></i>
+            </div>
+            <div>
+              <span class="badge badge-gold" style="font-size: 0.7rem; font-weight: 800;">ONLINE APPLICATION</span>
+              <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin: 0.15rem 0 0 0; font-family: 'Outfit', sans-serif;">Applicant Educator Registration</h3>
+            </div>
+          </div>
+
+          <!-- EXACT Existing Form Preserved 100% -->
+          <form id="page-career-application-form" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Full Applicant Name *</label>
+              <input type="text" name="full_name" class="form-control" placeholder="Dr. / Mr. / Ms. Full Name" required>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" name="email" class="form-control" placeholder="applicant@email.com" required>
+              </div>
+              <div class="form-group">
+                <label>Contact / Phone No. *</label>
+                <input type="tel" name="phone" class="form-control" placeholder="+91 98765 43210" required>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label>Target Position *</label>
+                <input type="text" name="job_title" id="page-career-job-title" class="form-control" placeholder="e.g. PGT Physics" value="Faculty Educator" required>
+              </div>
+              <div class="form-group">
+                <label>Experience (Years) *</label>
+                <input type="number" name="experience" class="form-control" placeholder="e.g. 5" min="0" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Preferred Campus *</label>
+              <select class="form-control" name="campus">
+                <option value="Gujarat">Gujarat Campus (Vadodara)</option>
+                <option value="Delhi">Delhi NCR Campus (South Delhi)</option>
+                <option value="Both">Open for Both Campuses</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Candidate Message / Cover Note</label>
+              <textarea name="message" class="form-control" rows="3" placeholder="Brief cover message, subject expertise, key achievements, or notes for HR..."></textarea>
+            </div>
+
+            <!-- Resume File Upload Field -->
+            <div class="form-group" style="background: #F8FAFC; padding: 1.25rem; border-radius: 12px; border: 1.5px dashed #CBD5E1; margin-top: 1rem;">
+              <label style="font-weight: 700; color: #0F172A; font-size: 0.95rem;"><i class="fa-solid fa-file-arrow-up text-gold"></i> Upload Resume / CV (PDF, DOC, DOCX) *</label>
+              <input type="file" name="resume" id="page-career-resume-file" class="form-control" accept=".pdf,.doc,.docx" required style="padding: 0.5rem; background: white; margin-top: 0.5rem;">
+              <span style="font-size: 0.78rem; color: #64748B; display: block; margin-top: 5px;">Accepted formats: .pdf, .doc, .docx (Max size: 5MB)</span>
+            </div>
+
+            <button type="submit" id="page-career-submit-btn" class="btn btn-gold" style="width: 100%; margin-top: 1.5rem; font-weight: 800; font-size: 1rem; padding: 0.85rem;">
+              <i class="fa-solid fa-paper-plane"></i> Submit Educator Application &amp; Resume
+            </button>
+          </form>
+        </div>
+
+        <!-- 5. Contact Information Section -->
+        <div style="background: #0F172A; color: white; border-radius: 18px; padding: 2.5rem; border: 2px solid rgba(245, 158, 11, 0.3); box-shadow: 0 10px 30px rgba(15,23,42,0.15);">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <span class="badge badge-gold" style="font-size: 0.75rem;"><i class="fa-solid fa-headset"></i> RECRUITMENT HELPDESK</span>
+            <h3 style="font-size: 1.8rem; color: white; margin-top: 0.4rem; font-family: 'Outfit', sans-serif;">HR &amp; Recruitment Contact Information</h3>
+            <p style="color: #94A3B8; font-size: 0.95rem; margin-top: 0.25rem;">Have questions regarding faculty positions or walk-in interviews? Reach out to our HR team.</p>
+          </div>
+
+          <div class="grid-3" style="gap: 1.5rem; text-align: center;">
+            <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245,158,11,0.15); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 1rem;">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <h4 style="color: white; font-size: 1.05rem; margin-bottom: 0.35rem; font-family: 'Outfit', sans-serif;">HR Email Desk</h4>
+              <p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">careers@brioworldschool.edu.in</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245,158,11,0.15); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 1rem;">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <h4 style="color: white; font-size: 1.05rem; margin-bottom: 0.35rem; font-family: 'Outfit', sans-serif;">Recruitment Helpline</h4>
+              <p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">+91 (0542) 2890-400 / +91 98765 43210</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245,158,11,0.15); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin: 0 auto 1rem;">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <h4 style="color: white; font-size: 1.05rem; margin-bottom: 0.35rem; font-family: 'Outfit', sans-serif;">Walk-In Interview Hours</h4>
+              <p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">Mon &ndash; Sat: 9:00 AM &ndash; 4:00 PM</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 9: GUJARAT CAMPUS -->
+  <main id="gujarat-campus" class="page-view">
+    <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center">
+        <span class="badge badge-gold"><i class="fa-solid fa-building-columns"></i> Premier Eco-Green Campus</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School  -  Gujarat</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
+          Sprawling 25-acre smart eco-campus located in the Vadodara Tech Corridor, designed for academic excellence, sports development, and residential care.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Gujarat Campus 2026-27</a>
+          <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-arrow-left"></i> Back to All Campuses</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-navy">Campus Infrastructure</span>
+          <h2>World-Class Gujarat Facilities</h2>
+          <p>Equipped with state-of-the-art academic wings, residential hostels, and international sports arenas.</p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 3rem; gap: 1.5rem;">
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-person-swimming"></i></div>
+            <h4>50m Olympic Pool</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Temperature-controlled aquatics center with NIS-certified swimming coaches.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-microchip"></i></div>
+            <h4>AI & Robotics Incubator</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">3D printers, IoT kits, and Python coding labs from primary wing onwards.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #D1FAE5; color: #059669;"><i class="fa-solid fa-planet-ringed"></i></div>
+            <h4>3D Digital Planetarium</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Interactive astronomy observatory for space science and astrophysics research.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FCE7F3; color: #DB2777;"><i class="fa-solid fa-bed"></i></div>
+            <h4>Eco Boarding Suites</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Air-conditioned residential suites with 24/7 security, organic dining, and medical care.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap: 2.5rem; align-items: center; background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Gujarat Campus Contact</span>
+            <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Gujarat Campus</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Tech Corridor, Near InfoCity, Vadodara, Gujarat  -  390001</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (0265) 2980-100 / +91 98795 11000</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> gujarat@brioworldschool.edu.in</p>
+            <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
+          </div>
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 260px;">
+            <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80" alt="Gujarat Campus" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 10: DELHI NCR CAMPUS -->
+  <main id="delhi-campus" class="page-view">
+    <div class="hero-section" style="padding: 4rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.88), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
+      <div class="container text-center">
+        <span class="badge badge-navy"><i class="fa-solid fa-building-columns"></i> Institutional Hub Campus</span>
+        <h1 class="hero-title" style="font-size: 3rem; margin-top: 0.5rem; color: white;">BRIO World School  -  Delhi NCR</h1>
+        <p class="hero-subtitle" style="margin: 0 auto 1.5rem; max-width: 750px; color: #F1F5F9;">
+          18-acre ultra-modern green campus located in South Delhi / Gurgaon Hub, equipped with IB & CBSE accreditation and Apple Mac innovation suites.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Apply for Delhi Campus 2026-27</a>
+          <a href="#branches" class="btn btn-outline-white router-link"><i class="fa-solid fa-arrow-left"></i> Back to All Campuses</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="badge badge-gold">Campus Infrastructure</span>
+          <h2>World-Class Delhi NCR Facilities</h2>
+          <p>Designed for academic rigor, performing arts, high-speed coding, and Ivy League university placement.</p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 3rem; gap: 1.5rem;">
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #DBEAFE; color: #2563EB;"><i class="fa-solid fa-laptop-code"></i></div>
+            <h4>Apple Mac Coding Lab</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">High-speed Mac workstations for iOS app development and AI machine learning.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-masks-theater"></i></div>
+            <h4>1,200-Seat Auditorium</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Acoustic grand stage for national theater productions, choir galas, and debates.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #D1FAE5; color: #059669;"><i class="fa-solid fa-futbol"></i></div>
+            <h4>FIFA Football Turf</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Floodlit professional football turf, synthetic athletics tracks, and tennis courts.</p>
+          </div>
+          <div class="feature-card" style="background: white; border: 1px solid var(--border-light); text-align: center;">
+            <div class="feature-icon" style="margin: 0 auto 1rem; background: #EDE9FE; color: #7C3AED;"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h4>Ivy League Global Cell</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">1-on-1 career counseling guiding 100% placement into top worldwide universities.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap: 2.5rem; align-items: center; background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+          <div>
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem;">Delhi NCR Campus Contact</span>
+            <h3 style="color: var(--primary-navy); margin-bottom: 1rem;">Visit Delhi NCR Campus</h3>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot text-gold" style="margin-right: 8px;"></i> <strong>Address:</strong> Institutional Area, South Delhi / Gurgaon Hub, New Delhi  -  110070</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <strong>Campus Helpline:</strong> +91 (011) 4980-200 / +91 98112 44000</p>
+            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1.5rem;"><i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <strong>Admissions Email:</strong> delhi@brioworldschool.edu.in</p>
+            <a href="#admissions" class="btn btn-gold router-link"><i class="fa-solid fa-file-pen"></i> Schedule Campus Tour & Admission</a>
+          </div>
+          <div style="border-radius: var(--radius-md); overflow: hidden; height: 260px;">
+            <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="Delhi Campus" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE 11: CONTACT -->
+  <main id="contact" class="page-view">
+    <section class="section-padding" style="padding: 4.5rem 0 5rem; background: #FAFAFA;">
+      <div class="container">
+        
+        <!-- Clean Split-Layout matching reference image -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start;">
+          
+          <!-- LEFT COLUMN: Huge "Let's get in touch" & Contact Info -->
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 1.25rem; font-size: 0.75rem; letter-spacing: 1px;"><i class="fa-solid fa-headset"></i> GET IN TOUCH</span>
+            
+            <h1 style="font-size: 3.8rem; font-weight: 900; color: #0F172A; line-height: 1.08; letter-spacing: -1.5px; margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">
+              Let’s get<br>in touch
+            </h1>
+
+            <h3 style="font-size: 1.35rem; font-weight: 700; color: #1E293B; margin-bottom: 2.25rem; font-family: 'Outfit', sans-serif;">
+              Don’t be hesitant to say hello with us!
+            </h3>
+
+            <!-- Organized Contact Details -->
+            <div style="display: flex; flex-direction: column; gap: 1.85rem;">
+              
+              <!-- Phone -->
+              <div>
+                <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 0.35rem;">Phone</span>
+                <p style="font-size: 1.15rem; font-weight: 700; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+                  +91 (0542) 2890-400 &nbsp;|&nbsp; +91 98390 12345
+                </p>
+              </div>
+
+              <!-- Email -->
+              <div>
+                <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 0.35rem;">Email</span>
+                <p style="font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+                  admissions@brioworldschool.edu.in<br>
+                  <span style="color: #64748B; font-weight: 500; font-size: 0.95rem;">info@brioworldschool.edu.in</span>
+                </p>
+              </div>
+
+              <!-- Campus Office -->
+              <div>
+                <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 0.35rem;">Main Campus Location</span>
+                <p style="font-size: 0.95rem; color: #334155; line-height: 1.6; margin: 0 0 0.6rem 0; font-weight: 500;">
+                  BRIO World School Campus, Knowledge Park City,<br>
+                  GT Road Extension, Varanasi - 221005, Uttar Pradesh, India
+                </p>
+                <a href="https://maps.google.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.4rem; color: #D97706; font-weight: 700; font-size: 0.92rem; text-decoration: none; border-bottom: 2px solid #F59E0B; padding-bottom: 2px;">
+                  See on Google Map <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.82rem;"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Intro Message & Dark Navy Contact Form Box -->
+          <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+            
+            <!-- Top Intro / Message Area with Arrow -->
+            <div style="display: flex; align-items: flex-start; gap: 1.25rem; padding-top: 0.5rem;">
+              <div style="font-size: 2.2rem; color: #0F172A; line-height: 1; flex-shrink: 0;">&rarr;</div>
+              <p style="font-size: 1.05rem; color: #475569; line-height: 1.65; margin: 0; font-weight: 500;">
+                Great! We're excited to hear from you and let's start something special together. Call or send us a message for any inquiry.
+              </p>
+            </div>
+
+            <!-- Dark Navy Contact Form Box (Matching Reference Style in BRIO Colors) -->
+            <div style="background: #091224; color: white; border-radius: 20px; padding: 2.5rem; box-shadow: 0 20px 45px rgba(9, 18, 36, 0.2); border: 1px solid rgba(255, 255, 255, 0.08);">
+              
+              <h3 style="font-size: 1.65rem; color: white; margin-bottom: 1.75rem; font-family: 'Outfit', sans-serif; font-weight: 700;">
+                Contact
+              </h3>
+
+              <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent to BRIO Admissions Team.');">
+                
+                <div class="grid-2" style="gap: 1.25rem; margin-bottom: 1.25rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Your Name *</label>
+                    <input type="text" class="form-control" placeholder="Full Name" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+                  
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Email Address *</label>
+                    <input type="email" class="form-control" placeholder="email@example.com" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+                </div>
+
+                <div class="grid-2" style="gap: 1.25rem; margin-bottom: 1.25rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Phone Number *</label>
+                    <input type="tel" class="form-control" placeholder="+91 98765 43210" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Subject / Purpose</label>
+                    <input type="text" class="form-control" placeholder="e.g. Admission Tour, Fee Inquiry" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                  <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Tell us about your inquiry *</label>
+                  <textarea class="form-control" rows="4" placeholder="Write your message here..." required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.95rem; font-size: 0.95rem; font-weight: 800; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);">
+                  <i class="fa-solid fa-paper-plane" style="margin-right: 0.5rem;"></i> Send Message
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Brio AI Bot Widget -->
+  <div class="brio-bot-trigger" title="Chat with Brio AI Assistant" onclick="if(window.toggleBrioBot) window.toggleBrioBot();">
+    <i class="fa-solid fa-robot"></i>
+  </div>
+
+  <div class="chat-widget">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">B</div>
+        <div>
+          <h4>Brio AI Assistant</h4>
+          <p>Instant School Help Desk</p>
+        </div>
+      </div>
+      <button class="chat-close" onclick="var chat=document.querySelector('.chat-widget'); if(chat) chat.classList.remove('active');" style="background: transparent; color: white; font-size: 1.2rem; border: none; cursor: pointer;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="chat-body">
+      <div class="chat-msg chat-msg-bot">
+        Hello! 👋 Welcome to BRIO World School. How can I assist you today?
+        <div class="chat-quick-options">
+          <span class="chat-chip">Admission Fee Structure</span>
+          <span class="chat-chip">Apply for 2026-27</span>
+          <span class="chat-chip">CBSE & IB Curriculum</span>
+          <span class="chat-chip">Bus & Hostel Facilities</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" id="chat-input-field" placeholder="Ask a question...">
+      <button id="chat-send-btn" class="btn btn-gold" style="padding: 0.6rem 0.9rem; border-radius: 50%;">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODALS SYSTEM -->
+  
+  <!-- Admission Success Modal -->
+  <div id="admission-modal-success" class="modal-backdrop">
+    <div class="modal-card text-center">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+      <div style="width: 70px; height: 70px; background: rgba(5, 150, 105, 0.15); color: var(--accent-emerald); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.25rem;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Application Registered!</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Your registration reference voucher has been generated.</p>
+
+      <div style="background: var(--bg-light); border: 2px dashed var(--accent-gold); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Reference ID:</span>
+          <strong id="modal-ref-no" style="color: var(--primary-navy); font-size: 1.1rem;">BRIO-2026-948120</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Student Name:</span>
+          <strong id="modal-student-name">Aarav Sharma</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: var(--text-muted);">Grade Applied:</span>
+          <strong id="modal-applied-grade">Grade 1</strong>
+        </div>
+      </div>
+
+      <button class="btn btn-gold modal-close-trigger">
+        <i class="fa-solid fa-print"></i> Print Registration Voucher
+      </button>
+    </div>
+  </div>
+
+  <!-- Fee Payment Receipt Modal -->
+  <div id="portal-receipt-modal" class="modal-backdrop">
+    <div class="modal-card text-center">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+      <div style="width: 70px; height: 70px; background: rgba(5, 150, 105, 0.15); color: var(--accent-emerald); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.25rem;">
+        <i class="fa-solid fa-receipt"></i>
+      </div>
+      <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Payment Successful!</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Electronic fee receipt generated automatically.</p>
+
+      <div style="background: var(--bg-light); border: 1px solid var(--border-light); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; text-align: left;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Transaction ID:</span>
+          <strong id="receipt-txn-id">TXN-88412093</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Amount Paid:</span>
+          <strong id="receipt-amount" style="color: var(--accent-emerald);">₹32,500</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted);">Installment:</span>
+          <strong id="receipt-term">Term 2 Tuition</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: var(--text-muted);">Date:</span>
+          <strong id="receipt-date">05 Aug 2026</strong>
+        </div>
+      </div>
+
+      <button class="btn btn-navy modal-close-trigger">
+        <i class="fa-solid fa-download"></i> Download Official Tax Receipt
+      </button>
+    </div>
+  </div>
+
+  <!-- Gallery Lightbox Preview Modal -->
+  <div id="gallery-lightbox-modal" class="modal-backdrop">
+    <div class="modal-card text-center" style="max-width: 800px; padding: 1.5rem;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+      <div style="border-radius: var(--radius-md); overflow: hidden; height: 400px; margin-bottom: 1rem;">
+        <img id="lightbox-img" src="" alt="Facility Preview" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <h3 id="lightbox-title" style="font-size: 1.4rem;">Facility Title</h3>
+      <p id="lightbox-desc" style="color: var(--text-muted); font-size: 0.95rem;">Facility description goes here...</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="main-footer" style="background: #091224; color: white; padding: 4rem 0 2rem; border-top: 1px solid rgba(255,255,255,0.08);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem;">
+        
+        <!-- Col 1: Brand Info -->
+        <div>
+          <h3 style="color: var(--accent-gold); font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem;">BRIO World School</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #94A3B8; max-width: 320px; margin-bottom: 2rem;">
+            Empowering minds, shaping futures. A community dedicated to academic excellence across our Gujarat & Delhi NCR campuses.
+          </p>
+          <p style="font-size: 0.85rem; color: #64748B; margin: 0;">
+            © 2026 BRIO World School. All rights reserved.
+          </p>
+        </div>
+
+        <!-- Col 2: Admissions -->
+        <div>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Admissions</h4>
+          <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Quick Inquiry</a></li>
+            <li><a href="#facilities" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Campus Tour</a></li>
+            <li><a href="#admissions" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Fee Calculator</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: School -->
+        <div>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">School</h4>
+          <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="#careers" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Faculty Directory</a></li>
+            <li><a href="#academics" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Academic Wings</a></li>
+            <li><a href="#leadership" class="router-link" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Leadership Team</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Legal -->
+        <div>
+          <h4 style="color: white; font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem;">Legal</h4>
+          <ul class="footer-links" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.65rem;">
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">T&C</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Privacy Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Refund Policy</a></li>
+            <li><a href="#" style="color: #94A3B8; text-decoration: none; font-size: 0.9rem;">Mandatory Public Disclosure</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Admission Sidebar Dock -->
+  <a href="javascript:void(0)" id="sidebar-apply-btn" class="admission-sidebar-tab" title="Apply for Admission 2026-27" onclick="window.openApplyModal(); return false;">
+    <i class="fa-solid fa-file-pen" id="sidebar-apply-icon"></i>
+    <span id="sidebar-apply-btn-text">Apply 2026-27</span>
+  </a>
+
+  <!-- Dedicated Application Form 2026-27 Modal -->
+  <div id="application-form-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 800px; max-height: calc(100vh - 2.5rem); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 2rem;">
+      <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-light); padding-right: 2.5rem;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+          <i class="fa-solid fa-file-pen"></i>
+        </div>
+        <div>
+          <span class="badge badge-gold" style="font-size: 0.7rem; font-weight: 800;">SESSION 2026-27</span>
+          <h3 style="font-size: 1.4rem; color: var(--primary-navy); margin: 0.15rem 0 0 0; font-family: 'Outfit', sans-serif;">Online Admission Application Form</h3>
+        </div>
+      </div>
+
+      <!-- Multi-step Wizard Container -->
+      <div class="wizard-steps" style="margin-bottom: 1.5rem;">
+        <div class="step-item active" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-title">Student Info</div>
+        </div>
+        <div class="step-item" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-title">Parent Contact</div>
+        </div>
+        <div class="step-item" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-title">Academic Record</div>
+        </div>
+        <div class="step-item" data-step="4">
+          <div class="step-circle">4</div>
+          <div class="step-title">Submit</div>
+        </div>
+      </div>
+
+      <form id="modal-admission-application-form">
+        <!-- Step 1 Content -->
+        <div class="wizard-content-step active-step" id="mstep-1">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 1: Student Information</h4>
+          <div class="grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label for="madm-student-name">Student Full Name *</label>
+              <input type="text" id="madm-student-name" class="form-control" placeholder="e.g. Aarav Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-apply-grade">Applying For Grade *</label>
+              <select id="madm-apply-grade" class="form-control" required>
+                <option value="">-- Select Grade --</option>
+                <option value="Nursery">Nursery / Playgroup</option>
+                <option value="Grade 1">Grade 1</option>
+                <option value="Grade 5">Grade 5</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 11 Science">Grade 11 (Science Stream)</option>
+                <option value="Grade 11 Commerce">Grade 11 (Commerce Stream)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="madm-dob">Date of Birth *</label>
+              <input type="date" id="madm-dob" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-gender">Gender *</label>
+              <select id="madm-gender" class="form-control" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 Content -->
+        <div class="wizard-content-step" id="mstep-2" style="display: none;">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 2: Parent / Guardian Details</h4>
+          <div class="grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label for="madm-parent-name">Father / Mother / Guardian Name *</label>
+              <input type="text" id="madm-parent-name" class="form-control" placeholder="e.g. Vikram Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-parent-phone">Contact Mobile Number *</label>
+              <input type="tel" id="madm-parent-phone" class="form-control" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-parent-email">Email Address *</label>
+              <input type="email" id="madm-parent-email" class="form-control" placeholder="parent@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-city">City & State *</label>
+              <input type="text" id="madm-city" class="form-control" placeholder="e.g. Vadodara, Gujarat" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 Content -->
+        <div class="wizard-content-step" id="mstep-3" style="display: none;">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 3: Previous Schooling & Documents</h4>
+          <div class="grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label for="madm-prev-school">Previous School Attended</label>
+              <input type="text" id="madm-prev-school" class="form-control" placeholder="Name of previous institution">
+            </div>
+            <div class="form-group">
+              <label for="madm-last-percentage">Last Grade Percentage / Grade</label>
+              <input type="text" id="madm-last-percentage" class="form-control" placeholder="e.g. 92% or A1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Upload Birth Certificate / Report Card (Optional)</label>
+            <input type="file" class="form-control">
+          </div>
+        </div>
+
+        <!-- Step 4 Content -->
+        <div class="wizard-content-step" id="mstep-4" style="display: none;">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 4: Declaration & Confirmation</h4>
+          <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              I hereby declare that all information provided in this admission application form is authentic. I agree to abide by the rules and regulations of BRIO World School.
+            </p>
+          </div>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="madm-terms" required style="width: 18px; height: 18px; accent-color: var(--accent-gold);">
+            <span style="font-weight: 600; font-size: 0.9rem;">I accept the terms and conditions for Session 2026-27.</span>
+          </label>
+        </div>
+
+        <!-- Wizard Controls -->
+        <div style="display: flex; justify-content: space-between; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light);">
+          <button type="button" id="mwizard-prev-btn" class="btn btn-outline" style="display: none;">
+            <i class="fa-solid fa-arrow-left"></i> Previous
+          </button>
+          <div></div>
+          <button type="button" id="mwizard-next-btn" class="btn btn-gold">
+            Next Step <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button type="submit" id="mwizard-submit-btn" class="btn btn-navy" style="display: none;">
+            <i class="fa-solid fa-paper-plane"></i> Submit Application
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Career Job Application Modal with Resume File Upload -->
+  <div id="career-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 600px; max-height: calc(100vh - 2.5rem); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 2rem;">
+      <button class="modal-close-btn modal-close-trigger" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-light); padding-right: 2.5rem;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--accent-emerald); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
+          <i class="fa-solid fa-briefcase"></i>
+        </div>
+        <div>
+          <h3 id="career-job-title" style="font-size: 1.25rem; color: var(--primary-navy); margin: 0; line-height: 1.25;">Faculty Job Application</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">BRIO World School Educator Recruitment Cell</p>
+        </div>
+      </div>
+
+      <form id="career-application-form" enctype="multipart/form-data">
+        <input type="hidden" name="job_title" id="career-job-title-input" value="Faculty Position">
+
+        <div class="form-group">
+          <label>Full Applicant Name *</label>
+          <input type="text" name="full_name" class="form-control" placeholder="Dr. / Mr. / Ms. Full Name" required>
+        </div>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" name="email" class="form-control" placeholder="applicant@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone / Contact No. *</label>
+            <input type="tel" name="phone" class="form-control" placeholder="+91 98765 43210" required>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Preferred Campus *</label>
+            <select class="form-control" name="campus">
+              <option value="Gujarat">Gujarat Campus (Vadodara)</option>
+              <option value="Delhi">Delhi NCR Campus (South Delhi)</option>
+              <option value="Both">Open for Both Campuses</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Experience (Years) *</label>
+            <input type="number" name="experience" class="form-control" placeholder="e.g. 5" min="0" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Candidate Message / Cover Note</label>
+          <textarea name="message" class="form-control" rows="2" placeholder="Brief cover message, subject expertise, key achievements, or notes for HR..."></textarea>
+        </div>
+
+        <!-- Resume File Upload Field -->
+        <div class="form-group" style="margin-top: 0.5rem; background: #F8FAFC; padding: 1rem; border-radius: 8px; border: 1px dashed #CBD5E1;">
+          <label style="font-weight: 700; color: #0F172A;"><i class="fa-solid fa-file-arrow-up text-gold"></i> Upload Resume / CV (PDF, DOC, DOCX) *</label>
+          <input type="file" name="resume" id="career-resume-file" class="form-control" accept=".pdf,.doc,.docx" required style="padding: 0.4rem; background: white; margin-top: 0.4rem;">
+          <span style="font-size: 0.75rem; color: #64748B; display: block; margin-top: 4px;">Accepted formats: .pdf, .doc, .docx (Max size: 5MB)</span>
+        </div>
+
+        <button type="submit" id="career-submit-btn" class="btn btn-emerald" style="width: 100%; margin-top: 1.25rem;">
+          <i class="fa-solid fa-paper-plane"></i> Submit Application & Resume
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 1. Authentication Login Modal -->
+  <div id="login-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 460px; padding: 2rem;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="text-center" style="margin-bottom: 1.5rem;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-user-lock"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin: 0;">Portal User Login</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Access BRIO Parent & Educator Portal</p>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" name="email" id="login-email" class="form-control" placeholder="user@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" name="password" id="login-password" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div style="display: flex; justify-content: flex-end; align-items: center; font-size: 0.82rem; margin-bottom: 1.25rem;">
+          <a href="#" id="open-forgot-link" style="color: #D97706; font-weight: 600;">Forgot Password?</a>
+        </div>
+        <button type="submit" id="login-submit-btn" class="btn btn-gold" style="width: 100%;">
+          <i class="fa-solid fa-right-to-bracket"></i> Login to Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Authentication Register Modal -->
+  <div id="register-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 480px; padding: 2rem;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="text-center" style="margin-bottom: 1.5rem;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: #DBEAFE; color: #2563EB; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin: 0;">Create Account</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Join BRIO World School Portal</p>
+      </div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" name="name" id="reg-name" class="form-control" placeholder="Full Name" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" name="email" id="reg-email" class="form-control" placeholder="name@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" name="password" id="reg-password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+        </div>
+        <div style="text-align: right; font-size: 0.82rem; margin-bottom: 1.25rem;">
+          <a href="#" id="open-login-from-reg" style="color: #2563EB; font-weight: 600;">Already have an account? Login</a>
+        </div>
+        <button type="submit" id="register-submit-btn" class="btn btn-navy" style="width: 100%;">
+          <i class="fa-solid fa-paper-plane"></i> Register & Send OTP
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. OTP Verification Modal -->
+  <div id="otp-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 440px; padding: 2rem;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="text-center" style="margin-bottom: 1.5rem;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: #D1FAE5; color: #059669; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin: 0;">Enter OTP Code</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">
+          Enter the 6-digit OTP code sent to your email: <br><strong id="otp-target-email" style="color: var(--primary-navy);">user@email.com</strong>
+        </p>
+      </div>
+
+      <form id="otp-verify-form">
+        <input type="hidden" name="email" id="otp-hidden-email">
+
+        <div class="form-group text-center">
+          <label style="font-weight: 700;">6-Digit Verification Code *</label>
+          <input type="text" name="otp_code" id="otp-code-input" class="form-control text-center" placeholder="123456" maxlength="6" style="font-size: 1.6rem; letter-spacing: 8px; font-weight: 800; color: #0F172A;" required>
+        </div>
+
+
+
+        <button type="submit" id="otp-submit-btn" class="btn btn-gold" style="width: 100%;">
+          <i class="fa-solid fa-circle-check"></i> Verify OTP & Activate Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Forgot Password Modal -->
+  <div id="forgot-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 440px; padding: 2rem;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="text-center" style="margin-bottom: 1.5rem;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: #FEF3C7; color: #D97706; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin: 0;">Forgot Password</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Enter registered email to receive OTP</p>
+      </div>
+
+      <form id="forgot-form">
+        <div class="form-group">
+          <label>Registered Email Address *</label>
+          <input type="email" name="email" id="forgot-email" class="form-control" placeholder="user@email.com" required>
+        </div>
+        <div style="text-align: right; font-size: 0.82rem; margin-bottom: 1.25rem;">
+          <a href="#" id="open-login-from-forgot" style="color: #2563EB; font-weight: 600;">Back to Login</a>
+        </div>
+        <button type="submit" id="forgot-submit-btn" class="btn btn-gold" style="width: 100%;">
+          <i class="fa-solid fa-paper-plane"></i> Send Password Reset OTP
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Reset Password Modal -->
+  <div id="reset-password-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 450px; padding: 2rem;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+      <div class="text-center" style="margin-bottom: 1.5rem;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: #DBEAFE; color: #2563EB; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; color: var(--primary-navy); margin: 0;">Reset Password</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Verify OTP and enter your new password</p>
+      </div>
+
+      <form id="reset-password-form">
+        <input type="hidden" name="email" id="reset-hidden-email">
+
+        <div class="form-group">
+          <label>6-Digit OTP Code *</label>
+          <input type="text" name="otp_code" id="reset-otp-input" class="form-control text-center" placeholder="123456" maxlength="6" style="font-size: 1.4rem; letter-spacing: 6px; font-weight: 800;" required>
+        </div>
+        <div class="form-group">
+          <label>New Password *</label>
+          <input type="password" name="new_password" id="reset-new-password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+        </div>
+        <button type="submit" id="reset-submit-btn" class="btn btn-navy" style="width: 100%; margin-top: 1rem;">
+          <i class="fa-solid fa-check"></i> Reset Password & Login
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Interactive Document Viewer Modal -->
+  <div id="doc-viewer-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 750px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 2px solid var(--border-light);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.2rem;">B</div>
+          <div>
+            <h3 id="doc-modal-title" style="font-size: 1.25rem; color: var(--primary-navy);">Document Preview</h3>
+            <p id="doc-modal-subtitle" style="font-size: 0.8rem; color: var(--text-muted);">BRIO World School Official Publication</p>
+          </div>
+        </div>
+        <button id="doc-download-btn" class="btn btn-gold" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+          <i class="fa-solid fa-file-pdf"></i> Download PDF
+        </button>
+      </div>
+
+      <!-- Document Content Body -->
+      <div id="doc-modal-body" style="background: var(--bg-light); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.5rem; font-size: 0.9rem; line-height: 1.6; color: var(--text-main);">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Grade-Wise Academic Details Modal -->
+  <div id="academic-wing-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 780px; padding: 2rem; max-height: 90vh; overflow-y: auto;">
+      <button class="modal-close-btn modal-close-trigger"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-light);">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--primary-navy); color: var(--accent-gold); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <span id="wing-modal-badge" class="badge badge-gold" style="margin-bottom: 0.2rem;">Grade Level</span>
+          <h3 id="wing-modal-title" style="font-size: 1.4rem; color: var(--primary-navy); margin: 0;">Academic Wing Details</h3>
+        </div>
+      </div>
+
+      <!-- Modal Body Content -->
+      <div id="wing-modal-body">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="assets/js/app.js?v=72000.0"></script>
+</body>
+</html>
+
+
+
+
+
+
