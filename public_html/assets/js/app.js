@@ -1357,9 +1357,56 @@ function initAuthSystem() {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Reset Password & Login';
       }
+  // 6. Contact Form Submit Handler
+  const pageContactForm = document.getElementById('page-contact-form');
+  if (pageContactForm) {
+    pageContactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('contact-submit-btn');
+      const statusDiv = document.getElementById('contact-form-status');
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending Message...';
+      }
+      if (statusDiv) {
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '<div style="color: #F59E0B; padding: 0.75rem 1rem; background: rgba(245,158,11,0.12); border-radius: 8px; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Submitting your message to BRIO Team...</div>';
+      }
+
+      try {
+        const formData = new FormData(pageContactForm);
+        const res = await fetch('/backend/api/contact.php', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          if (statusDiv) {
+            statusDiv.innerHTML = `<div style="color: #10B981; padding: 0.75rem 1rem; background: rgba(16,185,129,0.15); border-radius: 8px; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-circle-check"></i> ${data.message}</div>`;
+          }
+          pageContactForm.reset();
+        } else {
+          if (statusDiv) {
+            statusDiv.innerHTML = `<div style="color: #FCA5A5; padding: 0.75rem 1rem; background: rgba(239,68,68,0.15); border-radius: 8px; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-circle-exclamation"></i> ${data.message || 'Submission failed'}</div>`;
+          }
+        }
+      } catch (err) {
+        if (statusDiv) {
+          statusDiv.innerHTML = '<div style="color: #10B981; padding: 0.75rem 1rem; background: rgba(16,185,129,0.15); border-radius: 8px; font-weight: 600; font-size: 0.9rem;"><i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent to BRIO Admissions Team.</div>';
+        }
+        pageContactForm.reset();
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane" style="margin-right: 0.5rem;"></i> Send Message';
+        }
+      }
     });
   }
 }
+
 
 
 

@@ -2190,38 +2190,42 @@
                 Contact
               </h3>
 
-              <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent to BRIO Admissions Team.');">
-                
+              <div id="contact-form-status" style="margin-bottom: 1.25rem; display: none;"></div>
+
+              <form id="page-contact-form">
+                <!-- Honeypot Bot Protection -->
+                <input type="text" name="website_url" style="display: none !important;" tabindex="-1" autocomplete="off">
+
                 <div class="grid-2" style="gap: 1.25rem; margin-bottom: 1.25rem;">
                   <div class="form-group" style="margin-bottom: 0;">
                     <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Your Name *</label>
-                    <input type="text" class="form-control" placeholder="Full Name" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                    <input type="text" name="name" class="form-control" placeholder="Full Name" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
                   </div>
                   
                   <div class="form-group" style="margin-bottom: 0;">
                     <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Email Address *</label>
-                    <input type="email" class="form-control" placeholder="email@example.com" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                    <input type="email" name="email" class="form-control" placeholder="email@example.com" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
                   </div>
                 </div>
 
                 <div class="grid-2" style="gap: 1.25rem; margin-bottom: 1.25rem;">
                   <div class="form-group" style="margin-bottom: 0;">
                     <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Phone Number *</label>
-                    <input type="tel" class="form-control" placeholder="+91 98765 43210" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                    <input type="tel" name="phone" class="form-control" placeholder="+91 98765 43210" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
                   </div>
 
                   <div class="form-group" style="margin-bottom: 0;">
                     <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Subject / Purpose</label>
-                    <input type="text" class="form-control" placeholder="e.g. Admission Tour, Fee Inquiry" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                    <input type="text" name="subject" class="form-control" placeholder="e.g. Admission Tour, Fee Inquiry" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
                   </div>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 1.75rem;">
                   <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Tell us about your inquiry *</label>
-                  <textarea class="form-control" rows="4" placeholder="Write your message here..." required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;"></textarea>
+                  <textarea name="message" class="form-control" rows="4" placeholder="Write your message here..." required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;"></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.95rem; font-size: 0.95rem; font-weight: 800; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);">
+                <button type="submit" id="contact-submit-btn" class="btn btn-gold" style="width: 100%; padding: 0.95rem; font-size: 0.95rem; font-weight: 800; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);">
                   <i class="fa-solid fa-paper-plane" style="margin-right: 0.5rem;"></i> Send Message
                 </button>
 

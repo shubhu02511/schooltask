@@ -83,6 +83,7 @@ $recentAdmissions = safeFetchRecent($db, "SELECT * FROM admissions ORDER BY id D
       <a href="users.php"><i class="fa-solid fa-users"></i> Users</a>
       <a href="admissions.php"><i class="fa-solid fa-file-pen"></i> Admissions</a>
       <a href="careers.php"><i class="fa-solid fa-briefcase"></i> Careers</a>
+      <a href="enquiries.php"><i class="fa-solid fa-envelope"></i> Enquiries</a>
       <a href="logout.php" style="color: #FCA5A5;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
     </div>
   </header>
