@@ -4,6 +4,7 @@
 -- ==========================================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `vacancies`;
 DROP TABLE IF EXISTS `contacts`;
 DROP TABLE IF EXISTS `careers`;
 DROP TABLE IF EXISTS `admissions`;
@@ -66,3 +67,27 @@ CREATE TABLE `contacts` (
   `message` TEXT NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. VACANCIES TABLE (Job Vacancy Management)
+CREATE TABLE `vacancies` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `job_title` VARCHAR(150) NOT NULL,
+  `position` VARCHAR(100) NOT NULL,
+  `qualification` VARCHAR(150) NOT NULL,
+  `experience` VARCHAR(50) NOT NULL,
+  `location` VARCHAR(100) DEFAULT 'Gujarat & Delhi Campuses',
+  `job_type` VARCHAR(50) DEFAULT 'Full-Time',
+  `description` TEXT DEFAULT NULL,
+  `requirements` TEXT DEFAULT NULL,
+  `slug` VARCHAR(180) NOT NULL UNIQUE,
+  `status` ENUM('published', 'draft') DEFAULT 'published',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Seed Initial Job Openings
+INSERT INTO `vacancies` (`job_title`, `position`, `qualification`, `experience`, `location`, `job_type`, `description`, `requirements`, `slug`, `status`) VALUES
+('PGT Physics & JEE Foundation Lead', 'Senior Secondary Wing', 'M.Sc. Physics & B.Ed', '5+ Years', 'Gujarat & Delhi Campuses', 'Full-Time', 'Lead senior secondary physics classes and JEE Advanced coaching.', 'Master degree in Physics with 5+ years experience.', 'pgt-physics-jee-foundation-lead', 'published'),
+('AI & Robotics STEM Coach', 'STEM & AI Innovation', 'B.Tech / M.Tech (CS / Robotics)', '3+ Years', 'Vadodara, Gujarat Campus', 'Full-Time', 'Guide students in AI modeling, 3D printing, and competitive robotics.', 'Engineering background with hands-on robotics coaching expertise.', 'ai-robotics-stem-coach', 'published'),
+('TGT English & Drama Facilitator', 'Middle School Wing', 'M.A. English & B.Ed', '4+ Years', 'South Delhi, NCR Campus', 'Full-Time', 'Teach middle school English literature, public speaking, and theatrical drama.', 'Degree in English literature with strong communication skills.', 'tgt-english-drama-facilitator', 'published'),
+('Head Aquatics & Swimming Coach', 'Sports Academy', 'NSNIS Diploma in Swimming / International Certification', '5+ Years', 'Vadodara, Gujarat Campus', 'Full-Time', 'Manage Olympic-size swimming pool operations and competitive swim training.', 'Certified swim coach with lifeguard certification.', 'head-aquatics-swimming-coach', 'published');

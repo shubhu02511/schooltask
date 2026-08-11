@@ -1803,9 +1803,9 @@
                   <th style="padding: 1.1rem 1.25rem; text-align: center;">Action</th>
                 </tr>
               </thead>
-              <tbody style="color: #334155;">
+              <tbody id="vacancies-table-body" style="color: #334155;">
                 
-                <!-- Job Row 1 -->
+                <!-- Default Published Vacancy Row 1 -->
                 <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
                   <td style="padding: 1.25rem;">
                     <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">PGT Physics &amp; JEE Foundation Lead</strong>
@@ -1823,7 +1823,7 @@
                   </td>
                 </tr>
 
-                <!-- Job Row 2 -->
+                <!-- Default Published Vacancy Row 2 -->
                 <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
                   <td style="padding: 1.25rem;">
                     <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">AI &amp; Robotics STEM Coach</strong>
@@ -1841,7 +1841,7 @@
                   </td>
                 </tr>
 
-                <!-- Job Row 3 -->
+                <!-- Default Published Vacancy Row 3 -->
                 <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
                   <td style="padding: 1.25rem;">
                     <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">TGT English &amp; Drama Facilitator</strong>
@@ -1859,7 +1859,7 @@
                   </td>
                 </tr>
 
-                <!-- Job Row 4 -->
+                <!-- Default Published Vacancy Row 4 -->
                 <tr style="transition: background 0.2s ease;">
                   <td style="padding: 1.25rem;">
                     <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">Head Aquatics &amp; Swimming Coach</strong>
@@ -1868,14 +1868,65 @@
                   <td style="padding: 1.25rem;">
                     <span class="badge badge-gold" style="font-size: 0.75rem;">Sports Academy</span>
                   </td>
-                  <td style="padding: 1.25rem; font-weight: 500;">Certified NIS Coach</td>
+                  <td style="padding: 1.25rem; font-weight: 500;">NSNIS Diploma in Swimming</td>
                   <td style="padding: 1.25rem; font-weight: 600; color: #0F172A;">5+ Years</td>
                   <td style="padding: 1.25rem; text-align: center;">
-                    <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics Coach" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
+                    <button type="button" class="btn btn-gold career-apply-trigger" data-job="Head Aquatics &amp; Swimming Coach" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
                       <i class="fa-solid fa-paper-plane"></i> Apply Now
                     </button>
                   </td>
                 </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <script>
+        (function() {
+          async function loadVacanciesFromDB() {
+            try {
+              const res = await fetch('/backend/api/vacancies.php');
+              const data = await res.json();
+              if (data.success && Array.isArray(data.vacancies) && data.vacancies.length > 0) {
+                const tbody = document.getElementById('vacancies-table-body');
+                if (!tbody) return;
+                
+                const badges = ['badge-gold', 'badge-navy', 'badge-emerald'];
+                let html = '';
+
+                data.vacancies.forEach((v, index) => {
+                  const badgeClass = badges[index % badges.length];
+                  html += `
+                    <tr style="border-bottom: 1px solid #E2E8F0; transition: background 0.2s ease;">
+                      <td style="padding: 1.25rem;">
+                        <strong style="color: #0F172A; font-size: 1rem; font-family: 'Outfit', sans-serif; display: block;">${v.job_title}</strong>
+                        <span style="font-size: 0.78rem; color: #64748B;"><i class="fa-solid fa-location-dot text-gold"></i> ${v.location || 'Gujarat & Delhi Campuses'}</span>
+                      </td>
+                      <td style="padding: 1.25rem;">
+                        <span class="badge ${badgeClass}" style="font-size: 0.75rem;">${v.position || 'Faculty Educator'}</span>
+                      </td>
+                      <td style="padding: 1.25rem; font-weight: 500;">${v.qualification || ''}</td>
+                      <td style="padding: 1.25rem; font-weight: 600; color: #0F172A;">${v.experience || ''}</td>
+                      <td style="padding: 1.25rem; text-align: center;">
+                        <button type="button" class="btn btn-gold career-apply-trigger" data-job="${v.job_title}" onclick="document.getElementById('page-career-job-title').value='${v.job_title}'; document.getElementById('career-form-section').scrollIntoView({behavior:'smooth'});" style="font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 20px; font-weight: 700;">
+                          <i class="fa-solid fa-paper-plane"></i> Apply Now
+                        </button>
+                      </td>
+                    </tr>
+                  `;
+                });
+                tbody.innerHTML = html;
+              }
+            } catch (err) {}
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadVacanciesFromDB);
+          } else {
+            loadVacanciesFromDB();
+          }
+        })();
+        </script>
 
               </tbody>
             </table>
