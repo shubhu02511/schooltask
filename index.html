@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=69000.0">
+  <link rel="stylesheet" href="styles.css?v=70000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -279,6 +279,51 @@
             var modal = document.getElementById('application-form-modal');
             if (modal) modal.classList.add('active');
           };
+
+          // News & Events Category Filters & Search Logic
+          document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.news-filter-btn');
+            if (btn) {
+              var cat = btn.getAttribute('data-category');
+              var chips = document.querySelectorAll('.news-filter-btn');
+              chips.forEach(function(c) {
+                c.classList.remove('active');
+                c.style.background = 'rgba(255,255,255,0.1)';
+                c.style.color = 'white';
+                c.style.border = '1px solid rgba(255,255,255,0.15)';
+              });
+              btn.classList.add('active');
+              btn.style.background = '#F59E0B';
+              btn.style.color = '#0F172A';
+              btn.style.border = 'none';
+
+              var stories = document.querySelectorAll('.news-story-card');
+              stories.forEach(function(card) {
+                var cardCat = card.getAttribute('data-category');
+                if (cat === 'all' || cardCat === cat) {
+                  card.style.display = '';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            }
+          });
+
+          var newsSearchInput = document.getElementById('news-search-input');
+          if (newsSearchInput) {
+            newsSearchInput.addEventListener('input', function() {
+              var q = this.value.toLowerCase().trim();
+              var stories = document.querySelectorAll('.news-story-card');
+              stories.forEach(function(card) {
+                var text = card.innerText.toLowerCase();
+                if (!q || text.indexOf(q) !== -1) {
+                  card.style.display = '';
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+            });
+          }
 
           // Application Form Modal Wizard Logic
           var mStep = 1;
@@ -1512,197 +1557,203 @@
     </section>
   </main>
 
-  <!-- PAGE 7: EVENTS (Redesigned with Editorial Reference Style) -->
+  <!-- PAGE 7: NEWS & EVENTS (Redesigned with Editorial Reference Style) -->
   <main id="events" class="page-view">
     
-    <!-- 1. Large "NEWS" Style Hero Banner -->
-    <div style="background: #F59E0B; padding: 4.5rem 0 5rem; position: relative; overflow: hidden; border-bottom: 3px solid #D97706;">
+    <!-- 1. Editorial Header & Search / Filter Bar -->
+    <section style="background: #0F172A; color: white; padding: 4rem 0 3.5rem; position: relative; border-bottom: 3px solid #F59E0B;">
       <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem;">
-          
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.5rem;">
           <div>
-            <span style="font-size: 0.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #0F172A; display: block; margin-bottom: 0.5rem;">
-              <i class="fa-solid fa-newspaper"></i> CAMPUS HAPPENINGS
-            </span>
-            <h1 style="font-size: 5.5rem; font-weight: 900; color: #0F172A; line-height: 0.95; letter-spacing: -2.5px; margin: 0; font-family: 'Outfit', sans-serif; text-transform: lowercase;">
-              news &amp; events
+            <span class="badge badge-gold" style="margin-bottom: 0.75rem; letter-spacing: 2px;"><i class="fa-solid fa-newspaper"></i> CAMPUS HAPPENINGS &amp; MEDIA</span>
+            <h1 style="font-size: 4rem; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; margin: 0; font-family: 'Outfit', sans-serif;">
+              News &amp; Events
             </h1>
           </div>
-
-          <div style="max-width: 420px;">
-            <h3 style="font-size: 1.25rem; font-weight: 800; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">
-              Campus Announcements &amp; Media Highlights
-            </h3>
-            <p style="font-size: 0.95rem; color: #1E293B; line-height: 1.6; margin: 0; font-weight: 500;">
-              Providing the latest official circulars, academic handbooks, sports trials, and student achievements from BRIO World School.
+          
+          <div style="max-width: 450px; width: 100%;">
+            <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin: 0 0 1rem 0;">
+              Official announcements, academic circulars, STEM expos, athletic tournaments, and campus highlights from BRIO World School.
             </p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. Highlights Strip -->
-    <section class="bg-navy" style="padding: 2rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
-      <div class="container">
-        <div class="grid-4" style="text-align: center; gap: 1.5rem;">
-          <div>
-            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Weekly</div>
-            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Official Circulars</div>
-          </div>
-          <div>
-            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">2026-27</div>
-            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Academic Calendar</div>
-          </div>
-          <div>
-            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Live</div>
-            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Parent Portal Updates</div>
-          </div>
-          <div>
-            <div style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">100+</div>
-            <div style="color: #94A3B8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">Annual Campus Events</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Editorial Featured Content: Circulars Section -->
-    <section class="section-padding bg-light" style="padding: 3.5rem 0;">
-      <div class="container" style="max-width: 900px; margin: 0 auto;">
-        
-        <!-- Official Circulars -->
-        <div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border-light);">
-            <h3 style="font-size: 1.5rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
-              <i class="fa-solid fa-bullhorn text-gold" style="margin-right: 0.5rem;"></i> Official School Circulars
-            </h3>
-            <span class="badge badge-gold" style="font-size: 0.7rem;">Session 2026-27</span>
-          </div>
-          
-          <div style="display: flex; flex-direction: column; gap: 1.25rem;">
             
-            <!-- Circular 1 -->
-            <div style="background: white; border-radius: 14px; padding: 1.5rem; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
-              <span class="badge badge-gold" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/08</span>
-              <h4 style="font-size: 1.15rem; color: var(--primary-navy); margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Schedule for Term 1 Mid-Year Examinations</h4>
-              <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> August 02, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> Grades 6 to 12</p>
+            <!-- Search Option Box -->
+            <div style="position: relative;">
+              <input type="text" id="news-search-input" placeholder="Search news, circulars, or events..." style="width: 100%; padding: 0.8rem 1.2rem 0.8rem 2.8rem; border-radius: 30px; border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: white; font-size: 0.9rem; outline: none; transition: all 0.3s ease;">
+              <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); color: #F59E0B; font-size: 0.95rem;"></i>
             </div>
+          </div>
+        </div>
 
-            <!-- Circular 2 -->
-            <div style="background: white; border-radius: 14px; padding: 1.5rem; border: 1.5px solid var(--border-light); box-shadow: 0 4px 15px rgba(15,23,42,0.05);">
-              <span class="badge badge-navy" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/07</span>
-              <h4 style="font-size: 1.15rem; color: var(--primary-navy); margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Inter-House Cultural Fest &amp; Science Exhibition Registration</h4>
-              <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> July 28, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> All Wings</p>
+        <!-- Topic & Category Filters Bar -->
+        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);" id="news-filter-chips">
+          <button class="btn news-filter-btn active" data-category="all" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: #F59E0B; color: #0F172A; border: none;">All Stories</button>
+          <button class="btn news-filter-btn" data-category="circulars" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Official Circulars</button>
+          <button class="btn news-filter-btn" data-category="stem" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">STEM &amp; Innovation</button>
+          <button class="btn news-filter-btn" data-category="sports" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Sports &amp; Athletics</button>
+          <button class="btn news-filter-btn" data-category="arts" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Arts &amp; Culture</button>
+          <button class="btn news-filter-btn" data-category="space" style="padding: 0.45rem 1rem; font-size: 0.82rem; border-radius: 20px; font-weight: 700; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15);">Space &amp; Astronomy</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. Featured / Latest Story at the Top -->
+    <section class="section-padding" style="padding: 3.5rem 0 2rem; background: #FFFFFF;">
+      <div class="container">
+        <span class="badge badge-gold" style="margin-bottom: 1rem;"><i class="fa-solid fa-star"></i> FEATURED STORY</span>
+        
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); gap: 2.5rem; background: #F8FAFC; border-radius: 20px; overflow: hidden; border: 1.5px solid #E2E8F0; box-shadow: 0 10px 30px rgba(15,23,42,0.06);" class="news-story-card" data-category="stem">
+          <div style="grid-column: span 7; min-height: 380px; position: relative;">
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80" alt="National AI &amp; Robotics Hackathon" style="width: 100%; height: 100%; object-fit: cover;">
+            <span class="badge badge-gold" style="position: absolute; top: 15px; left: 15px; font-size: 0.8rem; font-weight: 800;">August 12, 2026</span>
+          </div>
+
+          <div style="grid-column: span 5; padding: 2.5rem 2rem 2.5rem 0; display: flex; flex-direction: column; justify-content: center;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: #F59E0B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">STEM &amp; INNOVATION</span>
+            <h2 style="font-size: 2.2rem; font-weight: 900; color: #0F172A; line-height: 1.25; margin-bottom: 1rem; font-family: 'Outfit', sans-serif;">
+              National AI &amp; Robotics Hackathon 2026
+            </h2>
+            <p style="color: #475569; font-size: 0.98rem; line-height: 1.65; margin-bottom: 1.75rem;">
+              Grades 6 to 12 showcased over 45+ IoT, automation, and artificial intelligence prototype projects to industry mentors, demonstrating world-class problem solving and scientific ingenuity.
+            </p>
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; color: #0F172A; font-size: 0.9rem;">
+              <span>Read Full Report</span> <i class="fa-solid fa-arrow-right text-gold"></i>
             </div>
-
           </div>
         </div>
 
       </div>
     </section>
 
-      </div>
-    </section>
-
-    <!-- 4. Editorial Campus Event Gallery (Matching Reference Card Layout) -->
-    <section class="section-padding" style="padding: 4rem 0; background: white;">
+    <!-- 3. Official Circulars Strip -->
+    <section class="section-padding" style="padding: 2rem 0; background: #FFFFFF;">
       <div class="container">
         
-        <div class="section-header text-center" style="margin-bottom: 3rem;">
-          <span class="badge badge-emerald"><i class="fa-solid fa-camera"></i> MEDIA HIGHLIGHTS</span>
-          <h2 style="font-size: 2.3rem; color: #0F172A; margin-top: 0.5rem; font-family: 'Outfit', sans-serif;">Recent Campus Event Gallery</h2>
-          <p style="color: #475569; max-width: 700px; margin: 0.5rem auto 0;">Editorial snapshots of student achievements, inter-school tournaments, tech expos, and cultural galas.</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #E2E8F0;">
+          <h3 style="font-size: 1.5rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
+            <i class="fa-solid fa-bullhorn text-gold" style="margin-right: 0.5rem;"></i> Official School Circulars
+          </h3>
+          <span class="badge badge-gold" style="font-size: 0.75rem;">Session 2026-27</span>
         </div>
 
-        <div class="grid-3" style="gap: 2rem;">
-          
-          <!-- Event 1: Tech Hackathon -->
-          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
-            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
-              <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Tech Hackathon" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
-              <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">August 12, 2026</span>
-            </div>
-            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
-              <div>
-                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">National AI &amp; Robotics Hackathon</h4>
-                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Grades 6 to 12 showcased 45+ IoT and AI prototype projects to industry mentors.</p>
-              </div>
-              <span style="font-size: 0.82rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.5px;">STEM &amp; Innovation &rarr;</span>
-            </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+          <div class="news-story-card" data-category="circulars" style="background: #F8FAFC; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <span class="badge badge-gold" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/08</span>
+            <h4 style="font-size: 1.15rem; color: #0F172A; margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Schedule for Term 1 Mid-Year Examinations</h4>
+            <p style="color: #64748B; font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> August 02, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> Grades 6 to 12</p>
           </div>
 
-          <!-- Event 2: Sports Meet -->
-          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
-            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
-              <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80" alt="Sports Meet" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+          <div class="news-story-card" data-category="circulars" style="background: #F8FAFC; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #E2E8F0; box-shadow: 0 4px 15px rgba(15,23,42,0.04);">
+            <span class="badge badge-navy" style="margin-bottom: 0.5rem; display: inline-block;">Circular #2026/07</span>
+            <h4 style="font-size: 1.15rem; color: #0F172A; margin: 0.25rem 0 0.4rem; font-family: 'Outfit', sans-serif;">Inter-House Cultural Fest &amp; Science Exhibition Registration</h4>
+            <p style="color: #64748B; font-size: 0.88rem; margin: 0;"><strong>Date Posted:</strong> July 28, 2026 &nbsp;|&nbsp; <strong>Applies To:</strong> All Wings</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. More News & Articles Grid -->
+    <section class="section-padding" style="padding: 2.5rem 0 5rem; background: #FFFFFF;">
+      <div class="container">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 0.75rem; border-bottom: 2px solid #E2E8F0;">
+          <h3 style="font-size: 1.6rem; color: #0F172A; font-family: 'Outfit', sans-serif; margin: 0;">
+            More News &amp; Campus Highlights
+          </h3>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #64748B;">Showing All Stories</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;" id="more-news-grid">
+          
+          <!-- Article 1: Sports Meet -->
+          <div class="news-story-card" data-category="sports" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80" alt="Sports Meet" style="width: 100%; height: 100%; object-fit: cover;">
               <span class="badge badge-navy" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">July 25, 2026</span>
             </div>
             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
               <div>
-                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Inter-School Athletics &amp; Aquatics Meet</h4>
-                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Over 500 athletes competed in track events, 50m swimming trials, and football finals.</p>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">SPORTS &amp; ATHLETICS</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Inter-School Athletics &amp; Aquatics Meet</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Over 500 athletes competed in track events, 50m swimming trials, and football finals across campuses.</p>
               </div>
-              <span style="font-size: 0.82rem; font-weight: 700; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">Sports &amp; Athletics &rarr;</span>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
             </div>
           </div>
 
-          <!-- Event 3: Cultural Fest -->
-          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
-            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
-              <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="Cultural Fest" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+          <!-- Article 2: Cultural Fest -->
+          <div class="news-story-card" data-category="arts" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80" alt="Cultural Fest" style="width: 100%; height: 100%; object-fit: cover;">
               <span class="badge badge-emerald" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">July 18, 2026</span>
             </div>
             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
               <div>
-                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Annual Cultural Fest &amp; Musical Gala</h4>
-                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.</p>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">ARTS &amp; CULTURE</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Annual Cultural Fest &amp; Musical Gala</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.</p>
               </div>
-              <span style="font-size: 0.82rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Arts &amp; Culture &rarr;</span>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
             </div>
           </div>
 
-          <!-- Event 4: Science Fair -->
-          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
-            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
-              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80" alt="Science Expo" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+          <!-- Article 3: Science Fair -->
+          <div class="news-story-card" data-category="stem" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80" alt="Science Expo" style="width: 100%; height: 100%; object-fit: cover;">
               <span class="badge badge-gold" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">June 30, 2026</span>
             </div>
             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
               <div>
-                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Young Innovators Science Expo</h4>
-                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Primary &amp; Middle wing students presented renewable energy and eco-sustainability models.</p>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #D97706; text-transform: uppercase; letter-spacing: 0.5px;">STEM &amp; INNOVATION</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Young Innovators Science Expo</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Primary &amp; Middle wing students presented renewable energy and eco-sustainability models.</p>
               </div>
-              <span style="font-size: 0.82rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 0.5px;">Science &amp; Eco Expo &rarr;</span>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
             </div>
           </div>
 
-          <!-- Event 5: Stargazing Camp -->
-          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
-            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
-              <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80" alt="Stargazing Camp" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+          <!-- Article 4: Stargazing Camp -->
+          <div class="news-story-card" data-category="space" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80" alt="Stargazing Camp" style="width: 100%; height: 100%; object-fit: cover;">
               <span class="badge badge-navy" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">May 14, 2026</span>
             </div>
             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
               <div>
-                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">NASA Stargazing &amp; Astronomy Camp</h4>
-                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Overnight celestial observation using optical computerized telescopes.</p>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">SPACE &amp; ASTRONOMY</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">NASA Stargazing &amp; Astronomy Camp</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Overnight celestial observation using optical computerized telescopes with astrophysics guides.</p>
               </div>
-              <span style="font-size: 0.82rem; font-weight: 700; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">Space &amp; Astronomy &rarr;</span>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
             </div>
           </div>
 
-          <!-- Event 6: Fine Arts Gala -->
-          <div class="photo-gallery-item" style="aspect-ratio: auto; height: 100%; border-radius: 16px; border: 1.5px solid var(--border-light); background: white; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.06); display: flex; flex-direction: column;">
-            <div style="height: 220px; width: 100%; overflow: hidden; position: relative;">
-              <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Art Exhibition" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;">
+          <!-- Article 5: Fine Arts Gala -->
+          <div class="news-story-card" data-category="arts" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+            <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+              <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Art Exhibition" style="width: 100%; height: 100%; object-fit: cover;">
               <span class="badge badge-emerald" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">April 22, 2026</span>
             </div>
             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
               <div>
-                <h4 style="font-size: 1.2rem; color: #0F172A; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Fine Arts &amp; Clay Sculpting Expo</h4>
-                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1rem;">Canvas paintings, pottery masterpieces, and digital art created by student artists.</p>
+                <span style="font-size: 0.75rem; font-weight: 800; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">FINE ARTS &amp; DESIGN</span>
+                <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">Fine Arts &amp; Clay Sculpting Expo</h4>
+                <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">Canvas paintings, pottery masterpieces, and digital art created by student artists.</p>
               </div>
-              <span style="font-size: 0.82rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Fine Arts &amp; Design &rarr;</span>
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+              </div>
             </div>
           </div>
 
@@ -2781,7 +2832,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=69000.0"></script>
+  <script src="app.js?v=70000.0"></script>
 </body>
 </html>
 
