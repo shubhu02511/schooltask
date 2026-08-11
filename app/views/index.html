@@ -1759,6 +1759,53 @@
 
         </div>
 
+        <script>
+        (function() {
+          async function loadNewsFromDB() {
+            try {
+              const res = await fetch('/backend/api/news.php');
+              const data = await res.json();
+              if (data.success && Array.isArray(data.news) && data.news.length > 0) {
+                const grid = document.getElementById('more-news-grid');
+                if (!grid) return;
+
+                const badges = ['badge-navy', 'badge-emerald', 'badge-gold'];
+                let html = '';
+
+                data.news.forEach((n, index) => {
+                  const badgeClass = badges[index % badges.length];
+                  const formattedDate = new Date(n.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                  html += `
+                    <div class="news-story-card" style="background: white; border-radius: 16px; border: 1.5px solid #E2E8F0; overflow: hidden; box-shadow: 0 6px 20px rgba(15,23,42,0.05); display: flex; flex-direction: column; transition: transform 0.3s ease;">
+                      <div style="height: 210px; width: 100%; overflow: hidden; position: relative;">
+                        <img src="${n.image_path || 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80'}" alt="${n.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                        <span class="badge ${badgeClass}" style="position: absolute; top: 12px; left: 12px; font-weight: 800;">${formattedDate}</span>
+                      </div>
+                      <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+                        <div>
+                          <span style="font-size: 0.75rem; font-weight: 800; color: #2563EB; text-transform: uppercase; letter-spacing: 0.5px;">${n.category || 'GENERAL'}</span>
+                          <h4 style="font-size: 1.18rem; color: #0F172A; margin: 0.35rem 0 0.5rem; font-family: 'Outfit', sans-serif;">${n.title}</h4>
+                          <p style="font-size: 0.88rem; color: #64748B; line-height: 1.6; margin-bottom: 1.25rem;">${n.description}</p>
+                        </div>
+                        <div style="font-size: 0.82rem; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+                          <span>Read Story</span> <i class="fa-solid fa-arrow-right text-gold"></i>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                });
+                grid.innerHTML = html;
+              }
+            } catch (err) {}
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadNewsFromDB);
+          } else {
+            loadNewsFromDB();
+          }
+        })();
+        </script>
+
       </div>
     </section>
 

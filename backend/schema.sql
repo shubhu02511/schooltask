@@ -4,6 +4,7 @@
 -- ==========================================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `news_events`;
 DROP TABLE IF EXISTS `vacancies`;
 DROP TABLE IF EXISTS `contacts`;
 DROP TABLE IF EXISTS `careers`;
@@ -91,3 +92,25 @@ INSERT INTO `vacancies` (`job_title`, `position`, `qualification`, `experience`,
 ('AI & Robotics STEM Coach', 'STEM & AI Innovation', 'B.Tech / M.Tech (CS / Robotics)', '3+ Years', 'Vadodara, Gujarat Campus', 'Full-Time', 'Guide students in AI modeling, 3D printing, and competitive robotics.', 'Engineering background with hands-on robotics coaching expertise.', 'ai-robotics-stem-coach', 'published'),
 ('TGT English & Drama Facilitator', 'Middle School Wing', 'M.A. English & B.Ed', '4+ Years', 'South Delhi, NCR Campus', 'Full-Time', 'Teach middle school English literature, public speaking, and theatrical drama.', 'Degree in English literature with strong communication skills.', 'tgt-english-drama-facilitator', 'published'),
 ('Head Aquatics & Swimming Coach', 'Sports Academy', 'NSNIS Diploma in Swimming / International Certification', '5+ Years', 'Vadodara, Gujarat Campus', 'Full-Time', 'Manage Olympic-size swimming pool operations and competitive swim training.', 'Certified swim coach with lifeguard certification.', 'head-aquatics-swimming-coach', 'published');
+
+-- 6. NEWS & EVENTS TABLE (News & Events Management)
+CREATE TABLE `news_events` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(200) NOT NULL,
+  `description` TEXT NOT NULL,
+  `category` VARCHAR(50) DEFAULT 'General',
+  `event_date` DATE NOT NULL,
+  `image_path` VARCHAR(255) DEFAULT NULL,
+  `status` ENUM('published', 'draft') DEFAULT 'published',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Seed Initial News & Events
+INSERT INTO `news_events` (`title`, `description`, `category`, `event_date`, `image_path`, `status`) VALUES
+('National Science & Robotics Expo 2026', 'Over 50 innovative student projects featured in our annual STEM exhibition.', 'STEM & Innovation', '2026-08-12', 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80', 'published'),
+('B-SAT Scholarship Entrance Test Announced', 'Registration opens for Pre-K to Grade 11 scholarship entrance test for 2026-27.', 'Admissions', '2026-09-01', 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80', 'published'),
+('Inter-School Athletics & Aquatics Meet', 'Over 500 athletes competed in track events, 50m swimming trials, and football finals.', 'Sports & Athletics', '2026-07-25', 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80', 'published'),
+('Annual Cultural Fest & Musical Gala', 'Classical orchestra, theatrical drama plays, and choir performances in the grand auditorium.', 'Arts & Culture', '2026-07-18', 'https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80', 'published'),
+('NASA Stargazing & Astronomy Camp', 'Overnight celestial observation using optical computerized telescopes with astrophysics guides.', 'Space & Astronomy', '2026-05-14', 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80', 'published'),
+('Fine Arts & Clay Sculpting Expo', 'Canvas paintings, pottery masterpieces, and digital art created by student artists.', 'Fine Arts & Design', '2026-04-22', 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80', 'published');
