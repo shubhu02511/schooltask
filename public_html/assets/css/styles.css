@@ -2271,12 +2271,34 @@ img {
   .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr !important; }
   .hero-stats-row { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
   .stat-num { font-size: 1.8rem !important; }
-  .section-padding { padding: 3rem 0 !important; }
+  .section-padding { padding: 2.5rem 0 !important; }
   .section-header h2 { font-size: 1.75rem !important; }
   .section-header p { font-size: 0.9rem !important; }
 
-  /* Page-Specific Grid Responsiveness */
-  #home-about > div > div { grid-column: span 12 !important; }
+  /* Universal Inline Grid Mobile Stack Overrides (Fixing all inline grid-template-columns & grid-column) */
+  div[style*="display: grid"],
+  section[style*="display: grid"],
+  main[style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  div[style*="grid-column: span"],
+  div[style*="grid-column:span"] {
+    grid-column: span 12 / span 12 !important;
+    width: 100% !important;
+  }
+
+  /* Specific Section Overrides for Clean Stacking */
+  #home-about div[style*="repeat(12"],
+  #about div[style*="repeat(12"],
+  #contact div[style*="repeat(12"],
+  #careers div[style*="repeat(12"],
+  #events div[style*="repeat(12"],
+  #facilities div[style*="repeat(12"] {
+    grid-template-columns: 1fr !important;
+  }
+
   .ref-about-hero-grid > div { grid-column: span 12 !important; }
   .ref-about-stats { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
   .ref-about-block-grid > div { grid-column: span 12 !important; }
@@ -2285,6 +2307,21 @@ img {
   #more-news-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1.25rem !important; }
   #events .news-story-card { grid-template-columns: 1fr !important; }
   #events .news-story-card > div { grid-column: span 12 !important; padding: 1.5rem 1rem !important; }
+
+  /* Responsive Heights & Images for Mobile */
+  div[style*="height: 340px"],
+  div[style*="height:340px"],
+  div[style*="height: 300px"],
+  div[style*="height:300px"] {
+    height: 230px !important;
+  }
+
+  /* Flex Header/Header controls stacking */
+  div[style*="display: flex"][style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1.25rem !important;
+  }
 
   /* Table & Form Horizontal Overflow Fix */
   table, .vacancy-table {
@@ -2321,20 +2358,21 @@ img {
   .admin-remote-trigger { bottom: 1.25rem; left: 1rem; padding: 0.5rem 0.85rem; font-size: 0.78rem; }
   .brio-bot-trigger { bottom: 1.25rem !important; right: 1.25rem !important; width: 52px !important; height: 52px !important; font-size: 1.4rem !important; z-index: 99999 !important; }
 
-  /* Floating Vertical Admission Sidebar Tab */
+  /* Floating Apply 2026-27 Tab Docks Gracefully on Mobile */
   .admission-sidebar-tab {
     position: fixed !important;
-    top: 50% !important;
-    right: 0.3rem !important;
+    top: auto !important;
+    bottom: 5.5rem !important;
+    right: 0.5rem !important;
     left: auto !important;
-    transform: translateY(-50%) !important;
-    writing-mode: vertical-rl !important;
+    transform: none !important;
+    writing-mode: horizontal-tb !important;
     text-orientation: mixed !important;
-    z-index: 99998 !important;
-    padding: 0.85rem 0.4rem !important;
-    font-size: 0.68rem !important;
-    border-radius: 12px !important;
-    touch-action: manipulation !important;
+    padding: 0.5rem 0.9rem !important;
+    font-size: 0.75rem !important;
+    border-radius: 30px !important;
+    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45) !important;
+    z-index: 9998 !important;
   }
 
   /* Modals Master Mobile Responsiveness */
@@ -2359,5 +2397,5 @@ img {
   .ref-about-stats { grid-template-columns: 1fr !important; }
   .pyramid-base-grid { grid-template-columns: 1fr !important; }
   #more-news-grid { grid-template-columns: 1fr !important; }
-  .admission-sidebar-tab { padding: 0.75rem 0.35rem !important; font-size: 0.65rem !important; right: 0.2rem !important; }
 }
+
