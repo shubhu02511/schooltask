@@ -1,15 +1,15 @@
 <?php
 // ==========================================================================
-// BRIO WORLD SCHOOL - Core PDO MySQL Database Connector
-// Uses PDO Prepared Statements for SQL Injection Protection
+// BRIO WORLD SCHOOL - Core Database Connector
+// Compatible with PHP 7.0 - 8.3 & PDO MySQL
 // ==========================================================================
 
 require_once __DIR__ . '/config.php';
 
 class Database {
-    private static ?PDO $instance = null;
+    private static $instance = null;
 
-    public static function getConnection(): PDO {
+    public static function getConnection() {
         if (self::$instance === null) {
             try {
                 $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
@@ -19,17 +19,24 @@ class Database {
                     PDO::ATTR_EMULATE_PREPARES   => false,
                 ];
                 self::$instance = new PDO($dsn, DB_USER, DB_PASS, $options);
-            } catch (PDOException $e) {
-                // If MySQL connection fails (e.g. before DB is created), fallback to JsonDBWrapper
-                require_once __DIR__ . '/../../app/config/db.php';
-                return getDB();
+            } catch (Exception $e) {
+                // Fallback to JsonDBWrapper if MySQL DB is not created on cPanel yet
+                $jsonDbFile = __DIR__ . '/../../app/config/db.php';
+                if (!file_exists($jsonDbFile)) {
+                    $jsonDbFile = __DIR__ . '/../../../app/config/db.php';
+                }
+                if (file_exists($jsonDbFile)) {
+                    require_once $jsonDbFile;
+                    if (function_exists('getDB')) {
+                        self::$instance = getDB();
+                    }
+                }
             }
         }
         return self::$instance;
     }
 }
 
-// Global Helper function to retrieve DB instance
 if (!function_exists('getCoreDB')) {
     function getCoreDB() {
         return Database::getConnection();
