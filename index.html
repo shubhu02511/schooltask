@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=56000.0">
+  <link rel="stylesheet" href="styles.css?v=57000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -271,6 +271,94 @@
                 var val = chatInput.value.trim();
                 if (val) { sendBotMessage(val); chatInput.value = ''; }
               }
+            });
+          }
+
+          // Open Application Form Modal
+          window.openApplyModal = function() {
+            var modal = document.getElementById('application-form-modal');
+            if (modal) modal.classList.add('active');
+          };
+
+          // Application Form Modal Wizard Logic
+          var mStep = 1;
+          var mNextBtn = document.getElementById('mwizard-next-btn');
+          var mPrevBtn = document.getElementById('mwizard-prev-btn');
+          var mSubmitBtn = document.getElementById('mwizard-submit-btn');
+
+          function updateMStep(step) {
+            mStep = step;
+            for (var i = 1; i <= 4; i++) {
+              var sElem = document.getElementById('mstep-' + i);
+              if (sElem) sElem.style.display = (i === step) ? 'block' : 'none';
+            }
+            var sItems = document.querySelectorAll('#application-form-modal .wizard-steps .step-item');
+            sItems.forEach(function(item, idx) {
+              if (idx + 1 === step) item.classList.add('active');
+              else item.classList.remove('active');
+            });
+            if (mPrevBtn) mPrevBtn.style.display = (step > 1) ? 'inline-block' : 'none';
+            if (mNextBtn) mNextBtn.style.display = (step < 4) ? 'inline-block' : 'none';
+            if (mSubmitBtn) mSubmitBtn.style.display = (step === 4) ? 'inline-block' : 'none';
+          }
+
+          if (mNextBtn) {
+            mNextBtn.addEventListener('click', function() {
+              if (mStep === 1) {
+                var sName = document.getElementById('madm-student-name');
+                var sGrade = document.getElementById('madm-apply-grade');
+                var sDob = document.getElementById('madm-dob');
+                if (!sName.value || !sGrade.value || !sDob.value) {
+                  alert('Please complete all required fields in Step 1.');
+                  return;
+                }
+              } else if (mStep === 2) {
+                var pName = document.getElementById('madm-parent-name');
+                var pPhone = document.getElementById('madm-parent-phone');
+                var pEmail = document.getElementById('madm-parent-email');
+                if (!pName.value || !pPhone.value || !pEmail.value) {
+                  alert('Please complete all required contact fields in Step 2.');
+                  return;
+                }
+              }
+              if (mStep < 4) updateMStep(mStep + 1);
+            });
+          }
+
+          if (mPrevBtn) {
+            mPrevBtn.addEventListener('click', function() {
+              if (mStep > 1) updateMStep(mStep - 1);
+            });
+          }
+
+          var mForm = document.getElementById('modal-admission-application-form');
+          if (mForm) {
+            mForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              var terms = document.getElementById('madm-terms');
+              if (terms && !terms.checked) {
+                alert('Please accept the terms and conditions.');
+                return;
+              }
+              var stName = document.getElementById('madm-student-name').value || 'Applicant';
+              var stGrade = document.getElementById('madm-apply-grade').value || 'Grade 1';
+              var refCode = 'BRIO-2026-' + Math.floor(100000 + Math.random() * 900000);
+
+              var refElem = document.getElementById('modal-ref-no');
+              var nameElem = document.getElementById('modal-student-name');
+              var gradeElem = document.getElementById('modal-applied-grade');
+              if (refElem) refElem.innerText = refCode;
+              if (nameElem) nameElem.innerText = stName;
+              if (gradeElem) gradeElem.innerText = stGrade;
+
+              var appM = document.getElementById('application-form-modal');
+              if (appM) appM.classList.remove('active');
+
+              var succM = document.getElementById('admission-modal-success');
+              if (succM) succM.classList.add('active');
+
+              mForm.reset();
+              updateMStep(1);
             });
           }
 
@@ -1827,10 +1915,154 @@
   </footer>
 
   <!-- Floating Admission Sidebar Dock -->
-  <a href="#admissions" id="sidebar-apply-btn" class="admission-sidebar-tab router-link" title="Apply for Admission 2026-27">
+  <a href="javascript:void(0)" id="sidebar-apply-btn" class="admission-sidebar-tab" title="Apply for Admission 2026-27" onclick="window.openApplyModal(); return false;">
     <i class="fa-solid fa-file-pen" id="sidebar-apply-icon"></i>
     <span id="sidebar-apply-btn-text">Apply 2026-27</span>
   </a>
+
+  <!-- Dedicated Application Form 2026-27 Modal -->
+  <div id="application-form-modal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 800px; max-height: calc(100vh - 2.5rem); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 2rem;">
+      <button type="button" class="modal-close-btn modal-close-trigger" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-light); padding-right: 2.5rem;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+          <i class="fa-solid fa-file-pen"></i>
+        </div>
+        <div>
+          <span class="badge badge-gold" style="font-size: 0.7rem; font-weight: 800;">SESSION 2026-27</span>
+          <h3 style="font-size: 1.4rem; color: var(--primary-navy); margin: 0.15rem 0 0 0; font-family: 'Outfit', sans-serif;">Online Admission Application Form</h3>
+        </div>
+      </div>
+
+      <!-- Multi-step Wizard Container -->
+      <div class="wizard-steps" style="margin-bottom: 1.5rem;">
+        <div class="step-item active" data-step="1">
+          <div class="step-circle">1</div>
+          <div class="step-title">Student Info</div>
+        </div>
+        <div class="step-item" data-step="2">
+          <div class="step-circle">2</div>
+          <div class="step-title">Parent Contact</div>
+        </div>
+        <div class="step-item" data-step="3">
+          <div class="step-circle">3</div>
+          <div class="step-title">Academic Record</div>
+        </div>
+        <div class="step-item" data-step="4">
+          <div class="step-circle">4</div>
+          <div class="step-title">Submit</div>
+        </div>
+      </div>
+
+      <form id="modal-admission-application-form">
+        <!-- Step 1 Content -->
+        <div class="wizard-content-step active-step" id="mstep-1">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 1: Student Information</h4>
+          <div class="grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label for="madm-student-name">Student Full Name *</label>
+              <input type="text" id="madm-student-name" class="form-control" placeholder="e.g. Aarav Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-apply-grade">Applying For Grade *</label>
+              <select id="madm-apply-grade" class="form-control" required>
+                <option value="">-- Select Grade --</option>
+                <option value="Nursery">Nursery / Playgroup</option>
+                <option value="Grade 1">Grade 1</option>
+                <option value="Grade 5">Grade 5</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 11 Science">Grade 11 (Science Stream)</option>
+                <option value="Grade 11 Commerce">Grade 11 (Commerce Stream)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="madm-dob">Date of Birth *</label>
+              <input type="date" id="madm-dob" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-gender">Gender *</label>
+              <select id="madm-gender" class="form-control" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 Content -->
+        <div class="wizard-content-step" id="mstep-2" style="display: none;">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 2: Parent / Guardian Details</h4>
+          <div class="grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label for="madm-parent-name">Father / Mother / Guardian Name *</label>
+              <input type="text" id="madm-parent-name" class="form-control" placeholder="e.g. Vikram Sharma" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-parent-phone">Contact Mobile Number *</label>
+              <input type="tel" id="madm-parent-phone" class="form-control" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-parent-email">Email Address *</label>
+              <input type="email" id="madm-parent-email" class="form-control" placeholder="parent@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="madm-city">City & State *</label>
+              <input type="text" id="madm-city" class="form-control" placeholder="e.g. Vadodara, Gujarat" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 Content -->
+        <div class="wizard-content-step" id="mstep-3" style="display: none;">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 3: Previous Schooling & Documents</h4>
+          <div class="grid-2" style="gap: 1rem;">
+            <div class="form-group">
+              <label for="madm-prev-school">Previous School Attended</label>
+              <input type="text" id="madm-prev-school" class="form-control" placeholder="Name of previous institution">
+            </div>
+            <div class="form-group">
+              <label for="madm-last-percentage">Last Grade Percentage / Grade</label>
+              <input type="text" id="madm-last-percentage" class="form-control" placeholder="e.g. 92% or A1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Upload Birth Certificate / Report Card (Optional)</label>
+            <input type="file" class="form-control">
+          </div>
+        </div>
+
+        <!-- Step 4 Content -->
+        <div class="wizard-content-step" id="mstep-4" style="display: none;">
+          <h4 style="margin-bottom: 1rem; color: #0F172A;">Step 4: Declaration & Confirmation</h4>
+          <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              I hereby declare that all information provided in this admission application form is authentic. I agree to abide by the rules and regulations of BRIO World School.
+            </p>
+          </div>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="madm-terms" required style="width: 18px; height: 18px; accent-color: var(--accent-gold);">
+            <span style="font-weight: 600; font-size: 0.9rem;">I accept the terms and conditions for Session 2026-27.</span>
+          </label>
+        </div>
+
+        <!-- Wizard Controls -->
+        <div style="display: flex; justify-content: space-between; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light);">
+          <button type="button" id="mwizard-prev-btn" class="btn btn-outline" style="display: none;">
+            <i class="fa-solid fa-arrow-left"></i> Previous
+          </button>
+          <div></div>
+          <button type="button" id="mwizard-next-btn" class="btn btn-gold">
+            Next Step <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button type="submit" id="mwizard-submit-btn" class="btn btn-navy" style="display: none;">
+            <i class="fa-solid fa-paper-plane"></i> Submit Application
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
 
   <!-- Career Job Application Modal with Resume File Upload -->
   <div id="career-modal" class="modal-backdrop">
@@ -2107,7 +2339,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=56000.0"></script>
+  <script src="app.js?v=57000.0"></script>
 </body>
 </html>
 
