@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=61000.0">
+  <link rel="stylesheet" href="styles.css?v=62000.0">
 
 
   <!-- SELF-CONTAINED ROUTER ENGINE - Works without app.js -->
@@ -1693,105 +1693,118 @@
 
   <!-- PAGE 11: CONTACT -->
   <main id="contact" class="page-view">
-    
-    <!-- Hero Banner (Matching About Us Design) -->
-    <div class="hero-section" style="padding: 5rem 0; background: linear-gradient(to right, rgba(9, 18, 36, 0.90), rgba(15, 23, 42, 0.82)), url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;">
-      <div class="container text-center" style="max-width: 850px; margin: 0 auto;">
-        <span class="badge badge-gold"><i class="fa-solid fa-headset"></i> GET IN TOUCH</span>
-        <h1 class="hero-title" style="font-size: 3.2rem; margin-top: 0.75rem; color: #FFFFFF;">Contact Campus Directory</h1>
-        <p class="hero-subtitle" style="margin: 0 auto; color: #F1F5F9; font-size: 1.15rem; line-height: 1.7;">
-          Have questions or want to schedule a personal campus tour? Contact our helpdesk.
-        </p>
-      </div>
-    </div>
-
-    <!-- Contact Quick Highlights Strip (Matching About Us Design) -->
-    <section class="bg-navy" style="padding: 2.5rem 0; background: #091224; border-bottom: 2px solid rgba(245, 158, 11, 0.3);">
+    <section class="section-padding" style="padding: 4.5rem 0 5rem; background: #FAFAFA;">
       <div class="container">
-        <div class="grid-4" style="text-align: center; gap: 1.5rem;">
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">2</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Premier School Campuses</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">24/7</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Helpdesk & Support</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Tours</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Daily Guided Campus Visits</div>
-          </div>
-          <div>
-            <div style="font-size: 2.5rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit', sans-serif;">Fast</div>
-            <div style="color: #94A3B8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase;">Instant Email Response</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-padding">
-      <div class="container grid-2" style="gap: 3rem;">
         
-        <!-- Contact Form -->
-        <div class="calculator-box">
-          <h3 style="font-size: 1.4rem; margin-bottom: 1.25rem;">Send Us an Inquiry</h3>
-          <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent to BRIO Admissions Team.');">
-            <div class="form-group">
-              <label>Your Name *</label>
-              <input type="text" class="form-control" placeholder="Full Name" required>
-            </div>
-            <div class="form-group">
-              <label>Phone Number *</label>
-              <input type="tel" class="form-control" placeholder="+91 98765 43210" required>
-            </div>
-            <div class="form-group">
-              <label>Message / Inquiry *</label>
-              <textarea class="form-control" rows="4" placeholder="How can we help you?" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-navy" style="width: 100%;">
-              <i class="fa-solid fa-paper-plane"></i> Send Message
-            </button>
-          </form>
-        </div>
-
-        <!-- Campus Details -->
-        <div>
-          <h3 style="font-size: 1.4rem; margin-bottom: 1.5rem;">Main Campus Location</h3>
+        <!-- Clean Split-Layout matching reference image -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: flex-start;">
           
-          <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: flex-start;">
-            <i class="fa-solid fa-location-dot text-gold" style="font-size: 1.4rem; margin-top: 4px;"></i>
-            <div>
-              <h4 style="font-size: 1.05rem;">BRIO World School Campus</h4>
-              <p style="color: var(--text-muted); font-size: 0.9rem;">
-                Knowledge Park City, GT Road Extension, Varanasi - 221005, Uttar Pradesh, India
-              </p>
+          <!-- LEFT COLUMN: Huge "Let's get in touch" & Contact Info -->
+          <div>
+            <span class="badge badge-gold" style="margin-bottom: 1.25rem; font-size: 0.75rem; letter-spacing: 1px;"><i class="fa-solid fa-headset"></i> GET IN TOUCH</span>
+            
+            <h1 style="font-size: 3.8rem; font-weight: 900; color: #0F172A; line-height: 1.08; letter-spacing: -1.5px; margin-bottom: 2rem; font-family: 'Outfit', sans-serif;">
+              Let’s get<br>in touch
+            </h1>
+
+            <h3 style="font-size: 1.35rem; font-weight: 700; color: #1E293B; margin-bottom: 2.25rem; font-family: 'Outfit', sans-serif;">
+              Don’t be hesitant to say hello with us!
+            </h3>
+
+            <!-- Organized Contact Details -->
+            <div style="display: flex; flex-direction: column; gap: 1.85rem;">
+              
+              <!-- Phone -->
+              <div>
+                <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 0.35rem;">Phone</span>
+                <p style="font-size: 1.15rem; font-weight: 700; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+                  +91 (0542) 2890-400 &nbsp;|&nbsp; +91 98390 12345
+                </p>
+              </div>
+
+              <!-- Email -->
+              <div>
+                <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 0.35rem;">Email</span>
+                <p style="font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0; font-family: 'Outfit', sans-serif;">
+                  admissions@brioworldschool.edu.in<br>
+                  <span style="color: #64748B; font-weight: 500; font-size: 0.95rem;">info@brioworldschool.edu.in</span>
+                </p>
+              </div>
+
+              <!-- Campus Office -->
+              <div>
+                <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 0.35rem;">Main Campus Location</span>
+                <p style="font-size: 0.95rem; color: #334155; line-height: 1.6; margin: 0 0 0.6rem 0; font-weight: 500;">
+                  BRIO World School Campus, Knowledge Park City,<br>
+                  GT Road Extension, Varanasi - 221005, Uttar Pradesh, India
+                </p>
+                <a href="https://maps.google.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.4rem; color: #D97706; font-weight: 700; font-size: 0.92rem; text-decoration: none; border-bottom: 2px solid #F59E0B; padding-bottom: 2px;">
+                  See on Google Map <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.82rem;"></i>
+                </a>
+              </div>
+
             </div>
           </div>
 
-          <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: flex-start;">
-            <i class="fa-solid fa-phone text-gold" style="font-size: 1.4rem; margin-top: 4px;"></i>
-            <div>
-              <h4 style="font-size: 1.05rem;">Helpline & Admissions Desk</h4>
-              <p style="color: var(--text-muted); font-size: 0.9rem;">
-                +91 (0542) 2890-400 | +91 98390 12345
+          <!-- RIGHT COLUMN: Intro Message & Dark Navy Contact Form Box -->
+          <div style="display: flex; flex-direction: column; gap: 2.25rem;">
+            
+            <!-- Top Intro / Message Area with Arrow -->
+            <div style="display: flex; align-items: flex-start; gap: 1.25rem; padding-top: 0.5rem;">
+              <div style="font-size: 2.2rem; color: #0F172A; line-height: 1; flex-shrink: 0;">&rarr;</div>
+              <p style="font-size: 1.05rem; color: #475569; line-height: 1.65; margin: 0; font-weight: 500;">
+                Great! We're excited to hear from you and let's start something special together. Call or send us a message for any inquiry.
               </p>
             </div>
-          </div>
 
-          <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: flex-start;">
-            <i class="fa-solid fa-envelope text-gold" style="font-size: 1.4rem; margin-top: 4px;"></i>
-            <div>
-              <h4 style="font-size: 1.05rem;">Email Support</h4>
-              <p style="color: var(--text-muted); font-size: 0.9rem;">
-                admissions@brioworldschool.edu.in | info@brioworldschool.edu.in
-              </p>
+            <!-- Dark Navy Contact Form Box (Matching Reference Style in BRIO Colors) -->
+            <div style="background: #091224; color: white; border-radius: 20px; padding: 2.5rem; box-shadow: 0 20px 45px rgba(9, 18, 36, 0.2); border: 1px solid rgba(255, 255, 255, 0.08);">
+              
+              <h3 style="font-size: 1.65rem; color: white; margin-bottom: 1.75rem; font-family: 'Outfit', sans-serif; font-weight: 700;">
+                Contact
+              </h3>
+
+              <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent to BRIO Admissions Team.');">
+                
+                <div class="grid-2" style="gap: 1.25rem; margin-bottom: 1.25rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Your Name *</label>
+                    <input type="text" class="form-control" placeholder="Full Name" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+                  
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Email Address *</label>
+                    <input type="email" class="form-control" placeholder="email@example.com" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+                </div>
+
+                <div class="grid-2" style="gap: 1.25rem; margin-bottom: 1.25rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Phone Number *</label>
+                    <input type="tel" class="form-control" placeholder="+91 98765 43210" required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Subject / Purpose</label>
+                    <input type="text" class="form-control" placeholder="e.g. Admission Tour, Fee Inquiry" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;">
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.75rem;">
+                  <label style="color: #94A3B8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Tell us about your inquiry *</label>
+                  <textarea class="form-control" rows="4" placeholder="Write your message here..." required style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: white; border-radius: 10px; padding: 0.75rem 1rem;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.95rem; font-size: 0.95rem; font-weight: 800; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);">
+                  <i class="fa-solid fa-paper-plane" style="margin-right: 0.5rem;"></i> Send Message
+                </button>
+
+              </form>
+
             </div>
+
           </div>
 
-          <!-- Mock Map Container -->
-          <div style="height: 200px; background: #CBD5E1; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--primary-navy); font-weight: 700;">
-            <i class="fa-solid fa-map-location-dot" style="margin-right: 8px; font-size: 1.5rem;"></i> Interactive Google Map Preview
-          </div>
         </div>
 
       </div>
@@ -2393,7 +2406,7 @@
   </div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=61000.0"></script>
+  <script src="app.js?v=62000.0"></script>
 </body>
 </html>
 
